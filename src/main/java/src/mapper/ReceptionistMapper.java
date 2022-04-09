@@ -1,12 +1,12 @@
 package src.mapper;
 
-import src.dto.ReceptionistDTO;
-import src.model.users.Receptionist;
+import src.dto.ReceptionistProfileDTO;
+import src.model.users.User;
 
-public class ReceptionistMapper implements DataMapper<Receptionist, ReceptionistDTO> {
+public class ReceptionistMapper implements DataMapper<User, ReceptionistProfileDTO> {
     @Override
-    public ReceptionistDTO mapToDto(Receptionist entity) {
-        ReceptionistDTO dto = new ReceptionistDTO();
+    public ReceptionistProfileDTO mapToDto(User entity) {
+        ReceptionistProfileDTO dto = new ReceptionistProfileDTO();
 
         // todo set fields
 
@@ -14,11 +14,11 @@ public class ReceptionistMapper implements DataMapper<Receptionist, Receptionist
     }
 
     @Override
-    public Receptionist mapToEntity(ReceptionistDTO dto) {
-        Receptionist receptionist = new Receptionist();
+    public User mapToEntity(ReceptionistProfileDTO dto) {
+        User user = new User();
 
         // todo set fields
 
-        return receptionist;
+        return user;
     }
 }

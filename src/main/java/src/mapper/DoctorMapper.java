@@ -1,12 +1,12 @@
 package src.mapper;
 
-import src.dto.DoctorDTO;
-import src.model.users.Doctor;
+import src.dto.DoctorProfileDTO;
+import src.model.users.User;
 
-public class DoctorMapper implements DataMapper<Doctor, DoctorDTO> {
+public class DoctorMapper implements DataMapper<User, DoctorProfileDTO> {
     @Override
-    public DoctorDTO mapToDto(Doctor entity) {
-        DoctorDTO dto = new DoctorDTO();
+    public DoctorProfileDTO mapToDto(User entity) {
+        DoctorProfileDTO dto = new DoctorProfileDTO();
 
         // todo set fields
 
@@ -14,11 +14,11 @@ public class DoctorMapper implements DataMapper<Doctor, DoctorDTO> {
     }
 
     @Override
-    public Doctor mapToEntity(DoctorDTO dto) {
-        Doctor doctor = new Doctor();
+    public User mapToEntity(DoctorProfileDTO dto) {
+        User user = new User();
 
         // todo set fields
 
-        return doctor;
+        return user;
     }
 }
