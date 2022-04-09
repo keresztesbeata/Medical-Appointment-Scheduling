@@ -3,8 +3,6 @@ package src.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-import src.model.users.DoctorProfile;
-import src.model.users.PatientProfile;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
@@ -16,9 +14,9 @@ import java.time.LocalDateTime;
 @Component
 public class AppointmentDTO {
 
-    private PatientProfile patient;
+    private String patientName;
 
-    private DoctorProfile doctor;
+    private String doctorName;
 
     private String status;
 

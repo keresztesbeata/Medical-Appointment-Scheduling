@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public interface AppointmentService {
-    void createAppointment(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
+    void acceptAppointment(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
 
     void confirmAppointment(Integer appointmentId) throws InvalidDataException, EntityNotFoundException;
 
