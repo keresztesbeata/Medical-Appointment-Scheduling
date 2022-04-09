@@ -1,16 +1,14 @@
-package src.model.users;
+package src.dto;
 
 import src.model.Appointment;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
-public class Patient {
-    private Account account;
+public class PatientDTO {
     private String fullName;
     private String email;
     private String phone;
     private LocalDate birthdate;
     private String allergies;
-    private Set<Appointment> appointments;
 }

@@ -7,8 +7,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class Doctor {
-    private Integer id;
     private Account account;
+    private String fullName;
     private Specialty specialty;
     private LocalTime startTime;
     private LocalTime finishTime;

@@ -1,7 +1,7 @@
 package src.model.users;
 
 public class Receptionist {
-    private Integer id;
+    private Account account;
     private String email;
     private String phone;
 }
