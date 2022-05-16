@@ -23,4 +23,7 @@ public class AccountDTO {
             "- 1 lowercase and 1 uppercase letter and 1 special character,\n" +
             "- with length at least 8 and at most 20 characters!")
     private String password;
+
+    @NotBlank
+    private String accountType;
 }

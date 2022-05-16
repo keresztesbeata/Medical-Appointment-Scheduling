@@ -1,4 +1,4 @@
-package src.service;
+package src.service.api;
 
 import org.springframework.stereotype.Service;
 import src.dto.AppointmentDTO;
