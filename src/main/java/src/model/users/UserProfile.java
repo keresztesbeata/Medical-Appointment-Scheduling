@@ -10,10 +10,10 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Entity
 @Table(name = "user_profiles")
-public abstract class UserProfile {
-
+public class UserProfile {
     @Id
-    @Column(name = "user_profile_id")
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 200)
@@ -24,8 +24,6 @@ public abstract class UserProfile {
     @NotBlank(message = "Last name should not be empty!")
     private String lastName;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "userProfile", cascade = CascadeType.ALL)
     private User user;
 }

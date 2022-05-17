@@ -18,10 +18,9 @@ public class AccountDTO {
     private String username;
 
     @NotBlank(message = "Password should not be empty!")
-    @Pattern(regexp = PASSWORD_PATTERN, message = "Password should contain:\n" +
-            "- at least 1 digit,\n" +
-            "- 1 lowercase and 1 uppercase letter and 1 special character,\n" +
-            "- with length at least 8 and at most 20 characters!")
+    @Pattern(regexp = PASSWORD_PATTERN, message = "Password should contain: " +
+            " at least 1 digit, 1 lowercase and 1 uppercase letter and 1 special character," +
+            " with length at least 8 and at most 20 characters!")
     private String password;
 
     @NotBlank

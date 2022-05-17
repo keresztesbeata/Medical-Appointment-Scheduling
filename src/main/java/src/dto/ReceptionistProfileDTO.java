@@ -3,7 +3,6 @@ package src.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
-import src.model.users.ReceptionistProfile;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +11,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Setter
 @Component
-public class ReceptionistProfileDTO extends ReceptionistProfile {
+public class ReceptionistProfileDTO extends UserProfileDTO {
     @NotBlank(message = "The email cannot be missing!")
     @Email(message = "Email should have a valid format: name@domain !")
     private String email;

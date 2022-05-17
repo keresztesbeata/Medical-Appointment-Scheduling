@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Component
-public class PatientProfileDTO extends UserProfile {
+public class PatientProfileDTO extends UserProfileDTO {
     @NotBlank(message = "The email cannot be missing!")
     @Email(message = "Email should have a valid format: name@domain !")
     private String email;

@@ -13,7 +13,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "user_accounts")
 public class Account {
     @Id
-    @Column(name = "account_id")
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(unique = true, nullable = false, length = 100)
@@ -29,8 +30,6 @@ public class Account {
     @NotNull(message = "Account type should not be missing!")
     private AccountType accountType;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private User user;
 }
