@@ -14,9 +14,17 @@ import java.time.LocalDateTime;
 @Component
 public class AppointmentDTO {
 
-    private String patientName;
+    @NotBlank(message = "The first name of the patient cannot be missing!")
+    private String patientFirstName;
 
-    private String doctorName;
+    @NotBlank(message = "The last name of the patient cannot be missing!")
+    private String patientLastName;
+
+    @NotBlank(message = "The first name of the doctor cannot be missing!")
+    private String doctorFirstName;
+
+    @NotBlank(message = "The last name of the doctor cannot be missing!")
+    private String doctorLastName;
 
     private String status;
 
@@ -27,5 +35,7 @@ public class AppointmentDTO {
     @NotBlank(message = "The medical service type should not be missing!")
     private String medicalService;
 
-    private String prescription;
+    private String medication;
+
+    private String indications;
 }

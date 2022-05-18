@@ -34,8 +34,9 @@ public class DoctorProfileServiceImpl implements UserProfileService<DoctorProfil
 
     @Override
     public DoctorProfileDTO saveProfile(Integer id, DoctorProfileDTO userProfileDTO) throws InvalidDataException, EntityNotFoundException, DuplicateDataException {
-        Account account = accountRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_ERR_MSG));
+        if(accountRepository.findById(id).isEmpty()) {
+            throw new EntityNotFoundException(USER_NOT_FOUND_ERR_MSG);
+        }
 
         validator.validate(userProfileDTO);
 

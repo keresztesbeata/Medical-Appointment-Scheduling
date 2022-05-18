@@ -34,7 +34,7 @@ public class AccountRestController {
     @Autowired
     JwtTokenProvider tokenProvider;
 
-    @GetMapping(value = "/current_user")
+    @GetMapping(value = UrlAddressCatalogue.CURRENT_USER)
     @ResponseBody
     public ResponseEntity getLoggedInUser() {
         try {
@@ -46,12 +46,7 @@ public class AccountRestController {
         }
     }
 
-    @GetMapping("/users/{username}")
-    public ResponseEntity getUserByUsername(@PathVariable String username) {
-        return ResponseEntity.of(accountService.findByUsername(username));
-    }
-
-    @PostMapping("/perform_login")
+    @PostMapping(UrlAddressCatalogue.PERFORM_LOGIN)
     public ResponseEntity authenticateUser(@RequestBody AccountDTO accountDTO) {
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -70,7 +65,7 @@ public class AccountRestController {
         }
     }
 
-    @PostMapping(value = "/perform_register")
+    @PostMapping(value = UrlAddressCatalogue.PERFORM_REGISTER)
     public ResponseEntity register(@RequestBody AccountDTO accountDTO) {
         try {
             accountService.register(accountDTO);

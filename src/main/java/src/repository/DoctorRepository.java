@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import src.model.users.DoctorProfile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<DoctorProfile, Integer> {
@@ -14,4 +15,6 @@ public interface DoctorRepository extends JpaRepository<DoctorProfile, Integer> 
     List<DoctorProfile> findByFirstNameContains(String lastName);
 
     List<DoctorProfile> findByFirstNameContainsAndLastNameContains(String firstName, String lastName);
+
+    Optional<DoctorProfile> findByFirstNameAndLastName(String firstName, String lastName);
 }

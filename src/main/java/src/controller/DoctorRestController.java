@@ -19,8 +19,8 @@ public class DoctorRestController {
     @Autowired
     private PatientProfileServiceImpl patientService;
 
-    @GetMapping("/doctor/my_profile")
-    public ResponseEntity getDoctorProfile() {
+    @GetMapping(UrlAddressCatalogue.PATIENT_VIEW_PROFILE)
+    public ResponseEntity viewDoctorProfile() {
         try {
             Account currentUserAccount = Utils.getCurrentUserAccount();
             return ResponseEntity.of(doctorService.findById(currentUserAccount.getId()));
@@ -29,7 +29,7 @@ public class DoctorRestController {
         }
     }
 
-    @PostMapping("/doctor/update_profile")
+    @PostMapping(UrlAddressCatalogue.DOCTOR_UPDATE_PROFILE)
     public ResponseEntity updateProfile(@RequestBody DoctorProfileDTO userProfileDTO) {
         try {
             Account currentUserAccount = Utils.getCurrentUserAccount();
@@ -42,8 +42,8 @@ public class DoctorRestController {
         }
     }
 
-    @GetMapping("/doctor/patient_profiles")
-    public ResponseEntity getPatientProfiles(@RequestParam String firstName, @RequestParam String lastName) {
+    @GetMapping(UrlAddressCatalogue.DOCTOR_VIEW_PATIENT_PROFILE)
+    public ResponseEntity searchPatientByName(@RequestParam String firstName, @RequestParam String lastName) {
         return ResponseEntity.ok().body(patientService.findByName(firstName, lastName));
     }
 }

@@ -17,7 +17,7 @@ public interface AppointmentService {
 
     void cancel(Integer appointmentId) throws InvalidDataException, EntityNotFoundException;
 
-    void updateStatus(Integer appointmentId) throws InvalidOperationException;
+    void updateStatus(Integer appointmentId, String newStatus) throws InvalidOperationException, EntityNotFoundException;
 
     List<AppointmentDTO> findByPatient(Integer patientId);
 

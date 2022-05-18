@@ -8518,3 +8518,7 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'medical_appointment_scheduli
 2022-05-18 21:32:59.128  INFO 1480 --- [http-nio-8080-exec-4] s.s.impl.PatientProfileServiceImpl       : saveProfile: The user Keresztes Beata's profile has been successfully updated!
 2022-05-18 21:33:22.907  WARN 1480 --- [http-nio-8080-exec-6] o.s.web.servlet.PageNotFound             : No mapping for GET /medplan/users
 2022-05-18 21:33:58.715  WARN 1480 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No mapping for GET /medplan/users/
+2022-05-18 22:26:04.450  INFO 1480 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-05-18 22:26:04.481  INFO 1480 --- [SpringApplicationShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+2022-05-18 22:26:04.882  INFO 1480 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-05-18 22:26:04.898  INFO 1480 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

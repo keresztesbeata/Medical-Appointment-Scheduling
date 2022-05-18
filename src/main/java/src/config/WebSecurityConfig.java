@@ -18,6 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import static src.controller.UrlAddressCatalogue.*;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -62,18 +64,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/", "/login", "/register").permitAll()
-                .antMatchers(HttpMethod.POST, "/perform_login").permitAll()
-                .antMatchers(HttpMethod.POST, "/perform_register").permitAll()
-                .antMatchers("/current_user/**").permitAll()
+                .antMatchers(HOME,LOGIN, REGISTER).permitAll()
+                .antMatchers(HttpMethod.POST, PERFORM_LOGIN).permitAll()
+                .antMatchers(HttpMethod.POST, PERFORM_REGISTER).permitAll()
+                .antMatchers(CURRENT_USER).permitAll()
                 .antMatchers("/patient/**").hasAuthority("PATIENT")
                 .antMatchers("/receptionist/**").hasAuthority("RECEPTIONIST")
                 .antMatchers("/doctor/**").hasAuthority("DOCTOR")
                 .anyRequest().authenticated()
                 .and()
                 .logout()
-                .logoutUrl("/perform_logout")
-                .logoutSuccessUrl("/")
+                .logoutUrl(PERFORM_LOGOUT)
+                .logoutSuccessUrl(HOME)
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
 

@@ -16,4 +16,6 @@ public interface PatientRepository extends JpaRepository<PatientProfile, Integer
     List<PatientProfile> findByFirstNameContains(String lastName);
 
     List<PatientProfile> findByFirstNameContainsAndLastNameContains(String firstName, String lastName);
+
+    Optional<PatientProfile> findByFirstNameAndLastName(String firstName, String lastName);
 }
