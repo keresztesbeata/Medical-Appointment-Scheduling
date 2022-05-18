@@ -71,9 +71,9 @@ public class AccountRestController {
     }
 
     @PostMapping(value = "/perform_register")
-    public ResponseEntity register(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity register(@RequestBody AccountDTO accountDTO) {
         try {
-            accountService.register(registerRequest.getAccountDTO(), registerRequest.getUserProfileDTO());
+            accountService.register(accountDTO);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (InvalidDataException | DuplicateDataException e) {
             log.error("register: {} ", e.getMessage());

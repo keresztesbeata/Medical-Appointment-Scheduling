@@ -2,6 +2,7 @@ package src.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
@@ -11,7 +12,15 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @Component
-public class DoctorProfileDTO extends UserProfileDTO{
+public class DoctorProfileDTO {
+    @NotBlank(message = "First name should not be empty!")
+    @Length(min = 3)
+    private String firstName;
+
+    @NotBlank(message = "Last name should not be empty!")
+    @Length(min = 3)
+    private String lastName;
+
     @NotBlank(message = "The specialty cannot be missing!")
     private String specialty;
 

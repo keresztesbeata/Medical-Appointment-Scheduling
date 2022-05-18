@@ -3,7 +3,6 @@ package src.mapper;
 import org.springframework.stereotype.Component;
 import src.dto.DoctorProfileDTO;
 import src.model.users.DoctorProfile;
-import src.model.users.User;
 
 @Component
 public class DoctorMapper implements DataMapper<DoctorProfile, DoctorProfileDTO> {

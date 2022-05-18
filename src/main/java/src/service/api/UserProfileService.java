@@ -1,8 +1,6 @@
 package src.service.api;
 
 import org.springframework.stereotype.Service;
-import src.dto.PatientProfileDTO;
-import src.dto.UserProfileDTO;
 import src.exceptions.DuplicateDataException;
 import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
@@ -11,18 +9,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public interface UserProfileService<T extends UserProfileDTO> {
+public interface UserProfileService<T> {
     /**
      * Update and save the user's profile information. If the user had no profile set up, then it will create a new one, otherwise it
      * will update the existing profile.
      * @param id the id of the user whose profile is updated.
-     * @param userProfileDTO the new profile information
+     * @param dto the new profile information
      * @return the updated and saved user profile info
      * @throws InvalidDataException    when the introduced data is invalid or missing some fields
      * @throws EntityNotFoundException if the user profile information is not accessible
      * @throws DuplicateDataException if any of the unique fields from the user profile's data are duplicated (there is already another user having the same data)
      */
-    T saveProfile(Integer id, T userProfileDTO) throws InvalidDataException, EntityNotFoundException, DuplicateDataException;
+    T saveProfile(Integer id, T dto) throws InvalidDataException, EntityNotFoundException, DuplicateDataException;
 
     /**
      * Find profile of user by id.

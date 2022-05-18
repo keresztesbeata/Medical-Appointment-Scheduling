@@ -9,12 +9,10 @@ import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
 import src.mapper.DataMapper;
 import src.mapper.DoctorMapper;
+import src.model.users.Account;
 import src.model.users.DoctorProfile;
-import src.model.users.User;
-import src.model.users.UserProfile;
+import src.repository.AccountRepository;
 import src.repository.DoctorRepository;
-import src.repository.UserProfileRepository;
-import src.repository.UserRepository;
 import src.service.api.UserProfileService;
 import src.validator.DataValidator;
 
@@ -24,7 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Log4j2
-public class DoctorServiceImpl implements UserProfileService<DoctorProfileDTO> {
+public class DoctorProfileServiceImpl implements UserProfileService<DoctorProfileDTO> {
     private static final String USER_NOT_FOUND_ERR_MSG = "No user account was found by the given id!";
 
     private DataMapper<DoctorProfile, DoctorProfileDTO> dataMapper = new DoctorMapper();
@@ -32,25 +30,19 @@ public class DoctorServiceImpl implements UserProfileService<DoctorProfileDTO> {
     @Autowired
     private DoctorRepository dataRepository;
     @Autowired
-    private UserProfileRepository userProfileRepository;
-    @Autowired
-    private UserRepository userRepository;
+    private AccountRepository accountRepository;
 
     @Override
     public DoctorProfileDTO saveProfile(Integer id, DoctorProfileDTO userProfileDTO) throws InvalidDataException, EntityNotFoundException, DuplicateDataException {
-        User user = userRepository.findByAccountId(id)
+        Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(USER_NOT_FOUND_ERR_MSG));
-        UserProfile userProfile = user.getUserProfile();
-
-        userProfileDTO.setFirstName(userProfile.getFirstName());
-        userProfileDTO.setFirstName(userProfile.getLastName());
 
         validator.validate(userProfileDTO);
 
-        DoctorProfile specificUserProfile = dataMapper.mapToEntity(userProfileDTO);
-        specificUserProfile.setId(userProfile.getId());
+        DoctorProfile doctorProfile = dataMapper.mapToEntity(userProfileDTO);
+        doctorProfile.setId(id);
 
-        dataRepository.save(specificUserProfile);
+        dataRepository.save(doctorProfile);
 
         log.info("saveProfile: The user " + userProfileDTO.getFirstName() + " " + userProfileDTO.getLastName() + "'s profile has been successfully updated!");
 
@@ -68,23 +60,25 @@ public class DoctorServiceImpl implements UserProfileService<DoctorProfileDTO> {
         boolean lastNamePresent = lastName == null || lastName.isEmpty();
 
         if (firstNamePresent && lastNamePresent) {
-            return filterByIdList(userProfileRepository.findByFirstNameContainsAndLastNameContains(firstName, lastName));
+            return dataRepository.findByFirstNameContainsAndLastNameContains(firstName, lastName)
+                    .stream()
+                    .map(dataMapper::mapToDto)
+                    .collect(Collectors.toList());
         } else if (firstNamePresent) {
-            return filterByIdList(userProfileRepository.findByFirstNameContains(firstName));
+            return dataRepository.findByFirstNameContains(firstName)
+                    .stream()
+                    .map(dataMapper::mapToDto)
+                    .collect(Collectors.toList());
         } else if (lastNamePresent) {
-            return filterByIdList(userProfileRepository.findByLastNameContains(lastName));
+            return dataRepository.findByLastNameContains(lastName)
+                    .stream()
+                    .map(dataMapper::mapToDto)
+                    .collect(Collectors.toList());
         } else {
             return dataRepository.findAll()
                     .stream()
                     .map(dataMapper::mapToDto)
                     .collect(Collectors.toList());
         }
-    }
-
-    private List<DoctorProfileDTO> filterByIdList(List<UserProfile> userProfiles) {
-        return userProfiles.stream()
-                .filter(userProfile -> dataRepository.findById(userProfile.getId()).isPresent())
-                .map(userProfile -> dataMapper.mapToDto(dataRepository.getById(userProfile.getId())))
-                .collect(Collectors.toList());
     }
 }

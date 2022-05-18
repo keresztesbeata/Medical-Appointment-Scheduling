@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Entity
-@Table(name = "user_accounts")
+@Table(name = "accounts")
 public class Account {
     @Id
     @Column(name = "id")
@@ -31,5 +31,8 @@ public class Account {
     private AccountType accountType;
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
-    private User user;
+    private PatientProfile patientProfile;
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    private DoctorProfile doctorProfile;
 }

@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.stereotype.Component;
-import src.model.users.UserProfile;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -14,7 +13,14 @@ import java.time.LocalDate;
 @Setter
 @Component
 @ToString
-public class PatientProfileDTO extends UserProfileDTO{
+public class PatientProfileDTO {
+    @NotBlank(message = "First name should not be empty!")
+    @Length(min = 3)
+    private String firstName;
+
+    @NotBlank(message = "Last name should not be empty!")
+    @Length(min = 3)
+    private String lastName;
 
     @NotBlank(message = "The email cannot be missing!")
     @Email(message = "Email should have a valid format: name@domain !")
