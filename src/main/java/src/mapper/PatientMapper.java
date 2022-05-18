@@ -1,24 +1,37 @@
 package src.mapper;
 
+import org.springframework.stereotype.Component;
 import src.dto.PatientProfileDTO;
-import src.model.users.User;
+import src.model.users.PatientProfile;
 
-public class PatientMapper implements DataMapper<User, PatientProfileDTO> {
+@Component
+public class PatientMapper implements DataMapper<PatientProfile, PatientProfileDTO> {
+
     @Override
-    public PatientProfileDTO mapToDto(User entity) {
+    public PatientProfileDTO mapToDto(PatientProfile entity) {
         PatientProfileDTO dto = new PatientProfileDTO();
 
-        // todo set fields
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
+        dto.setPhone(entity.getPhone());
+        dto.setAllergies(entity.getAllergies());
+        dto.setBirthdate(entity.getBirthDate());
+        dto.setEmail(entity.getEmail());
 
         return dto;
     }
 
     @Override
-    public User mapToEntity(PatientProfileDTO dto) {
-        User user = new User();
+    public PatientProfile mapToEntity(PatientProfileDTO dto) {
+        PatientProfile patientProfile = new PatientProfile();
 
-        // todo set fields
+        patientProfile.setFirstName(dto.getFirstName());
+        patientProfile.setLastName(dto.getLastName());
+        patientProfile.setAllergies(dto.getAllergies());
+        patientProfile.setEmail(dto.getEmail());
+        patientProfile.setPhone(dto.getPhone());
+        patientProfile.setBirthDate(dto.getBirthdate());
 
-        return user;
+        return patientProfile;
     }
 }

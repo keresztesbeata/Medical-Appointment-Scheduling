@@ -1,6 +1,10 @@
 package src.mapper;
 
-public interface DataMapper<T,U> {
-    U mapToDto(T entity);
-    T mapToEntity(U dto);
+import org.springframework.stereotype.Component;
+
+@Component
+public interface DataMapper<U, T> {
+    T mapToDto(U entity);
+
+    U mapToEntity(T dto);
 }

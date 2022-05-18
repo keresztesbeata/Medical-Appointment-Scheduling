@@ -12,16 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "doctor_profiles")
-public class DoctorProfile {
-    @Id
-    @Column(name = "doctor_id")
-    private Integer id;
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_profile_id")
-    private UserProfile userProfile;
+@Table(name = "doctors")
+public class DoctorProfile extends UserProfile{
 
     @ManyToOne
     @JoinColumn(name="specialty_id", nullable=false)

@@ -5,6 +5,7 @@ import src.dto.AccountDTO;
 import src.model.users.Account;
 import src.model.users.AccountType;
 
+
 public class AccountMapper implements DataMapper<Account, AccountDTO> {
 
     @Override

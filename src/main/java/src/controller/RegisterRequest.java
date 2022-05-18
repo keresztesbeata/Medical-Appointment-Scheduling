@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import src.dto.AccountDTO;
+import src.dto.PatientProfileDTO;
 import src.dto.UserProfileDTO;
 
 @Getter

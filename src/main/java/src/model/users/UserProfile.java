@@ -10,10 +10,11 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Entity
 @Table(name = "user_profiles")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class UserProfile {
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_profile_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(nullable = false, length = 200)

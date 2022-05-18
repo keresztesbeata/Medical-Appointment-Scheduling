@@ -24,5 +24,5 @@ public class Specialty {
     private Set<MedicalService> medicalServices;
 
     @OneToMany(mappedBy = "specialty")
-    private Set<DoctorProfile> doctorProfiles;
+    private Set<DoctorProfile> doctors;
 }

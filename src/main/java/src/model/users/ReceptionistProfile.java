@@ -8,16 +8,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "receptionist_profiles")
-public class ReceptionistProfile {
-    @Id
-    @Column(name = "receptionist_id")
-    private Integer id;
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_profile_id")
-    private UserProfile userProfile;
+@Table(name = "receptionists")
+public class ReceptionistProfile extends UserProfile{
 
     @Column(unique = true, nullable = false, length = 100)
     private String email;

@@ -13,12 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import src.config.JwtTokenProvider;
 import src.dto.AccountDTO;
-import src.dto.UserProfileDTO;
 import src.exceptions.DuplicateDataException;
 import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
 import src.mapper.AccountMapper;
-import src.service.api.UserService;
+import src.service.api.AccountService;
 
 @RestController
 @Log4j2
@@ -27,7 +26,7 @@ public class AccountRestController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -49,7 +48,7 @@ public class AccountRestController {
 
     @GetMapping("/users/{username}")
     public ResponseEntity getUserByUsername(@PathVariable String username) {
-        return ResponseEntity.of(userService.findAccountByUsername(username));
+        return ResponseEntity.of(accountService.findByUsername(username));
     }
 
     @PostMapping("/perform_login")
@@ -74,8 +73,8 @@ public class AccountRestController {
     @PostMapping(value = "/perform_register")
     public ResponseEntity register(@RequestBody RegisterRequest registerRequest) {
         try {
-            UserProfileDTO savedProfile = userService.register(registerRequest.getAccountDTO(), registerRequest.getUserProfileDTO());
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedProfile);
+            accountService.register(registerRequest.getAccountDTO(), registerRequest.getUserProfileDTO());
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (InvalidDataException | DuplicateDataException e) {
             log.error("register: {} ", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);

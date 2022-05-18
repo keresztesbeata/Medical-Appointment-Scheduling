@@ -12,15 +12,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "patient_profiles")
-public class PatientProfile {
-    @Id
-    @Column(name = "patient_id")
-    private Integer id;
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_profile_id")
-    private UserProfile userProfile;
+public class PatientProfile extends UserProfile{
 
     @Column(unique = true, nullable = false, length = 100)
     private String email;

@@ -5,6 +5,7 @@ import lombok.Setter;
 import src.model.users.DoctorProfile;
 import src.model.users.PatientProfile;
 import src.model.users.User;
+import src.model.users.UserProfile;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

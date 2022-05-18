@@ -11,19 +11,19 @@ import java.util.List;
 
 @Service
 public interface AppointmentService {
-    void acceptAppointment(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
+    void accept(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
 
-    void confirmAppointment(Integer appointmentId) throws InvalidDataException, EntityNotFoundException;
+    void confirm(Integer appointmentId) throws InvalidDataException, EntityNotFoundException;
 
-    void cancelAppointment(Integer appointmentId) throws InvalidDataException, EntityNotFoundException;
+    void cancel(Integer appointmentId) throws InvalidDataException, EntityNotFoundException;
 
-    void updateAppointmentStatus(Integer appointmentId) throws InvalidOperationException;
+    void updateStatus(Integer appointmentId) throws InvalidOperationException;
 
-    List<AppointmentDTO> viewAllAppointmentsOfPatient(Integer patientId);
+    List<AppointmentDTO> findByPatient(Integer patientId);
 
-    List<AppointmentDTO> viewUpcomingAppointmentsOfPatient(Integer patientId, LocalDate untilDate);
+    List<AppointmentDTO> findByPatientAndDate(Integer patientId, LocalDate untilDate);
 
-    List<AppointmentDTO> viewAllAppointmentsOfDoctor(Integer doctorId);
+    List<AppointmentDTO> findByDoctor(Integer doctorId);
 
-    List<AppointmentDTO> viewAppointmentsOfDoctorOnGivenDate(Integer doctorId, LocalDate localDate);
+    List<AppointmentDTO> findByDoctorAndDate(Integer doctorId, LocalDate localDate);
 }

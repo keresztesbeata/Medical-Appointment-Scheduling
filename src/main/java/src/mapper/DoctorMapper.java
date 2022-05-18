@@ -1,11 +1,14 @@
 package src.mapper;
 
+import org.springframework.stereotype.Component;
 import src.dto.DoctorProfileDTO;
+import src.model.users.DoctorProfile;
 import src.model.users.User;
 
-public class DoctorMapper implements DataMapper<User, DoctorProfileDTO> {
+@Component
+public class DoctorMapper implements DataMapper<DoctorProfile, DoctorProfileDTO> {
     @Override
-    public DoctorProfileDTO mapToDto(User entity) {
+    public DoctorProfileDTO mapToDto(DoctorProfile entity) {
         DoctorProfileDTO dto = new DoctorProfileDTO();
 
         // todo set fields
@@ -14,11 +17,11 @@ public class DoctorMapper implements DataMapper<User, DoctorProfileDTO> {
     }
 
     @Override
-    public User mapToEntity(DoctorProfileDTO dto) {
-        User user = new User();
+    public DoctorProfile mapToEntity(DoctorProfileDTO dto) {
+        DoctorProfile doctorProfile = new DoctorProfile();
 
         // todo set fields
 
-        return user;
+        return doctorProfile;
     }
 }

@@ -32,10 +32,10 @@ class Header extends React.Component {
             case AUTH_PATIENT:
                 return [
                     <NavDropdown title="Appointments" key={1}>
-                        <NavDropdown.Item href="/patient/view_appointments" key={2}>My appointments</NavDropdown.Item>
-                        <NavDropdown.Item href="/patient/new_appointment" key={3}>New appointment</NavDropdown.Item>
+                        <NavDropdown.Item href="/patientProfile/view_appointments" key={2}>My appointments</NavDropdown.Item>
+                        <NavDropdown.Item href="/patientProfile/new_appointment" key={3}>New appointment</NavDropdown.Item>
                     </NavDropdown>,
-                    <Nav.Link href="/patient/prescriptions" key={4}>My prescriptions</Nav.Link>,
+                    <Nav.Link href="/patientProfile/prescriptions" key={4}>My prescriptions</Nav.Link>,
                 ];
             case AUTH_RECEPTIONIST:
                 return [

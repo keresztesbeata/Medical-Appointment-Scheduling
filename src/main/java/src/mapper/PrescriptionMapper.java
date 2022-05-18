@@ -1,7 +1,9 @@
 package src.mapper;
 
+import org.springframework.stereotype.Component;
 import src.dto.PrescriptionDTO;
 import src.model.Prescription;
+
 
 public class PrescriptionMapper implements DataMapper<Prescription, PrescriptionDTO> {
     @Override

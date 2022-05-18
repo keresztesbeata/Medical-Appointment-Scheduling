@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class Account {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(unique = true, nullable = false, length = 100)
