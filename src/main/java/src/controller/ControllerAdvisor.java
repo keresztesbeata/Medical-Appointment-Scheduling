@@ -8,7 +8,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import src.exceptions.DuplicateDataException;
 import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
-import src.exceptions.InvalidOperationException;
+import src.exceptions.InvalidStateException;
 
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
@@ -18,8 +18,8 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @ExceptionHandler(InvalidOperationException.class)
-    ResponseEntity<String> invalidOperationExceptionHandler(InvalidOperationException e) {
+    @ExceptionHandler(InvalidStateException.class)
+    ResponseEntity<String> invalidOperationExceptionHandler(InvalidStateException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.METHOD_NOT_ALLOWED);
     }
 

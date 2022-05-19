@@ -35,7 +35,5 @@ public class AppointmentDTO {
     @NotBlank(message = "The medical service type should not be missing!")
     private String medicalService;
 
-    private String medication;
-
-    private String indications;
+    private PrescriptionDTO prescription;
 }

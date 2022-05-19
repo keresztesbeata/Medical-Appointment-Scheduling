@@ -1,9 +1,11 @@
 package src.mapper;
 
+import org.springframework.stereotype.Component;
 import src.dto.AppointmentDTO;
 import src.model.Appointment;
 import src.model.AppointmentStatus;
 
+@Component
 public class AppointmentMapper implements DataMapper<Appointment, AppointmentDTO> {
 
     @Override
@@ -14,8 +16,9 @@ public class AppointmentMapper implements DataMapper<Appointment, AppointmentDTO
         appointmentDTO.setDoctorFirstName(entity.getDoctor().getFirstName());
         appointmentDTO.setDoctorLastName(entity.getDoctor().getLastName());
         appointmentDTO.setMedicalService(entity.getMedicalService().getName());
-        appointmentDTO.setMedication(entity.getPrescription().getMedication());
-        appointmentDTO.setIndications(entity.getPrescription().getIndications());
+        if(entity.getPrescription() != null) {
+            appointmentDTO.setPrescription((new PrescriptionMapper()).mapToDto(entity.getPrescription()));
+        }
         appointmentDTO.setPatientFirstName(entity.getPatient().getFirstName());
         appointmentDTO.setPatientLastName(entity.getPatient().getLastName());
         appointmentDTO.setStatus(entity.getStatus().name());
@@ -30,6 +33,6 @@ public class AppointmentMapper implements DataMapper<Appointment, AppointmentDTO
         appointment.setAppointmentDate(dto.getAppointmentDate());
         appointment.setStatus(AppointmentStatus.valueOf(dto.getStatus()));
 
-        return null;
+        return appointment;
     }
 }

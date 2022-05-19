@@ -2,28 +2,98 @@ package src.service.api;
 
 import org.springframework.stereotype.Service;
 import src.dto.AppointmentDTO;
+import src.dto.PrescriptionDTO;
 import src.exceptions.EntityNotFoundException;
+import src.exceptions.InvalidAccessException;
 import src.exceptions.InvalidDataException;
-import src.exceptions.InvalidOperationException;
+import src.exceptions.InvalidStateException;
+import src.model.users.Account;
 
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Provides functionalities for updating and managing appointments.
+ */
 @Service
 public interface AppointmentService {
-    void accept(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
+    /**
+     * Create a new appointment after the patient has requested it.
+     * @param appointmentDTO the details of the appointment to be created such as the patient's name, the doctor's name, the type of requested service, etc.
+     * @throws InvalidDataException if some of the data is missing or has an invalid value
+     * @throws EntityNotFoundException if either the doctor, patient or the medical service cannot be found in the database (non-existent)
+     */
+    void create(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
 
-    void confirm(Integer appointmentId) throws InvalidDataException, EntityNotFoundException;
+    /**
+     *
+     * @param appointmentDTO
+     * @return
+     * @throws InvalidDataException
+     * @throws EntityNotFoundException
+     */
+    AppointmentDTO update(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
 
-    void cancel(Integer appointmentId) throws InvalidDataException, EntityNotFoundException;
+    /**
+     *
+     * @param appointmentId
+     * @param account
+     * @param newStatus
+     * @throws InvalidStateException
+     * @throws EntityNotFoundException
+     * @throws InvalidAccessException
+     */
+    void updateStatus(Integer appointmentId, Account account, String newStatus) throws InvalidStateException, EntityNotFoundException, InvalidAccessException;
 
-    void updateStatus(Integer appointmentId, String newStatus) throws InvalidOperationException, EntityNotFoundException;
+    /**
+     *
+     * @param appointmentId
+     * @param prescriptionDTO
+     * @throws InvalidStateException
+     * @throws EntityNotFoundException
+     */
+    void addPrescription(Integer appointmentId, PrescriptionDTO prescriptionDTO) throws InvalidStateException, EntityNotFoundException;
 
-    List<AppointmentDTO> findByPatient(Integer patientId);
+    /**
+     *
+     * @param patientId
+     * @return
+     * @throws EntityNotFoundException
+     */
+    List<AppointmentDTO> findByPatient(Integer patientId) throws EntityNotFoundException;
 
-    List<AppointmentDTO> findByPatientAndDate(Integer patientId, LocalDate untilDate);
+    /**
+     *
+     * @param patientId
+     * @param untilDate
+     * @return
+     * @throws EntityNotFoundException
+     */
+    List<AppointmentDTO> findByPatientAndDateUntil(Integer patientId, LocalDate untilDate) throws EntityNotFoundException;
 
-    List<AppointmentDTO> findByDoctor(Integer doctorId);
+    /**
+     *
+     * @param patientId
+     * @param toDate
+     * @return
+     * @throws EntityNotFoundException
+     */
+    List<AppointmentDTO> findByPatientAndDateUpTo(Integer patientId, LocalDate toDate) throws EntityNotFoundException;
 
-    List<AppointmentDTO> findByDoctorAndDate(Integer doctorId, LocalDate localDate);
+    /**
+     *
+     * @param doctorId
+     * @return
+     * @throws EntityNotFoundException
+     */
+    List<AppointmentDTO> findByDoctor(Integer doctorId) throws EntityNotFoundException;
+
+    /**
+     *
+     * @param doctorId
+     * @param localDate
+     * @return
+     * @throws EntityNotFoundException
+     */
+    List<AppointmentDTO> findByDoctorAndDate(Integer doctorId, LocalDate localDate) throws EntityNotFoundException;
 }
