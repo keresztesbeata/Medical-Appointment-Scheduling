@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @Component
 public class AppointmentDTO {
 
+    private Integer id;
+
     @NotBlank(message = "The first name of the patient cannot be missing!")
     private String patientFirstName;
 

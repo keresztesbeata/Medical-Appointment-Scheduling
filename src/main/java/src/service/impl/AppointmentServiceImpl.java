@@ -4,7 +4,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import src.dto.AppointmentDTO;
-import src.dto.PrescriptionDTO;
 import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidAccessException;
 import src.exceptions.InvalidDataException;
@@ -12,14 +11,16 @@ import src.exceptions.InvalidStateException;
 import src.mapper.AppointmentMapper;
 import src.model.Appointment;
 import src.model.AppointmentStatus;
-import src.model.Prescription;
 import src.model.appointment_states.AbstractAppointmentState;
 import src.model.appointment_states.AppointmentStateFactory;
 import src.model.users.Account;
 import src.model.users.AccountType;
 import src.model.users.DoctorProfile;
 import src.model.users.PatientProfile;
-import src.repository.*;
+import src.repository.AppointmentRepository;
+import src.repository.DoctorRepository;
+import src.repository.MedicalServiceRepository;
+import src.repository.PatientRepository;
 import src.service.api.AppointmentService;
 import src.validator.DataValidator;
 
@@ -42,19 +43,20 @@ public class AppointmentServiceImpl implements AppointmentService {
     private DataValidator<AppointmentDTO> validator = new DataValidator<>();
     private AppointmentStateFactory appointmentStateFactory = new AppointmentStateFactory();
     private AppointmentMapper appointmentMapper = new AppointmentMapper();
-    
+
+    private static final String MISSING_ID_ERROR_MESSAGE = "Appointment has no id!";
     private static final String APPOINTMENT_NOT_FOUND_ERROR_MESSAGE = "Appointment not found by id!";
     private static final String PATIENT_NOT_FOUND_ERROR_MESSAGE = "Patient not found by id!";
     private static final String DOCTOR_NOT_FOUND_ERROR_MESSAGE = "Doctor not found by id!";
     private static final String MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE = "Medical service not found by name!";
     private static final String CANNOT_UPDATE_STATUS_ERROR_MESSAGE = "You cannot update the appointment status, because you do not have enough rights!";
-    
+
     @Override
     public void create(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException {
         validator.validate(appointmentDTO);
-        
+
         Appointment appointment = new Appointment();
-        
+
         appointment.setDoctor(doctorRepository.findByFirstNameAndLastName(appointmentDTO.getDoctorFirstName(), appointmentDTO.getDoctorLastName())
                 .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE)));
         appointment.setPatient(patientRepository.findByFirstNameAndLastName(appointmentDTO.getPatientFirstName(), appointmentDTO.getPatientLastName())
@@ -63,14 +65,18 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() -> new EntityNotFoundException(MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE)));
 
         appointment.setStatus(AppointmentStatus.REQUESTED);
-        
+
         Appointment savedAppointment = appointmentRepository.save(appointment);
-        
+
         log.info("request: Appointment with id {} was successfully created by patient {} {}!", savedAppointment.getId(), appointmentDTO.getPatientFirstName(), appointmentDTO.getPatientLastName());
     }
 
     @Override
     public AppointmentDTO update(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException {
+        if (appointmentDTO.getId() == null) {
+            throw new InvalidDataException(MISSING_ID_ERROR_MESSAGE);
+        }
+
         validator.validate(appointmentDTO);
 
         Appointment appointment = appointmentMapper.mapToEntity(appointmentDTO);
@@ -93,11 +99,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void updateStatus(Integer appointmentId, Account account, String newAppointmentStatus) throws InvalidStateException, EntityNotFoundException, InvalidAccessException {
         AppointmentStatus newStatus = AppointmentStatus.valueOf(newAppointmentStatus);
 
-        if((newStatus.equals(AppointmentStatus.CONFIRMED) ||
+        if ((newStatus.equals(AppointmentStatus.CONFIRMED) ||
                 newStatus.equals(AppointmentStatus.CANCELED)) &&
                 !account.getAccountType().equals(AccountType.PATIENT)) {
             throw new InvalidAccessException(CANNOT_UPDATE_STATUS_ERROR_MESSAGE);
-        }else if((newStatus.equals(AppointmentStatus.SCHEDULED) ||
+        } else if ((newStatus.equals(AppointmentStatus.SCHEDULED) ||
                 newStatus.equals(AppointmentStatus.COMPLETED) ||
                 newStatus.equals(AppointmentStatus.MISSED)) &&
                 !account.getAccountType().equals(AccountType.RECEPTIONIST)) {
