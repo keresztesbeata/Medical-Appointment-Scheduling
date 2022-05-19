@@ -1,6 +1,5 @@
 package src.mapper;
 
-import org.springframework.stereotype.Component;
 import src.dto.PrescriptionDTO;
 import src.model.Prescription;
 
@@ -10,7 +9,8 @@ public class PrescriptionMapper implements DataMapper<Prescription, Prescription
     public PrescriptionDTO mapToDto(Prescription entity) {
         PrescriptionDTO dto = new PrescriptionDTO();
 
-        // todo
+        dto.setIndications(entity.getIndications());
+        dto.setMedication(entity.getMedication());
 
         return dto;
     }
@@ -19,7 +19,8 @@ public class PrescriptionMapper implements DataMapper<Prescription, Prescription
     public Prescription mapToEntity(PrescriptionDTO dto) {
         Prescription prescription = new Prescription();
 
-        // todo
+        prescription.setIndications(dto.getIndications());
+        prescription.setMedication(dto.getMedication());
 
         return prescription;
     }

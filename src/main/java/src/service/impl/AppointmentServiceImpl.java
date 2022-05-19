@@ -38,8 +38,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     private AppointmentRepository appointmentRepository;
     @Autowired
     private PatientRepository patientRepository;
-    @Autowired
-    private PrescriptionRepository prescriptionRepository;
 
     private DataValidator<AppointmentDTO> validator = new DataValidator<>();
     private AppointmentStateFactory appointmentStateFactory = new AppointmentStateFactory();
@@ -49,7 +47,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     private static final String PATIENT_NOT_FOUND_ERROR_MESSAGE = "Patient not found by id!";
     private static final String DOCTOR_NOT_FOUND_ERROR_MESSAGE = "Doctor not found by id!";
     private static final String MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE = "Medical service not found by name!";
-    private static final String CANNOT_ADD_PRESCRIPTION_ERROR_MESSAGE = "Prescriptions cannot be added in the current state of the appointment!";
     private static final String CANNOT_UPDATE_STATUS_ERROR_MESSAGE = "You cannot update the appointment status, because you do not have enough rights!";
     
     @Override
@@ -90,24 +87,6 @@ public class AppointmentServiceImpl implements AppointmentService {
         log.info("update: Appointment was successfully updated!");
 
         return appointmentMapper.mapToDto(savedAppointment);
-    }
-
-    @Override
-    public void addPrescription(Integer appointmentId, PrescriptionDTO prescriptionDTO) throws InvalidStateException, EntityNotFoundException {
-        Appointment appointment = appointmentRepository.findById(appointmentId)
-                .orElseThrow(() -> new EntityNotFoundException(APPOINTMENT_NOT_FOUND_ERROR_MESSAGE));
-
-        if(!appointment.getStatus().equals(AppointmentStatus.CONFIRMED)) {
-             throw new InvalidStateException(CANNOT_ADD_PRESCRIPTION_ERROR_MESSAGE);
-        }
-
-        Prescription prescription = new Prescription();
-        prescription.setMedication(prescriptionDTO.getMedication());
-        prescription.setIndications(prescriptionDTO.getIndications());
-        prescription.setAppointment(appointment);
-        Prescription savedPrescription = prescriptionRepository.save(prescription);
-
-        log.info("addPrescription: Prescription with id {} was successfully added to the appointment with id {}!",savedPrescription.getId(), appointment.getId());
     }
 
     @Override

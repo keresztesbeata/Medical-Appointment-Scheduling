@@ -47,15 +47,6 @@ public interface AppointmentService {
 
     /**
      *
-     * @param appointmentId
-     * @param prescriptionDTO
-     * @throws InvalidStateException
-     * @throws EntityNotFoundException
-     */
-    void addPrescription(Integer appointmentId, PrescriptionDTO prescriptionDTO) throws InvalidStateException, EntityNotFoundException;
-
-    /**
-     *
      * @param patientId
      * @return
      * @throws EntityNotFoundException
