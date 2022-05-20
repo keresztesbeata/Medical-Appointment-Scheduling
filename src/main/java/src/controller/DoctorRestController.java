@@ -19,7 +19,7 @@ public class DoctorRestController {
     @Autowired
     private PatientProfileServiceImpl patientService;
 
-    @GetMapping(UrlAddressCatalogue.PATIENT_VIEW_PROFILE)
+    @GetMapping(UrlAddressCatalogue.DOCTOR_VIEW_PROFILE)
     public ResponseEntity viewDoctorProfile() {
         try {
             Account currentUserAccount = Utils.getCurrentUserAccount();

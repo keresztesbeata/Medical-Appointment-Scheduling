@@ -11,12 +11,15 @@ import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
 import src.model.users.Account;
 import src.service.impl.PatientProfileServiceImpl;
+import src.service.impl.PrescriptionServiceImpl;
 
 @RestController
 @Log4j2
 public class PatientRestController {
     @Autowired
     private PatientProfileServiceImpl patientService;
+    @Autowired
+    private PrescriptionServiceImpl prescriptionService;
 
     @GetMapping(UrlAddressCatalogue.PATIENT_VIEW_PROFILE)
     public ResponseEntity viewPatientProfile() {
@@ -28,7 +31,7 @@ public class PatientRestController {
         }
     }
 
-    @PostMapping(UrlAddressCatalogue.DOCTOR_UPDATE_PROFILE)
+    @PostMapping(UrlAddressCatalogue.PATIENT_UPDATE_PROFILE)
     public ResponseEntity updateProfile(@RequestBody PatientProfileDTO userProfileDTO) {
         try {
             Account currentUserAccount = Utils.getCurrentUserAccount();
@@ -41,5 +44,23 @@ public class PatientRestController {
         }
     }
 
+    @GetMapping(UrlAddressCatalogue.PATIENT_VIEW_ALL_PRESCRIPTIONS)
+    public ResponseEntity viewAllPrescriptionsOfPatient(@RequestParam String firstName, @RequestParam String lastName) {
+        try{
+            return ResponseEntity.ok().body(prescriptionService.findByPatient(firstName, lastName));
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+    @GetMapping(UrlAddressCatalogue.PATIENT_EXPORT_PRESCRIPTION)
+    public ResponseEntity exportPrescription(@RequestParam Integer prescriptionId) {
+        try{
+            prescriptionService.exportPrescription(prescriptionId);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
 
 }

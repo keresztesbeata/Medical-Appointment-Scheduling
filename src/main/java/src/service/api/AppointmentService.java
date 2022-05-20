@@ -2,14 +2,16 @@ package src.service.api;
 
 import org.springframework.stereotype.Service;
 import src.dto.AppointmentDTO;
-import src.dto.PrescriptionDTO;
+import src.dto.DoctorProfileDTO;
 import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidAccessException;
 import src.exceptions.InvalidDataException;
 import src.exceptions.InvalidStateException;
+import src.model.MedicalService;
 import src.model.users.Account;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,12 +29,13 @@ public interface AppointmentService {
 
     /**
      *
-     * @param appointmentDTO
+     * @param appointmentId
+     * @param dateTime
      * @return
      * @throws InvalidDataException
      * @throws EntityNotFoundException
      */
-    AppointmentDTO update(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
+    AppointmentDTO schedule(Integer appointmentId, LocalDateTime dateTime) throws InvalidDataException, EntityNotFoundException;
 
     /**
      *
@@ -87,4 +90,8 @@ public interface AppointmentService {
      * @throws EntityNotFoundException
      */
     List<AppointmentDTO> findByDoctorAndDate(Integer doctorId, LocalDate localDate) throws EntityNotFoundException;
+
+    List<LocalDateTime> findAvailableDates(Integer doctorId, MedicalService medicalService) throws EntityNotFoundException ;
+
+    List<DoctorProfileDTO> findDoctorsByMedicalService(String medicalServiceName) throws EntityNotFoundException;
 }

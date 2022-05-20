@@ -4,6 +4,7 @@ import src.dto.PrescriptionDTO;
 import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidStateException;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PrescriptionService {
@@ -15,5 +16,9 @@ public interface PrescriptionService {
      */
     void addPrescription(Integer appointmentId, PrescriptionDTO prescriptionDTO) throws InvalidStateException, EntityNotFoundException;
 
-    Optional<PrescriptionDTO> findPrescriptionOfAppointment(Integer appointmentId) throws EntityNotFoundException;
+    Optional<PrescriptionDTO> findByAppointment(Integer appointmentId) throws EntityNotFoundException;
+
+    List<PrescriptionDTO> findByPatient(String firstName, String lastName) throws EntityNotFoundException;
+
+    void exportPrescription(Integer prescriptionId) throws EntityNotFoundException;
 }

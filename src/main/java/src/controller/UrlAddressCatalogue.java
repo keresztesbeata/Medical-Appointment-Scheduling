@@ -1,7 +1,7 @@
 package src.controller;
 
 public class UrlAddressCatalogue {
-    public static final String PATIENT_REQUEST_APPOINTMENT = "/patient/appointment/request";
+    public static final String PATIENT_CREATE_APPOINTMENT = "/patient/appointment/new";
     public static final String PATIENT_CANCEL_APPOINTMENT = "/patient/appointment/cancel";
     public static final String PATIENT_CONFIRM_APPOINTMENT = "/patient/appointment/confirm";
     public static final String PATIENT_VIEW_APPOINTMENTS = "/patient/appointments/all";
@@ -9,10 +9,11 @@ public class UrlAddressCatalogue {
     public static final String PATIENT_VIEW_PAST_APPOINTMENTS = "/patient/appointments/history";
     public static final String PATIENT_VIEW_DOCTOR_PROFILE = "/patient/search_doctor";
     public static final String PATIENT_VIEW_ALL_PRESCRIPTIONS = "/patient/prescriptions/all";
+    public static final String PATIENT_EXPORT_PRESCRIPTION = "/patient/print_prescription";
     public static final String PATIENT_VIEW_PROFILE = "/patient/my_profile";
     public static final String PATIENT_UPDATE_PROFILE = "/patient/update_profile";
 
-    public static final String RECEPTIONIST_CREATE_APPOINTMENT = "/receptionist/appointment/new";
+    public static final String RECEPTIONIST_SCHEDULE_APPOINTMENT = "/receptionist/appointment/schedule";
     public static final String RECEPTIONIST_UPDATE_APPOINTMENT = "/receptionist/appointment/update";
     public static final String RECEPTIONIST_DELETE_APPOINTMENT = "/receptionist/appointment/delete";
     public static final String RECEPTIONIST_CHECK_IN_PATIENT = "/receptionist/patient_check_in";
