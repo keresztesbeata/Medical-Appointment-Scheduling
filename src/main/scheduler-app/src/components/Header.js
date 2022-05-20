@@ -17,12 +17,14 @@ class Header extends React.Component {
         GetCurrentUser()
             .then(currentUserData => {
                 this.setState({
-                    currentUser: currentUserData
+                    authenticated: true,
+                    authority: currentUserData.authority
                 })
             })
             .catch(e => {
                 this.state = {
-                    currentUser: null,
+                    authenticated: false,
+                    authority: null
                 }
             });
     }

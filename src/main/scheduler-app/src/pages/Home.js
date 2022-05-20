@@ -1,5 +1,6 @@
 import React from 'react'
 import {GetCurrentUser} from "../actions/UserActions";
+import Notification from "../components/Notification";
 
 class Home extends React.Component {
     constructor(props) {
@@ -7,7 +8,7 @@ class Home extends React.Component {
         this.state = {
             authority: -1,
             authenticated: false,
-            profile: {}
+            username: ""
         }
     }
 
@@ -15,7 +16,7 @@ class Home extends React.Component {
         GetCurrentUser()
             .then(currentUserData => {
                 this.setState({
-                    profile: currentUserData.profile,
+                    username: currentUserData.username,
                     authority: currentUserData.authority,
                     authenticated: true,
                 })
@@ -24,7 +25,7 @@ class Home extends React.Component {
                 this.state = {
                     authority: -1,
                     authenticated: false,
-                    profile: {}
+                    username: ""
                 }
             });
     }
@@ -34,8 +35,8 @@ class Home extends React.Component {
             <div
                 className="background-container-home bg-image d-flex justify-content-center align-items-center">
                 <div className="transparent-background">
-                    {(this.state.currentUser !== null) ?
-                        <h1 className="text-white">Welcome {this.state.currentUser.username}!</h1>
+                    {(this.state.username !== "") ?
+                        <h1 className="text-white">Welcome {this.state.username}!</h1>
                         :
                         <h1 className="text-white">Welcome stranger!</h1>
                     }

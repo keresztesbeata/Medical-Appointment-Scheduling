@@ -9,9 +9,11 @@ import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
 import src.mapper.DataMapper;
 import src.mapper.DoctorMapper;
+import src.model.Specialty;
 import src.model.users.DoctorProfile;
 import src.repository.AccountRepository;
 import src.repository.DoctorRepository;
+import src.repository.SpecialtyRepository;
 import src.service.api.UserProfileService;
 import src.validator.DataValidator;
 
@@ -30,6 +32,8 @@ public class DoctorProfileServiceImpl implements UserProfileService<DoctorProfil
     private DoctorRepository dataRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private SpecialtyRepository specialtyRepository;
 
     @Override
     public DoctorProfileDTO saveProfile(Integer id, DoctorProfileDTO userProfileDTO) throws InvalidDataException, EntityNotFoundException, DuplicateDataException {
@@ -88,5 +92,12 @@ public class DoctorProfileServiceImpl implements UserProfileService<DoctorProfil
                     .map(dataMapper::mapToDto)
                     .collect(Collectors.toList());
         }
+    }
+
+    public List<String> getAllSpecialties() {
+        return specialtyRepository.findAll()
+                .stream()
+                .map(Specialty::getName)
+                .collect(Collectors.toList());
     }
 }

@@ -9,7 +9,7 @@ public class PrescriptionMapper implements DataMapper<Prescription, Prescription
     public PrescriptionDTO mapToDto(Prescription entity) {
         PrescriptionDTO dto = new PrescriptionDTO();
 
-        dto.setId(entity.getId());
+        dto.setAppointmentId(entity.getId());
         dto.setIndications(entity.getIndications());
         dto.setMedication(entity.getMedication());
         dto.setPatientFirstName(entity.getAppointment().getPatient().getFirstName());
@@ -25,7 +25,7 @@ public class PrescriptionMapper implements DataMapper<Prescription, Prescription
     public Prescription mapToEntity(PrescriptionDTO dto) {
         Prescription prescription = new Prescription();
 
-        prescription.setId(dto.getId());
+        prescription.setId(dto.getAppointmentId());
         prescription.setIndications(dto.getIndications());
         prescription.setMedication(dto.getMedication());
 

@@ -36,7 +36,7 @@ public class PatientRestController {
         }
     }
 
-    @PostMapping(UrlAddressCatalogue.PATIENT_UPDATE_PROFILE)
+    @PostMapping(UrlAddressCatalogue.PATIENT_SETUP_PROFILE)
     public ResponseEntity updateProfile(@RequestBody PatientProfileDTO userProfileDTO) {
         try {
             Account currentUserAccount = Utils.getCurrentUserAccount();
@@ -58,6 +58,11 @@ public class PatientRestController {
         }
     }
 
+    @GetMapping(UrlAddressCatalogue.PATIENT_GET_ALL_MEDICAL_SERVICES)
+    public ResponseEntity getAllMedicalServices() {
+        return ResponseEntity.ok().body(appointmentService.findAllMedicalServices());
+    }
+
     @GetMapping(UrlAddressCatalogue.PATIENT_EXPORT_PRESCRIPTION)
     public ResponseEntity exportPrescription(@RequestParam Integer appointmentId) {
         try{
@@ -71,7 +76,8 @@ public class PatientRestController {
     @PostMapping(UrlAddressCatalogue.PATIENT_CREATE_APPOINTMENT)
     public ResponseEntity createAppointment(@RequestBody AppointmentDTO appointmentDTO) {
         try{
-            appointmentService.create(appointmentDTO);
+            Account currentUserAccount = Utils.getCurrentUserAccount();
+            appointmentService.create(currentUserAccount.getId(), appointmentDTO);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);

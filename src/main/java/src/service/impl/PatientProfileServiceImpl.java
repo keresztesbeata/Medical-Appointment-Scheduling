@@ -49,7 +49,6 @@ public class PatientProfileServiceImpl implements UserProfileService<PatientProf
         patientProfile.setId(id);
 
         dataRepository.save(patientProfile);
-
         log.info("saveProfile: The user " + userProfileDTO.getFirstName() + " " + userProfileDTO.getLastName() + "'s profile has been successfully updated!");
 
         return userProfileDTO;

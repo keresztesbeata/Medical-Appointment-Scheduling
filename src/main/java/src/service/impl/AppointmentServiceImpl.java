@@ -57,15 +57,15 @@ public class AppointmentServiceImpl implements AppointmentService {
     private static final String MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE = "Medical service not found by name!";
 
     @Override
-    public void create(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException {
+    public void create(Integer patientId, AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException {
         validator.validate(appointmentDTO);
 
         Appointment appointment = new Appointment();
 
+        appointment.setPatient(patientRepository.findById(patientId)
+                .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_ERROR_MESSAGE)));
         appointment.setDoctor(doctorRepository.findByFirstNameAndLastName(appointmentDTO.getDoctorFirstName(), appointmentDTO.getDoctorLastName())
                 .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE)));
-        appointment.setPatient(patientRepository.findByFirstNameAndLastName(appointmentDTO.getPatientFirstName(), appointmentDTO.getPatientLastName())
-                .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_ERROR_MESSAGE)));
         appointment.setMedicalService(medicalServiceRepository.findByName(appointmentDTO.getMedicalService())
                 .orElseThrow(() -> new EntityNotFoundException(MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE)));
         appointment.setStatus(AppointmentStatus.REQUESTED);
@@ -124,6 +124,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         log.info("updateStatus: The status of the appointment with id " + appointmentId +
                 " has been successfully updated from " + oldStatus + " to " + updatedAppointment.getStatus() + "!");
+    }
+
+    @Override
+    public List<String> findAllMedicalServices() {
+        return medicalServiceRepository.findAll()
+                .stream()
+                .map(MedicalService::getName)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -200,8 +208,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public void changeSchedulingStrategy(SchedulingType schedulingType) {
-        switch (schedulingType) {
+    public void changeSchedulingStrategy(String schedulingType) {
+        switch (SchedulingType.valueOf(schedulingType)) {
             case LOOSE -> schedulingStrategy = new LooseSchedulingStrategy();
             case COMPACT -> schedulingStrategy = new CompactSchedulingStrategy();
         }

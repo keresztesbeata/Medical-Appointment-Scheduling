@@ -1,6 +1,4 @@
 import {
-    AUTH_DOCTOR, AUTH_NONE,
-    AUTH_PATIENT, AUTH_RECEPTIONIST,
     BASE_URL,
     FetchRequest,
     FetchRequestWithNoReturnData,
@@ -8,9 +6,16 @@ import {
     POST_REQUEST,
     SESSION_TOKEN
 } from "./Utils";
+import {
+    CURRENT_USER, DOCTOR_PREFIX, PATIENT_PREFIX,
+    PERFORM_LOGIN,
+    PERFORM_LOGOUT,
+    PERFORM_REGISTER,
+    PERFORM_SETUP_PROFILE, VIEW_PROFILE
+} from "./ServerUrlCollection";
 
 export function LoginUser(username, password) {
-    const url = BASE_URL + "/perform_login"
+    const url = BASE_URL + PERFORM_LOGIN
 
     const data = {
         username: username,
@@ -27,23 +32,38 @@ export function LoginUser(username, password) {
         });
 }
 
-export function RegisterUser(username, password, asAdmin) {
-    const url = new URL(BASE_URL + "/perform_register")
-    const params = {
-        asAdmin: asAdmin
-    };
-    url.search = new URLSearchParams(params).toString();
+export function RegisterUser(username, password, accountType) {
+    const url = BASE_URL + PERFORM_REGISTER
 
     const data = {
         username: username,
-        password: password
+        password: password,
+        accountType: accountType
     }
 
-    return FetchRequest(url, POST_REQUEST, data, false);
+    return FetchRequestWithNoReturnData(url, POST_REQUEST, data, false);
+}
+
+export function LoadUserProfile(accountType) {
+    const url = BASE_URL + VIEW_PROFILE
+
+    return FetchRequest(url, GET_REQUEST);
+}
+
+export function LoadSpecialties() {
+    const url = BASE_URL + VIEW_PROFILE
+
+    return FetchRequest(url, GET_REQUEST);
+}
+
+export function SetupUserProfile(profileData, accountType) {
+    const url = BASE_URL + ((accountType === "PATIENT") ? PATIENT_PREFIX : DOCTOR_PREFIX) + PERFORM_SETUP_PROFILE
+
+    return FetchRequestWithNoReturnData(url, POST_REQUEST, profileData);
 }
 
 export function LogoutUser() {
-    const url = BASE_URL + "/perform_logout"
+    const url = BASE_URL + PERFORM_LOGOUT
 
     return FetchRequestWithNoReturnData(url, POST_REQUEST)
         .then(() => {
@@ -52,14 +72,14 @@ export function LogoutUser() {
 }
 
 export function GetCurrentUser() {
-    const url = BASE_URL + "/current_user";
+    const url = BASE_URL + CURRENT_USER;
 
     return FetchRequest(url, GET_REQUEST)
         .then(currentUserData => {
                 return {
                     id: currentUserData.id,
-                    profile: currentUserData.profile,
-                    authority: currentUserData.userRole
+                    username: currentUserData.username,
+                    authority: currentUserData.accountType
                 }
             }
         );

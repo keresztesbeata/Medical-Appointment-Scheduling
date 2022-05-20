@@ -58,11 +58,6 @@ public class AppointmentServiceTest {
 
         Account doctorAccount = createAccount(AccountType.DOCTOR, "doctor", "doctor123P#", 1);
 
-        Mockito.when(accountRepository.findByUsername("doctor"))
-                .thenReturn(Optional.of(doctorAccount));
-        Mockito.when(accountRepository.findById(1))
-                .thenReturn(Optional.of(doctorAccount));
-
         String doctorFirstName = "Peter";
         String doctorLastName = "Parker";
 
@@ -70,22 +65,13 @@ public class AppointmentServiceTest {
 
         Mockito.when(doctorRepository.findByFirstNameAndLastName(doctorFirstName, doctorLastName))
                 .thenReturn(Optional.of(doctorProfile));
-        Mockito.when(doctorRepository.findById(doctorAccount.getId()))
-                .thenReturn(Optional.of(doctorProfile));
 
         Account patientAccount = createAccount(AccountType.PATIENT,"patient", "patient123P#", 2);
-
-        Mockito.when(accountRepository.findByUsername("patient"))
-                .thenReturn(Optional.of(doctorAccount));
-        Mockito.when(accountRepository.findById(2))
-                .thenReturn(Optional.of(doctorAccount));
 
         String patientFirstName = "Mary";
         String patientLastName = "Jane";
         PatientProfile patientProfile = createPatientProfile(patientAccount, patientFirstName, patientLastName);
 
-        Mockito.when(patientRepository.findByFirstNameAndLastName(patientFirstName, patientLastName))
-                .thenReturn(Optional.of(patientProfile));
         Mockito.when(patientRepository.findById(patientAccount.getId()))
                 .thenReturn(Optional.of(patientProfile));
 
@@ -105,7 +91,7 @@ public class AppointmentServiceTest {
                     return appointment;
                 });
 
-        Assertions.assertDoesNotThrow(() -> appointmentService.create(appointmentDTO));
+        Assertions.assertDoesNotThrow(() -> appointmentService.create(patientAccount.getId(), appointmentDTO));
     }
 
     @Test
@@ -114,41 +100,18 @@ public class AppointmentServiceTest {
         String medicalServiceName = "Facial treatment";
         MedicalService medicalService = createMedicalService(medicalServiceName, specialty);
 
-        Mockito.when(medicalServiceRepository.findByName(medicalServiceName))
-                .thenReturn(Optional.of(medicalService));
-
         Account doctorAccount = createAccount(AccountType.DOCTOR, "doctor", "doctor123P#", 1);
-
-        Mockito.when(accountRepository.findByUsername("doctor"))
-                .thenReturn(Optional.of(doctorAccount));
-        Mockito.when(accountRepository.findById(1))
-                .thenReturn(Optional.of(doctorAccount));
 
         String doctorFirstName = "Peter";
         String doctorLastName = "Parker";
 
         DoctorProfile doctorProfile = createDoctorProfile(doctorAccount, specialty, doctorFirstName, doctorLastName);
 
-        Mockito.when(doctorRepository.findByFirstNameAndLastName(doctorFirstName, doctorLastName))
-                .thenReturn(Optional.of(doctorProfile));
-        Mockito.when(doctorRepository.findById(doctorAccount.getId()))
-                .thenReturn(Optional.of(doctorProfile));
-
         Account patientAccount = createAccount(AccountType.PATIENT,"patient", "patient123P#", 2);
-
-        Mockito.when(accountRepository.findByUsername("patient"))
-                .thenReturn(Optional.of(doctorAccount));
-        Mockito.when(accountRepository.findById(2))
-                .thenReturn(Optional.of(doctorAccount));
 
         String patientFirstName = "Mary";
         String patientLastName = "Jane";
         PatientProfile patientProfile = createPatientProfile(patientAccount, patientFirstName, patientLastName);
-
-        Mockito.when(patientRepository.findByFirstNameAndLastName(patientFirstName, patientLastName))
-                .thenReturn(Optional.of(patientProfile));
-        Mockito.when(patientRepository.findById(patientAccount.getId()))
-                .thenReturn(Optional.of(patientProfile));
 
         int appointmentId = 1;
         AppointmentDTO appointmentDTO = new AppointmentDTO();
@@ -185,46 +148,20 @@ public class AppointmentServiceTest {
         String medicalServiceName = "Facial treatment";
         MedicalService medicalService = createMedicalService(medicalServiceName, specialty);
 
-        Mockito.when(medicalServiceRepository.findByName(medicalServiceName))
-                .thenReturn(Optional.of(medicalService));
-
         Account doctorAccount = createAccount(AccountType.DOCTOR, "doctor", "doctor123P#", 1);
-
-        Mockito.when(accountRepository.findByUsername("doctor"))
-                .thenReturn(Optional.of(doctorAccount));
-        Mockito.when(accountRepository.findById(1))
-                .thenReturn(Optional.of(doctorAccount));
 
         String doctorFirstName = "Peter";
         String doctorLastName = "Parker";
 
         DoctorProfile doctorProfile = createDoctorProfile(doctorAccount, specialty, doctorFirstName, doctorLastName);
 
-        Mockito.when(doctorRepository.findById(doctorProfile.getId()))
-                .thenReturn(Optional.of(doctorProfile));
-
         Account patientAccount = createAccount(AccountType.PATIENT,"patient", "patient123P#", 2);
-
-        Mockito.when(accountRepository.findByUsername("patient"))
-                .thenReturn(Optional.of(doctorAccount));
-        Mockito.when(accountRepository.findById(2))
-                .thenReturn(Optional.of(doctorAccount));
 
         String patientFirstName = "Mary";
         String patientLastName = "Jane";
         PatientProfile patientProfile = createPatientProfile(patientAccount, patientFirstName, patientLastName);
 
-        Mockito.when(patientRepository.findByFirstNameAndLastName(patientFirstName, patientLastName))
-                .thenReturn(Optional.of(patientProfile));
-        Mockito.when(patientRepository.findById(patientAccount.getId()))
-                .thenReturn(Optional.of(patientProfile));
-
         Account receptionistAccount = createAccount(AccountType.RECEPTIONIST,"receptionist", "receptionist123P#", 3);
-
-        Mockito.when(accountRepository.findByUsername("receptionist"))
-                .thenReturn(Optional.of(receptionistAccount));
-        Mockito.when(accountRepository.findById(3))
-                .thenReturn(Optional.of(receptionistAccount));
 
         int appointmentId = 1;
         LocalDateTime appointmentDate = LocalDateTime.now().plusDays(10);
@@ -271,11 +208,6 @@ public class AppointmentServiceTest {
                 .thenReturn(Optional.of(medicalService));
 
         Account doctorAccount = createAccount(AccountType.DOCTOR, "doctor", "doctor123P#", 1);
-
-        Mockito.when(accountRepository.findByUsername("doctor"))
-                .thenReturn(Optional.of(doctorAccount));
-        Mockito.when(accountRepository.findById(1))
-                .thenReturn(Optional.of(doctorAccount));
 
         String doctorFirstName = "Peter";
         String doctorLastName = "Parker";

@@ -8,6 +8,8 @@ import Logout from "./pages/Logout";
 import Header from "./components/Header";
 import Error from "./pages/Error";
 import './App.css';
+import Notification from "./components/Notification";
+import {SUCCESS} from "./actions/Utils";
 
 class App extends Component {
   render() {

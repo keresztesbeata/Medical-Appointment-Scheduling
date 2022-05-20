@@ -22,17 +22,20 @@ import java.util.List;
 public interface AppointmentService {
     /**
      * Create a new appointment after the patient has requested it.
+     * @param patientId the id of the patient
      * @param appointmentDTO the details of the appointment to be created such as the patient's name, the doctor's name, the type of requested service, etc.
-     * @throws InvalidDataException if some of the data is missing or has an invalid value
+     * @throws InvalidDataException if some data is missing or has an invalid value
      * @throws EntityNotFoundException if either the doctor, patient or the medical service cannot be found in the database (non-existent)
      */
-    void create(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
+    void create(Integer patientId, AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
 
     AppointmentDTO schedule(Integer appointmentId, LocalDateTime dateTime) throws InvalidDataException, EntityNotFoundException;
 
-    void changeSchedulingStrategy(SchedulingType schedulingType);
+    void changeSchedulingStrategy(String schedulingType);
 
     void updateStatus(Integer appointmentId, Account account, String newStatus) throws InvalidStateException, EntityNotFoundException, InvalidAccessException;
+
+    List<String> findAllMedicalServices();
 
     List<AppointmentDTO> findAllAppointmentsOfPatient(String firstName, String lastName) throws EntityNotFoundException;
 

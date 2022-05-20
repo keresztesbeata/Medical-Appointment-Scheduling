@@ -13,10 +13,9 @@ import src.exceptions.InvalidAccessException;
 import src.exceptions.InvalidDataException;
 import src.exceptions.InvalidStateException;
 import src.model.users.Account;
-import src.service.impl.AppointmentServiceImpl;
+import src.service.api.AppointmentService;
 import src.service.impl.DoctorProfileServiceImpl;
 import src.service.impl.PatientProfileServiceImpl;
-import src.service.impl.PrescriptionServiceImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,26 +27,24 @@ public class ReceptionistRestController {
     @Autowired
     private PatientProfileServiceImpl patientService;
     @Autowired
-    private PrescriptionServiceImpl prescriptionService;
-    @Autowired
-    private AppointmentServiceImpl appointmentService;
+    private AppointmentService appointmentService;
     @Autowired
     private DoctorProfileServiceImpl doctorService;
-    
+
     @GetMapping(UrlAddressCatalogue.RECEPTIONIST_GET_ALL_APPOINTMENTS_OF_PATIENT)
     public ResponseEntity getAllAppointmentsOfPatient(@RequestParam String firstName, @RequestParam String lastName) {
-        try{
+        try {
             return ResponseEntity.ok().body(appointmentService.findAllAppointmentsOfPatient(firstName, lastName));
-        }catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
     }
 
     @GetMapping(UrlAddressCatalogue.RECEPTIONIST_GET_ALL_APPOINTMENTS_OF_DOCTOR)
     public ResponseEntity getAllAppointmentsOfDoctor(@RequestParam String firstName, @RequestParam String lastName) {
-        try{
+        try {
             return ResponseEntity.ok().body(appointmentService.findAllAppointmentsOfDoctor(firstName, lastName));
-        }catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
     }
@@ -86,7 +83,7 @@ public class ReceptionistRestController {
             Account currentUserAccount = Utils.getCurrentUserAccount();
             appointmentService.updateStatus(appointmentId, currentUserAccount, newState);
             return ResponseEntity.ok().build();
-        }catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         } catch (InvalidAccessException e) {
             return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(e);
@@ -100,11 +97,16 @@ public class ReceptionistRestController {
         try {
             appointmentService.schedule(appointmentId, appointmentDate);
             return ResponseEntity.ok().build();
-        }catch (EntityNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         } catch (InvalidDataException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }
 
+    @PostMapping(UrlAddressCatalogue.RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY)
+    public ResponseEntity change(@RequestParam String strategy) {
+        appointmentService.changeSchedulingStrategy(strategy);
+        return ResponseEntity.ok().build();
+    }
 }

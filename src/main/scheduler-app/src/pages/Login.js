@@ -1,7 +1,8 @@
 import React from 'react'
-import {Alert, Button, FormControl, FormGroup, FormLabel} from 'react-bootstrap'
+import {Button, FormControl, FormGroup, FormLabel} from 'react-bootstrap'
 import {LoginUser} from "../actions/UserActions";
 import {ERROR} from "../actions/Utils";
+import Notification from "../components/Notification";
 
 class Login extends React.Component {
     constructor(props, context) {
@@ -18,7 +19,6 @@ class Login extends React.Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.hideNotification = this.hideNotification.bind(this);
     }
 
     handleInputChange(event) {
@@ -51,29 +51,13 @@ class Login extends React.Component {
             });
     }
 
-    hideNotification() {
-        this.setState({
-            notification: {
-                show: false
-            }
-        });
-    }
-
     render() {
         return (
             <div className="background-container-login bg-image d-flex justify-content-center align-items-center">
                 <div className="card col-sm-3 border-dark text-left">
                     <form onSubmit={this.handleSubmit} className="card-body">
                         <h3 className="card-title">Log in</h3>
-                        {
-                            (this.state.notification.show) ?
-                                <Alert dismissible={true} onClose={this.hideNotification}
-                                       className={this.state.notification.type}>
-                                    {this.state.notification.message}
-                                </Alert>
-                                :
-                                <div/>
-                        }
+                        <Notification show={this.state.notification.show} message = {this.state.notification.message} type={this.state.notification.type}/>
                         <FormGroup className="mb-3" controlId="formBasicText">
                             <FormLabel>Username</FormLabel>
                             <FormControl type="text" placeholder="Enter username" name="username"

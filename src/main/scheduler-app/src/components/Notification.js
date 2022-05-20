@@ -4,11 +4,6 @@ import {Alert} from 'react-bootstrap'
 class Notification extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            show: props.show,
-            message: props.message,
-            type: props.type,
-        };
         this.hideNotification = this.hideNotification.bind(this);
     }
 
@@ -21,8 +16,8 @@ class Notification extends React.Component {
     render() {
         return (
             <Alert dismissible={true} onClose={this.hideNotification}
-                   className={this.state.type} show={this.state.show}>
-                {this.state.message}
+                   className={this.props.type} show={this.props.show}>
+                {this.props.message}
             </Alert>
         )
     }

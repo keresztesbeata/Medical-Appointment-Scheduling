@@ -11,6 +11,8 @@ import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
 import src.exceptions.InvalidStateException;
 import src.model.users.Account;
+import src.service.api.AppointmentService;
+import src.service.api.PrescriptionService;
 import src.service.impl.AppointmentServiceImpl;
 import src.service.impl.DoctorProfileServiceImpl;
 import src.service.impl.PatientProfileServiceImpl;
@@ -39,7 +41,7 @@ public class DoctorRestController {
         }
     }
 
-    @PostMapping(UrlAddressCatalogue.DOCTOR_UPDATE_PROFILE)
+    @PostMapping(UrlAddressCatalogue.DOCTOR_SETUP_PROFILE)
     public ResponseEntity updateProfile(@RequestBody DoctorProfileDTO userProfileDTO) {
         try {
             Account currentUserAccount = Utils.getCurrentUserAccount();
@@ -96,5 +98,10 @@ public class DoctorRestController {
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
+    }
+
+    @GetMapping(UrlAddressCatalogue.DOCTOR_GET_ALL_SPECIALTIES)
+    public ResponseEntity getAllSpecialties() {
+        return ResponseEntity.ok().body(doctorService.getAllSpecialties());
     }
 }

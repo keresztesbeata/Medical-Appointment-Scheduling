@@ -12,8 +12,8 @@ public class AccountMapper implements DataMapper<Account, AccountDTO> {
         AccountDTO dto = new AccountDTO();
 
         dto.setAccountType(account.getAccountType().name());
-        dto.setPassword(account.getPassword());
         dto.setUsername(account.getUsername());
+        dto.setId(account.getId());
 
         return dto;
     }

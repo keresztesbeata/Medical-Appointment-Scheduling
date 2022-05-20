@@ -18,6 +18,7 @@ import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
 import src.mapper.AccountMapper;
 import src.service.api.AccountService;
+import src.service.impl.AccountServiceImpl;
 
 @RestController
 @Log4j2
@@ -26,7 +27,7 @@ public class AccountRestController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    private AccountService accountService;
+    private AccountServiceImpl accountService;
 
     @Autowired
     PasswordEncoder passwordEncoder;

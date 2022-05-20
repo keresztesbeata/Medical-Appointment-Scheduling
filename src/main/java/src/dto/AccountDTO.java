@@ -18,11 +18,13 @@ public class AccountDTO {
     private String username;
 
     @NotBlank(message = "Password should not be empty!")
-    @Pattern(regexp = PASSWORD_PATTERN, message = "Password should contain: " +
-            " at least 1 digit, 1 lowercase and 1 uppercase letter and 1 special character," +
+    @Pattern(regexp = PASSWORD_PATTERN, message = "Password should contain:\n " +
+            " at least 1 digit, \n1 lowercase and 1 uppercase letter \nand 1 special character,\n" +
             " with length at least 8 and at most 20 characters!")
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "The account type should not be missing!")
     private String accountType;
+
+    private Integer id;
 }
