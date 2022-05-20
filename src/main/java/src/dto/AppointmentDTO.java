@@ -30,7 +30,6 @@ public class AppointmentDTO {
 
     private String status;
 
-    @NotNull(message = "The appointment date cannot be missing!")
     @Future(message = "The appointment cannot be set to a date in the past!")
     private LocalDateTime appointmentDate;
 

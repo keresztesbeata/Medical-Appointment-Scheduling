@@ -9,6 +9,8 @@ import src.exceptions.InvalidDataException;
 import src.exceptions.InvalidStateException;
 import src.model.MedicalService;
 import src.model.users.Account;
+import src.service.impl.schedule.SchedulingStrategy;
+import src.service.impl.schedule.SchedulingType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -36,6 +38,8 @@ public interface AppointmentService {
      * @throws EntityNotFoundException
      */
     AppointmentDTO schedule(Integer appointmentId, LocalDateTime dateTime) throws InvalidDataException, EntityNotFoundException;
+
+    void changeSchedulingStrategy(SchedulingType schedulingType);
 
     /**
      *

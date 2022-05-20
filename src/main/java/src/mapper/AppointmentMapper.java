@@ -31,10 +31,11 @@ public class AppointmentMapper implements DataMapper<Appointment, AppointmentDTO
     public Appointment mapToEntity(AppointmentDTO dto) {
         Appointment appointment = new Appointment();
 
-        appointment.setId(dto.getId());
-        appointment.setAppointmentDate(dto.getAppointmentDate());
-        appointment.setStatus(AppointmentStatus.valueOf(dto.getStatus()));
-
+        if(dto.getId() != null) {
+            appointment.setId(dto.getId());
+            appointment.setAppointmentDate(dto.getAppointmentDate());
+            appointment.setStatus(AppointmentStatus.valueOf(dto.getStatus()));
+        }
         return appointment;
     }
 }
