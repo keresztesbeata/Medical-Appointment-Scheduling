@@ -76,8 +76,8 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public void exportPrescription(Integer prescriptionId) throws EntityNotFoundException {
-        Prescription prescription = prescriptionRepository.findById(prescriptionId)
+    public void exportPrescription(Integer appointmentId) throws EntityNotFoundException {
+        Prescription prescription = prescriptionRepository.findById(appointmentId)
                 .orElseThrow(() -> new EntityNotFoundException(PRESCRIPTION_NOT_FOUND_ERROR_MESSAGE));
 
         prescriptionExporter.exportPrescriptionAsPDF(prescription);

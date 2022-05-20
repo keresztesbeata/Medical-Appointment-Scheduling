@@ -10,7 +10,12 @@ public class DoctorMapper implements DataMapper<DoctorProfile, DoctorProfileDTO>
     public DoctorProfileDTO mapToDto(DoctorProfile entity) {
         DoctorProfileDTO dto = new DoctorProfileDTO();
 
-        // todo set fields
+        dto.setId(entity.getId());
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
+        dto.setSpecialty(entity.getSpecialty().getName());
+        dto.setStartTime(entity.getStartTime());
+        dto.setFinishTime(entity.getFinishTime());
 
         return dto;
     }
@@ -19,7 +24,10 @@ public class DoctorMapper implements DataMapper<DoctorProfile, DoctorProfileDTO>
     public DoctorProfile mapToEntity(DoctorProfileDTO dto) {
         DoctorProfile doctorProfile = new DoctorProfile();
 
-        // todo set fields
+        doctorProfile.setFirstName(dto.getFirstName());
+        doctorProfile.setLastName(dto.getLastName());
+        doctorProfile.setStartTime(dto.getStartTime());
+        doctorProfile.setFinishTime(dto.getFinishTime());
 
         return doctorProfile;
     }

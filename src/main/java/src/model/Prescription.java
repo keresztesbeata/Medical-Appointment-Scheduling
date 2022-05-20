@@ -2,6 +2,8 @@ package src.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import src.model.users.DoctorProfile;
+import src.model.users.PatientProfile;
 
 import javax.persistence.*;
 

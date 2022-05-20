@@ -38,4 +38,6 @@ public interface UserProfileService<T> {
      * @return the profile of the users with the given name
      */
     List<T> findByName(String firstName, String lastName);
+
+    List<T> findAll();
 }

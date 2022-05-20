@@ -72,7 +72,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment savedAppointment = appointmentRepository.save(appointment);
 
-        log.info("request: Appointment with id {} was successfully created by patient {} {}!", savedAppointment.getId(), appointmentDTO.getPatientFirstName(), appointmentDTO.getPatientLastName());
+        log.info("create: Appointment with id {} was successfully created by patient {} {}!", savedAppointment.getId(), appointmentDTO.getPatientFirstName(), appointmentDTO.getPatientLastName());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         Appointment savedAppointment = appointmentRepository.save(appointment);
 
-        log.info("update: Appointment was successfully scheduled!");
+        log.info("schedule: Appointment was successfully scheduled!");
 
         return appointmentMapper.mapToDto(savedAppointment);
     }
@@ -127,8 +127,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentDTO> findByPatient(Integer patientId) throws EntityNotFoundException {
-        PatientProfile patientProfile = patientRepository.findById(patientId)
+    public List<AppointmentDTO> findAllAppointmentsOfPatient(String firstName, String lastName) throws EntityNotFoundException {
+        PatientProfile patientProfile = patientRepository.findByFirstNameAndLastName(firstName, lastName)
                 .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_ERROR_MESSAGE));
 
         return appointmentRepository.findByPatient(patientProfile)
@@ -138,44 +138,62 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentDTO> findByPatientAndDateUntil(Integer patientId, LocalDate untilDate) throws EntityNotFoundException {
+    public List<AppointmentDTO> findPastAppointmentsOfPatient(Integer patientId) throws EntityNotFoundException {
         PatientProfile patientProfile = patientRepository.findById(patientId)
                 .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_ERROR_MESSAGE));
 
-        return appointmentRepository.findByPatientAndAppointmentDateBefore(patientProfile, untilDate.atStartOfDay())
+        return appointmentRepository.findByPatientAndAppointmentDateBefore(patientProfile, LocalDateTime.now())
                 .stream()
                 .map(appointmentMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<AppointmentDTO> findByPatientAndDateUpTo(Integer patientId, LocalDate toDate) throws EntityNotFoundException {
+    public List<AppointmentDTO> findUpcomingAppointmentsOfPatient(Integer patientId) throws EntityNotFoundException {
         PatientProfile patientProfile = patientRepository.findById(patientId)
                 .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_ERROR_MESSAGE));
 
-        return appointmentRepository.findByPatientAndAppointmentDateBefore(patientProfile, toDate.atStartOfDay())
+        return appointmentRepository.findByPatientAndAppointmentDateAfter(patientProfile, LocalDateTime.now())
                 .stream()
                 .map(appointmentMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<AppointmentDTO> findByDoctor(Integer doctorId) throws EntityNotFoundException {
+    public List<AppointmentDTO> filterByDoctorAndStatus(Integer doctorId, String appointmentStatus) throws EntityNotFoundException {
         DoctorProfile doctorProfile = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE));
+
+        if(appointmentStatus == null || appointmentStatus.isEmpty()) {
+            return appointmentRepository.findByDoctor(doctorProfile)
+                    .stream()
+                    .map(appointmentMapper::mapToDto)
+                    .collect(Collectors.toList());
+        }
+
+        return appointmentRepository.findByDoctorAndStatus(doctorProfile, AppointmentStatus.valueOf(appointmentStatus))
+                .stream()
+                .map(appointmentMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppointmentDTO> findAppointmentsOfDoctorByDate(Integer doctorId, LocalDate date) throws EntityNotFoundException {
+        DoctorProfile doctorProfile = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE));
+
+        return appointmentRepository.findByDoctorAndAppointmentDate(doctorProfile, date)
+                .stream()
+                .map(appointmentMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppointmentDTO> findAllAppointmentsOfDoctor(String firstName, String lastName) throws EntityNotFoundException {
+        DoctorProfile doctorProfile = doctorRepository.findByFirstNameAndLastName(firstName, lastName)
                 .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE));
 
         return appointmentRepository.findByDoctor(doctorProfile)
-                .stream()
-                .map(appointmentMapper::mapToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<AppointmentDTO> findByDoctorAndDate(Integer doctorId, LocalDate exactDate) throws EntityNotFoundException {
-        DoctorProfile doctorProfile = doctorRepository.findById(doctorId)
-                .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE));
-
-        return appointmentRepository.findByDoctorAndAppointmentDate(doctorProfile, exactDate)
                 .stream()
                 .map(appointmentMapper::mapToDto)
                 .collect(Collectors.toList());
@@ -190,9 +208,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<LocalDateTime> findAvailableDates(Integer doctorId, MedicalService medicalService) throws EntityNotFoundException {
+    public List<LocalDateTime> findAvailableDates(Integer doctorId, String medicalServiceName) throws EntityNotFoundException {
         DoctorProfile doctorProfile = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE));
+        MedicalService medicalService = medicalServiceRepository.findByName(medicalServiceName)
+                .orElseThrow(() -> new EntityNotFoundException(MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE));
 
         return schedulingStrategy.findAvailableSpots(medicalService, doctorProfile, appointmentRepository.findByDoctor(doctorProfile));
     }
@@ -205,6 +225,24 @@ public class AppointmentServiceImpl implements AppointmentService {
         return doctorRepository.findByMedicalService(medicalService)
                 .stream()
                 .map(doctor -> (new DoctorMapper()).mapToDto(doctor))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppointmentDTO> filterByPatientAndStatus(Integer patientId, String appointmentStatus) throws EntityNotFoundException {
+        PatientProfile patientProfile = patientRepository.findById(patientId)
+                .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_ERROR_MESSAGE));
+
+        if(appointmentStatus == null || appointmentStatus.isEmpty()) {
+            return appointmentRepository.findByPatient(patientProfile)
+                    .stream()
+                    .map(appointmentMapper::mapToDto)
+                    .collect(Collectors.toList());
+        }
+
+        return appointmentRepository.findByPatientAndStatus(patientProfile, AppointmentStatus.valueOf(appointmentStatus))
+                .stream()
+                .map(appointmentMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 }

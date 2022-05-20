@@ -50,6 +50,14 @@ public class DoctorProfileServiceImpl implements UserProfileService<DoctorProfil
     }
 
     @Override
+    public List<DoctorProfileDTO> findAll() {
+        return dataRepository.findAll()
+                .stream()
+                .map(dataMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<DoctorProfileDTO> findById(Integer id) {
         return (dataRepository.findById(id)).map(dataMapper::mapToDto);
     }

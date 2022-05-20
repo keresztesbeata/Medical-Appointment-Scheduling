@@ -3,6 +3,7 @@ package src.service.impl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import src.dto.DoctorProfileDTO;
 import src.dto.PatientProfileDTO;
 import src.exceptions.DuplicateDataException;
 import src.exceptions.EntityNotFoundException;
@@ -52,6 +53,14 @@ public class PatientProfileServiceImpl implements UserProfileService<PatientProf
         log.info("saveProfile: The user " + userProfileDTO.getFirstName() + " " + userProfileDTO.getLastName() + "'s profile has been successfully updated!");
 
         return userProfileDTO;
+    }
+
+    @Override
+    public List<PatientProfileDTO> findAll() {
+        return dataRepository.findAll()
+                .stream()
+                .map(dataMapper::mapToDto)
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -34,17 +34,21 @@ public interface AppointmentService {
 
     void updateStatus(Integer appointmentId, Account account, String newStatus) throws InvalidStateException, EntityNotFoundException, InvalidAccessException;
 
-    List<AppointmentDTO> findByPatient(Integer patientId) throws EntityNotFoundException;
+    List<AppointmentDTO> findAllAppointmentsOfPatient(String firstName, String lastName) throws EntityNotFoundException;
 
-    List<AppointmentDTO> findByPatientAndDateUntil(Integer patientId, LocalDate untilDate) throws EntityNotFoundException;
+    List<AppointmentDTO> findPastAppointmentsOfPatient(Integer patientId) throws EntityNotFoundException;
 
-    List<AppointmentDTO> findByPatientAndDateUpTo(Integer patientId, LocalDate toDate) throws EntityNotFoundException;
+    List<AppointmentDTO> findUpcomingAppointmentsOfPatient(Integer patientId) throws EntityNotFoundException;
 
-    List<AppointmentDTO> findByDoctor(Integer doctorId) throws EntityNotFoundException;
+    List<AppointmentDTO> filterByDoctorAndStatus(Integer doctorId, String appointmentStatus) throws EntityNotFoundException;
 
-    List<AppointmentDTO> findByDoctorAndDate(Integer doctorId, LocalDate localDate) throws EntityNotFoundException;
+    List<AppointmentDTO> findAllAppointmentsOfDoctor(String firstName, String lastName) throws EntityNotFoundException;
 
-    List<LocalDateTime> findAvailableDates(Integer doctorId, MedicalService medicalService) throws EntityNotFoundException ;
+    List<AppointmentDTO> findAppointmentsOfDoctorByDate(Integer doctorId, LocalDate date) throws EntityNotFoundException;
+
+    List<LocalDateTime> findAvailableDates(Integer doctorId, String medicalService) throws EntityNotFoundException ;
 
     List<DoctorProfileDTO> findDoctorsByMedicalService(String medicalServiceName) throws EntityNotFoundException;
+
+    List<AppointmentDTO> filterByPatientAndStatus(Integer patientId, String appointmentStatus) throws EntityNotFoundException;
 }

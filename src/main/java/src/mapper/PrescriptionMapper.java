@@ -14,6 +14,8 @@ public class PrescriptionMapper implements DataMapper<Prescription, Prescription
         dto.setMedication(entity.getMedication());
         dto.setPatientFirstName(entity.getAppointment().getPatient().getFirstName());
         dto.setPatientLastName(entity.getAppointment().getPatient().getLastName());
+        dto.setDoctorFirstName(entity.getAppointment().getDoctor().getFirstName());
+        dto.setDoctorLastName(entity.getAppointment().getDoctor().getLastName());
         dto.setAppointmentDate(entity.getAppointment().getAppointmentDate());
 
         return dto;

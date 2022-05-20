@@ -20,5 +20,5 @@ public interface PrescriptionService {
 
     List<PrescriptionDTO> findByPatient(String firstName, String lastName) throws EntityNotFoundException;
 
-    void exportPrescription(Integer prescriptionId) throws EntityNotFoundException;
+    void exportPrescription(Integer appointmentId) throws EntityNotFoundException;
 }

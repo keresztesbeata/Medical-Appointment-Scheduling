@@ -5,11 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import src.dto.AppointmentDTO;
 import src.dto.PatientProfileDTO;
-import src.exceptions.DuplicateDataException;
-import src.exceptions.EntityNotFoundException;
-import src.exceptions.InvalidDataException;
+import src.exceptions.*;
 import src.model.users.Account;
+import src.service.impl.AppointmentServiceImpl;
+import src.service.impl.DoctorProfileServiceImpl;
 import src.service.impl.PatientProfileServiceImpl;
 import src.service.impl.PrescriptionServiceImpl;
 
@@ -20,6 +21,10 @@ public class PatientRestController {
     private PatientProfileServiceImpl patientService;
     @Autowired
     private PrescriptionServiceImpl prescriptionService;
+    @Autowired
+    private AppointmentServiceImpl appointmentService;
+    @Autowired
+    private DoctorProfileServiceImpl doctorProfileService;
 
     @GetMapping(UrlAddressCatalogue.PATIENT_VIEW_PROFILE)
     public ResponseEntity viewPatientProfile() {
@@ -44,8 +49,8 @@ public class PatientRestController {
         }
     }
 
-    @GetMapping(UrlAddressCatalogue.PATIENT_VIEW_ALL_PRESCRIPTIONS)
-    public ResponseEntity viewAllPrescriptionsOfPatient(@RequestParam String firstName, @RequestParam String lastName) {
+    @GetMapping(UrlAddressCatalogue.PATIENT_GET_ALL_PRESCRIPTIONS)
+    public ResponseEntity getAllPrescriptionsOfPatient(@RequestParam String firstName, @RequestParam String lastName) {
         try{
             return ResponseEntity.ok().body(prescriptionService.findByPatient(firstName, lastName));
         }catch (EntityNotFoundException e) {
@@ -54,13 +59,84 @@ public class PatientRestController {
     }
 
     @GetMapping(UrlAddressCatalogue.PATIENT_EXPORT_PRESCRIPTION)
-    public ResponseEntity exportPrescription(@RequestParam Integer prescriptionId) {
+    public ResponseEntity exportPrescription(@RequestParam Integer appointmentId) {
         try{
-            prescriptionService.exportPrescription(prescriptionId);
+            prescriptionService.exportPrescription(appointmentId);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         }catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
+    }
+
+    @PostMapping(UrlAddressCatalogue.PATIENT_CREATE_APPOINTMENT)
+    public ResponseEntity createAppointment(@RequestBody AppointmentDTO appointmentDTO) {
+        try{
+            appointmentService.create(appointmentDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        } catch (InvalidDataException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
+        }
+    }
+
+    @PostMapping(UrlAddressCatalogue.PATIENT_UPDATE_APPOINTMENT_STATE)
+    public ResponseEntity updateAppointmentStatus(@RequestParam Integer appointmentId, @RequestParam String newState) {
+        try{
+            Account currentUserAccount = Utils.getCurrentUserAccount();
+            appointmentService.updateStatus(appointmentId, currentUserAccount, newState);
+            return ResponseEntity.ok().build();
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        } catch (InvalidAccessException e) {
+            return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(e);
+        } catch (InvalidStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
+        }
+    }
+
+    @GetMapping(UrlAddressCatalogue.PATIENT_GET_APPOINTMENTS)
+    public ResponseEntity getAppointmentsByStatus(@RequestParam String status) {
+        try{
+            Account currentUserAccount = Utils.getCurrentUserAccount();
+            return ResponseEntity.ok().body(appointmentService.filterByPatientAndStatus(currentUserAccount.getId(), status));
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+    @GetMapping(UrlAddressCatalogue.PATIENT_GET_PAST_APPOINTMENTS)
+    public ResponseEntity getPastAppointments() {
+        try{
+            Account currentUserAccount = Utils.getCurrentUserAccount();
+            return ResponseEntity.ok().body(appointmentService.findPastAppointmentsOfPatient(currentUserAccount.getId()));
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+    @GetMapping(UrlAddressCatalogue.PATIENT_GET_UPCOMING_APPOINTMENTS)
+    public ResponseEntity getUpcomingAppointments() {
+        try{
+            Account currentUserAccount = Utils.getCurrentUserAccount();
+            return ResponseEntity.ok().body(appointmentService.findUpcomingAppointmentsOfPatient(currentUserAccount.getId()));
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+    @GetMapping(UrlAddressCatalogue.PATIENT_SEARCH_DOCTOR_BY_MEDICAL_SERVICE)
+    public ResponseEntity searchDoctor(@RequestParam String medicalService) {
+        try {
+            return ResponseEntity.ok().body(appointmentService.findDoctorsByMedicalService(medicalService));
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+    @GetMapping(UrlAddressCatalogue.PATIENT_SEARCH_DOCTOR_BY_NAME)
+    public ResponseEntity getDoctorProfile(@RequestParam String firstName, @RequestParam String lastName) {
+        return ResponseEntity.ok().body(doctorProfileService.findByName(firstName, lastName));
     }
 
 }

@@ -14,19 +14,19 @@ import java.time.LocalDateTime;
 @Setter
 @Component
 public class PrescriptionDTO {
+    private Integer appointmentId;
 
-    private Integer id;
-
+    @NotBlank(message = "Medications fields should not be empty!")
     private String medication;
 
+    @NotBlank(message = "Indications are missing!")
     private String indications;
 
-    @NotNull(message = "Appointment date should not be missing!")
     private LocalDateTime appointmentDate;
 
-    @NotBlank(message = "Patient name should not be empty!")
     private String patientFirstName;
-
-    @NotBlank(message = "Patient name should not be empty!")
     private String patientLastName;
+
+    private String doctorFirstName;
+    private String doctorLastName;
 }

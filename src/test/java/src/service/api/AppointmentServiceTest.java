@@ -293,7 +293,7 @@ public class AppointmentServiceTest {
         Mockito.when(appointmentRepository.findByDoctor(doctorProfile))
                 .thenReturn(existingAppointments);
 
-        Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(4, appointmentService.findAvailableDates(doctorAccount.getId(), medicalService).size()));
+        Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(4, appointmentService.findAvailableDates(doctorAccount.getId(), medicalService.name).size()));
     }
 
     private Appointment createAppointment(int id, DoctorProfile doctorProfile, MedicalService medicalService, LocalDateTime localDateTime) {
