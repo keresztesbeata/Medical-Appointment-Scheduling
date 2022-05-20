@@ -1,5 +1,6 @@
 package src.service.impl;
 
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,13 +49,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     private DataValidator<AppointmentDTO> validator = new DataValidator<>();
     private AppointmentStateFactory appointmentStateFactory = new AppointmentStateFactory();
     private AppointmentMapper appointmentMapper = new AppointmentMapper();
+    @Getter
     private SchedulingStrategy schedulingStrategy = new CompactSchedulingStrategy();
 
     private static final String APPOINTMENT_NOT_FOUND_ERROR_MESSAGE = "Appointment not found by id!";
     private static final String PATIENT_NOT_FOUND_ERROR_MESSAGE = "Patient not found by id!";
     private static final String DOCTOR_NOT_FOUND_ERROR_MESSAGE = "Doctor not found by id!";
     private static final String MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE = "Medical service not found by name!";
-    private static final String CANNOT_UPDATE_STATUS_ERROR_MESSAGE = "You cannot update the appointment status, because you do not have enough rights!";
 
     @Override
     public void create(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException {
@@ -94,17 +95,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void updateStatus(Integer appointmentId, Account account, String newAppointmentStatus) throws InvalidStateException, EntityNotFoundException, InvalidAccessException {
         AppointmentStatus newStatus = AppointmentStatus.valueOf(newAppointmentStatus);
 
-        if ((newStatus.equals(AppointmentStatus.CONFIRMED) ||
-                newStatus.equals(AppointmentStatus.CANCELED)) &&
-                !account.getAccountType().equals(AccountType.PATIENT)) {
-            throw new InvalidAccessException(CANNOT_UPDATE_STATUS_ERROR_MESSAGE);
-        } else if ((newStatus.equals(AppointmentStatus.SCHEDULED) ||
-                newStatus.equals(AppointmentStatus.COMPLETED) ||
-                newStatus.equals(AppointmentStatus.MISSED)) &&
-                !account.getAccountType().equals(AccountType.RECEPTIONIST)) {
-            throw new InvalidAccessException(CANNOT_UPDATE_STATUS_ERROR_MESSAGE);
-        }
-
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new EntityNotFoundException(APPOINTMENT_NOT_FOUND_ERROR_MESSAGE));
 
@@ -113,24 +103,27 @@ public class AppointmentServiceImpl implements AppointmentService {
         AbstractAppointmentState appointmentState = appointmentStateFactory.getAppointmentState(appointment);
 
         switch (newStatus) {
+            case SCHEDULED -> {
+                appointmentState.setScheduled(account.getAccountType());
+            }
             case CONFIRMED -> {
-                appointmentState.setConfirmed();
+                appointmentState.setConfirmed(account.getAccountType());
             }
             case CANCELED -> {
-                appointmentState.setCanceled();
+                appointmentState.setCanceled(account.getAccountType());
             }
             case MISSED -> {
-                appointmentState.setMissed();
+                appointmentState.setMissed(account.getAccountType());
             }
             case COMPLETED -> {
-                appointmentState.setCompleted();
+                appointmentState.setCompleted(account.getAccountType());
             }
             default -> {
             }
         }
         Appointment updatedAppointment = appointmentRepository.save(appointmentState.getAppointment());
 
-        log.info("updateStatus: The status of the appointment with id" + appointmentId +
+        log.info("updateStatus: The status of the appointment with id " + appointmentId +
                 " has been successfully updated from " + oldStatus + " to " + updatedAppointment.getStatus() + "!");
     }
 

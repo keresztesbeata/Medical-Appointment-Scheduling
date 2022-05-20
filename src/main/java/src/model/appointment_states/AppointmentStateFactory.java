@@ -2,6 +2,7 @@ package src.model.appointment_states;
 
 import org.springframework.stereotype.Component;
 import src.model.Appointment;
+import src.model.users.AccountType;
 
 /**
  * It is responsible for instantiating the classes representing the different order statuses.

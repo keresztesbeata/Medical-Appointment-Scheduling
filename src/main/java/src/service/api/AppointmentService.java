@@ -29,70 +29,20 @@ public interface AppointmentService {
      */
     void create(AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException;
 
-    /**
-     *
-     * @param appointmentId
-     * @param dateTime
-     * @return
-     * @throws InvalidDataException
-     * @throws EntityNotFoundException
-     */
     AppointmentDTO schedule(Integer appointmentId, LocalDateTime dateTime) throws InvalidDataException, EntityNotFoundException;
 
     void changeSchedulingStrategy(SchedulingType schedulingType);
 
-    /**
-     *
-     * @param appointmentId
-     * @param account
-     * @param newStatus
-     * @throws InvalidStateException
-     * @throws EntityNotFoundException
-     * @throws InvalidAccessException
-     */
     void updateStatus(Integer appointmentId, Account account, String newStatus) throws InvalidStateException, EntityNotFoundException, InvalidAccessException;
 
-    /**
-     *
-     * @param patientId
-     * @return
-     * @throws EntityNotFoundException
-     */
     List<AppointmentDTO> findByPatient(Integer patientId) throws EntityNotFoundException;
 
-    /**
-     *
-     * @param patientId
-     * @param untilDate
-     * @return
-     * @throws EntityNotFoundException
-     */
     List<AppointmentDTO> findByPatientAndDateUntil(Integer patientId, LocalDate untilDate) throws EntityNotFoundException;
 
-    /**
-     *
-     * @param patientId
-     * @param toDate
-     * @return
-     * @throws EntityNotFoundException
-     */
     List<AppointmentDTO> findByPatientAndDateUpTo(Integer patientId, LocalDate toDate) throws EntityNotFoundException;
 
-    /**
-     *
-     * @param doctorId
-     * @return
-     * @throws EntityNotFoundException
-     */
     List<AppointmentDTO> findByDoctor(Integer doctorId) throws EntityNotFoundException;
 
-    /**
-     *
-     * @param doctorId
-     * @param localDate
-     * @return
-     * @throws EntityNotFoundException
-     */
     List<AppointmentDTO> findByDoctorAndDate(Integer doctorId, LocalDate localDate) throws EntityNotFoundException;
 
     List<LocalDateTime> findAvailableDates(Integer doctorId, MedicalService medicalService) throws EntityNotFoundException ;

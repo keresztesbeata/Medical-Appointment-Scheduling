@@ -10,7 +10,9 @@ import org.mockito.internal.matchers.Any;
 import org.mockito.junit.MockitoJUnitRunner;
 import src.dto.AppointmentDTO;
 import src.exceptions.EntityNotFoundException;
+import src.exceptions.InvalidAccessException;
 import src.exceptions.InvalidDataException;
+import src.exceptions.InvalidStateException;
 import src.mapper.AppointmentMapper;
 import src.model.Appointment;
 import src.model.AppointmentStatus;
@@ -22,6 +24,8 @@ import src.model.users.DoctorProfile;
 import src.model.users.PatientProfile;
 import src.repository.*;
 import src.service.impl.AppointmentServiceImpl;
+import src.service.impl.schedule.CompactSchedulingStrategy;
+import src.service.impl.schedule.SchedulingStrategy;
 import src.service.impl.schedule.SchedulingType;
 
 import java.time.LocalDate;
@@ -176,12 +180,90 @@ public class AppointmentServiceTest {
         Mockito.when(appointmentRepository.save(Mockito.any(Appointment.class)))
                 .thenAnswer(i -> i.getArguments()[0]);
 
+        Assertions.assertEquals(CompactSchedulingStrategy.class, appointmentService.getSchedulingStrategy().getClass());
         Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(AppointmentStatus.SCHEDULED.name(), appointmentService.schedule(appointmentId, appointmentDate).getStatus()));
     }
 
     @Test
     public void updateStatus() {
+        Specialty specialty = createSpecialty();
+        String medicalServiceName = "Facial treatment";
+        MedicalService medicalService = createMedicalService(medicalServiceName, specialty);
 
+        Mockito.when(medicalServiceRepository.findByName(medicalServiceName))
+                .thenReturn(Optional.of(medicalService));
+
+        Account doctorAccount = createAccount(AccountType.DOCTOR, "doctor", "doctor123P#", 1);
+
+        Mockito.when(accountRepository.findByUsername("doctor"))
+                .thenReturn(Optional.of(doctorAccount));
+        Mockito.when(accountRepository.findById(1))
+                .thenReturn(Optional.of(doctorAccount));
+
+        String doctorFirstName = "Peter";
+        String doctorLastName = "Parker";
+
+        DoctorProfile doctorProfile = createDoctorProfile(doctorAccount, specialty, doctorFirstName, doctorLastName);
+
+        Mockito.when(doctorRepository.findById(doctorProfile.getId()))
+                .thenReturn(Optional.of(doctorProfile));
+
+        Account patientAccount = createAccount(AccountType.PATIENT,"patient", "patient123P#", 2);
+
+        Mockito.when(accountRepository.findByUsername("patient"))
+                .thenReturn(Optional.of(doctorAccount));
+        Mockito.when(accountRepository.findById(2))
+                .thenReturn(Optional.of(doctorAccount));
+
+        String patientFirstName = "Mary";
+        String patientLastName = "Jane";
+        PatientProfile patientProfile = createPatientProfile(patientAccount, patientFirstName, patientLastName);
+
+        Mockito.when(patientRepository.findByFirstNameAndLastName(patientFirstName, patientLastName))
+                .thenReturn(Optional.of(patientProfile));
+        Mockito.when(patientRepository.findById(patientAccount.getId()))
+                .thenReturn(Optional.of(patientProfile));
+
+        Account receptionistAccount = createAccount(AccountType.RECEPTIONIST,"receptionist", "receptionist123P#", 3);
+
+        Mockito.when(accountRepository.findByUsername("receptionist"))
+                .thenReturn(Optional.of(receptionistAccount));
+        Mockito.when(accountRepository.findById(3))
+                .thenReturn(Optional.of(receptionistAccount));
+
+        int appointmentId = 1;
+        LocalDateTime appointmentDate = LocalDateTime.now().plusDays(10);
+
+        Appointment appointment = new Appointment();
+        appointment.setMedicalService(medicalService);
+        appointment.setDoctor(doctorProfile);
+        appointment.setPatient(patientProfile);
+        appointment.setId(appointmentId);
+        appointment.setStatus(AppointmentStatus.REQUESTED);
+
+        AppointmentDTO appointmentDTO = appointmentMapper.mapToDto(appointment);
+        appointmentDTO.setAppointmentDate(appointmentDate);
+
+        Mockito.when(appointmentRepository.findById(appointmentId))
+                .thenReturn(Optional.of(appointment));
+
+        appointment.setAppointmentDate(appointmentDate);
+
+        Mockito.when(appointmentRepository.save(Mockito.any(Appointment.class)))
+                .thenAnswer(i -> i.getArguments()[0]);
+
+        Assertions.assertThrows(InvalidAccessException.class, () -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.SCHEDULED.name()));
+        Assertions.assertThrows(InvalidStateException.class, () -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.CONFIRMED.name()));
+        Assertions.assertDoesNotThrow(() -> appointmentService.updateStatus(appointmentId, receptionistAccount, AppointmentStatus.SCHEDULED.name()));
+
+        Assertions.assertThrows(InvalidAccessException.class, () -> appointmentService.updateStatus(appointmentId, receptionistAccount, AppointmentStatus.CONFIRMED.name()));
+        Assertions.assertThrows(InvalidStateException.class, () -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.MISSED.name()));
+        Assertions.assertDoesNotThrow(() -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.CONFIRMED.name()));
+
+        Assertions.assertThrows(InvalidStateException.class, () -> appointmentService.updateStatus(appointmentId, receptionistAccount, AppointmentStatus.SCHEDULED.name()));
+        Assertions.assertThrows(InvalidAccessException.class, () -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.MISSED.name()));
+        Assertions.assertDoesNotThrow(() -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.CANCELED.name()));
+        Assertions.assertThrows(InvalidStateException.class, () -> appointmentService.updateStatus(appointmentId, receptionistAccount, AppointmentStatus.MISSED.name()));
     }
 
     @Test
@@ -215,12 +297,7 @@ public class AppointmentServiceTest {
 
         Mockito.when(appointmentRepository.findByDoctor(doctorProfile))
                 .thenReturn(existingAppointments);
-        try {
-            appointmentService.findAvailableDates(doctorAccount.getId(), medicalService)
-                    .forEach(System.out::println);
-        }catch(EntityNotFoundException e){
-            e.printStackTrace();
-        }
+
         Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(4, appointmentService.findAvailableDates(doctorAccount.getId(), medicalService).size()));
     }
 
