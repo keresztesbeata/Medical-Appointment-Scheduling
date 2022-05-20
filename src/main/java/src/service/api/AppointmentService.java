@@ -9,7 +9,6 @@ import src.exceptions.InvalidDataException;
 import src.exceptions.InvalidStateException;
 import src.model.MedicalService;
 import src.model.users.Account;
-import src.service.impl.schedule.SchedulingStrategy;
 import src.service.impl.schedule.SchedulingType;
 
 import java.time.LocalDate;

@@ -9,7 +9,6 @@ import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
 import src.mapper.DataMapper;
 import src.mapper.DoctorMapper;
-import src.model.users.Account;
 import src.model.users.DoctorProfile;
 import src.repository.AccountRepository;
 import src.repository.DoctorRepository;

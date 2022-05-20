@@ -1,6 +1,5 @@
 package src.mapper;
 
-import org.springframework.stereotype.Component;
 import src.dto.AccountDTO;
 import src.model.users.Account;
 import src.model.users.AccountType;

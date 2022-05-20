@@ -2,8 +2,8 @@ package src.model.appointment_states;
 
 import src.exceptions.InvalidAccessException;
 import src.exceptions.InvalidStateException;
-import src.model.Appointment;
 import src.model.AppointmentStatus;
+import src.model.Appointment;
 import src.model.users.AccountType;
 
 public class ConfirmedState extends AbstractAppointmentState {

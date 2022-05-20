@@ -18,7 +18,6 @@ import src.model.MedicalService;
 import src.model.appointment_states.AbstractAppointmentState;
 import src.model.appointment_states.AppointmentStateFactory;
 import src.model.users.Account;
-import src.model.users.AccountType;
 import src.model.users.DoctorProfile;
 import src.model.users.PatientProfile;
 import src.repository.*;
