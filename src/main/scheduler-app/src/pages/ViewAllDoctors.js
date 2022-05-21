@@ -47,6 +47,7 @@ class ViewAllDoctors extends React.Component {
     searchDoctorByName() {
         FindDoctorByName(this.state.doctorFirstName, this.state.doctorLastName)
             .then(data => {
+                console.log(data)
                 this.setState({
                     ...this.state,
                     doctors: data,
@@ -146,7 +147,7 @@ class ViewAllDoctors extends React.Component {
                             <ListGroup variant="flush" >
                                 {this.state.doctors.map(item =>
                                     <ListGroup.Item key={item.firstName+"_"+item.lastName} >
-                                        <Card key={"card_" + item.firstName+"_"+item.lastName} className="align-items-center justify-content-center" className="info-box">
+                                        <Card key={"card_" + item.firstName+"_"+item.lastName} className="align-items-center justify-content-center info-box">
                                             <Card.Title className="card-title">{item.firstName + " " + item.lastName}</Card.Title>
                                             <Card.Subtitle className="mb-2 text-muted">{item.specialty}</Card.Subtitle>
                                         </Card>

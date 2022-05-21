@@ -80,8 +80,8 @@ public class PatientProfileServiceImpl implements UserProfileService<PatientProf
 
     @Override
     public List<PatientProfileDTO> findByName(String firstName, String lastName) {
-        boolean firstNamePresent = firstName == null || firstName.isEmpty();
-        boolean lastNamePresent = lastName == null || lastName.isEmpty();
+        boolean firstNamePresent = firstName != null && !firstName.isEmpty();
+        boolean lastNamePresent = lastName != null && !lastName.isEmpty();
 
         if (firstNamePresent && lastNamePresent) {
             return dataRepository.findByFirstNameContainsAndLastNameContains(firstName, lastName)
