@@ -57,15 +57,18 @@ class ViewDoctorProfile extends React.Component {
                         <h3 className="card-title text-center">My profile</h3>
                         {
                             (this.state.notification.show) ?
-                                    <Card.Body>
-                                        <Notification show={this.state.notification.show} message={this.state.notification.message}
-                                                      type={this.state.notification.type}/>
+                                <Card.Body>
+                                    <Notification show={this.state.notification.show}
+                                                  message={this.state.notification.message}
+                                                  type={this.state.notification.type}/>
+                                    <div className="text-center">
                                         <Button variant="outline-info" id="doctor_setup_profile_btn">
                                             <Link to="/doctor/setup_profile" className="text-decoration-none">
                                                 Setup profile
                                             </Link>
                                         </Button>
-                                    </Card.Body>
+                                    </div>
+                                </Card.Body>
                                 :
                                 <Card.Body>
                                     <InputGroup className="mb-3">
@@ -88,13 +91,13 @@ class ViewDoctorProfile extends React.Component {
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text>Start time</InputGroup.Text>
                                         <FormControl type="text"
-                                                     value={this.state.profile.startTime.toString().replaceAll(',',':')}
+                                                     value={this.state.profile.startTime.toString().replaceAll(',', ':')}
                                                      disabled/>
                                     </InputGroup>
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text>Finish time</InputGroup.Text>
                                         <FormControl type="text"
-                                                     value={this.state.profile.finishTime.toString().replaceAll(',',':')}
+                                                     value={this.state.profile.finishTime.toString().replaceAll(',', ':')}
                                                      disabled/>
                                     </InputGroup>
                                 </Card.Body>

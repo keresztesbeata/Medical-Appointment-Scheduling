@@ -58,13 +58,16 @@ class ViewPatientProfile extends React.Component {
                         {
                             (this.state.notification.show) ?
                                 <Card.Body>
-                                    <Notification show={this.state.notification.show} message={this.state.notification.message}
+                                    <Notification show={this.state.notification.show}
+                                                  message={this.state.notification.message}
                                                   type={this.state.notification.type}/>
-                                    <Button variant="outline-info" id="patient_setup_profile_btn">
-                                        <Link to="/patient/setup_profile" className="text-decoration-none">
-                                            Setup profile
-                                        </Link>
-                                    </Button>
+                                    <div className="text-center">
+                                        <Button variant="outline-info" id="patient_setup_profile_btn">
+                                            <Link to="/patient/setup_profile" className="text-decoration-none">
+                                                Setup profile
+                                            </Link>
+                                        </Button>
+                                    </div>
                                 </Card.Body>
                                 :
                                 <Card.Body>

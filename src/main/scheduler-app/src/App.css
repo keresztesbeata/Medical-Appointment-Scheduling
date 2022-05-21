@@ -120,5 +120,13 @@
   border-radius: 5px;
 }
 
-
+.info-box{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  border-radius: 5px;
+  padding: 20px;
+  width: 320px;
+}
 

@@ -29,7 +29,7 @@ public class Appointment {
     @Column(nullable = false)
     private AppointmentStatus status;
 
-    @Column(nullable = false)
+    @Column
     private LocalDateTime appointmentDate;
 
     @ManyToOne

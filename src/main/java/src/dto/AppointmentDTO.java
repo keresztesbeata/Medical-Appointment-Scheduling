@@ -16,10 +16,8 @@ public class AppointmentDTO {
 
     private Integer id;
 
-    @NotBlank(message = "The first name of the patient cannot be missing!")
     private String patientFirstName;
 
-    @NotBlank(message = "The last name of the patient cannot be missing!")
     private String patientLastName;
 
     @NotBlank(message = "The first name of the doctor cannot be missing!")

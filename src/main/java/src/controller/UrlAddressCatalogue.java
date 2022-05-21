@@ -13,6 +13,7 @@ public class UrlAddressCatalogue {
     public static final String PATIENT_EXPORT_PRESCRIPTION = "/patient/print_prescription";
     public static final String PATIENT_VIEW_PROFILE = "/patient/view_profile";
     public static final String PATIENT_SETUP_PROFILE = "/patient/setup_profile";
+    public static final String PATIENT_ALL_APPOINTMENT_STATUSES = "/patient/appointment_statuses/all";
 
     public static final String RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY = "/receptionist/change_strategy";
     public static final String RECEPTIONIST_SCHEDULE_APPOINTMENT = "/receptionist/appointment/schedule";

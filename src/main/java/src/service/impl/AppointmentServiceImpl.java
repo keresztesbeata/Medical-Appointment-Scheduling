@@ -227,10 +227,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<DoctorProfileDTO> findDoctorsByMedicalService(String medicalServiceName) throws EntityNotFoundException {
+        if(medicalServiceName == null || medicalServiceName.isEmpty()) {
+            return doctorRepository.findAll()
+                    .stream()
+                    .map(doctor -> (new DoctorMapper()).mapToDto(doctor))
+                    .collect(Collectors.toList());
+        }
         MedicalService medicalService = medicalServiceRepository.findByName(medicalServiceName)
                 .orElseThrow(() -> new EntityNotFoundException(MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE));
 
-        return doctorRepository.findByMedicalService(medicalService)
+        return doctorRepository.findBySpecialty(medicalService.getSpecialty())
                 .stream()
                 .map(doctor -> (new DoctorMapper()).mapToDto(doctor))
                 .collect(Collectors.toList());

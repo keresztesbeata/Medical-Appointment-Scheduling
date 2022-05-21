@@ -16,7 +16,6 @@ import java.util.Set;
 public class PatientProfile {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(nullable = false, length = 200)

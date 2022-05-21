@@ -64,7 +64,6 @@ export function getAuthorizationPrefix(accountType){
 export function SetupUserProfile(profileData, accountType) {
     const prefix = getAuthorizationPrefix(accountType);
     const url = BASE_URL + prefix + PERFORM_SETUP_PROFILE;
-    console.log(profileData)
 
     return FetchRequest(url, POST_REQUEST, profileData)
         .then(response => {

@@ -16,7 +16,7 @@ class SetupPatientProfile extends React.Component {
                 lastName: "",
                 email: "",
                 phone: "",
-                birthdate: "",
+                birthdate: new Date(2000,1,1),
                 allergies: ""
             },
             notification: {

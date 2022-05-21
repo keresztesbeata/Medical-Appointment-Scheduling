@@ -8,11 +8,17 @@ import org.springframework.web.bind.annotation.*;
 import src.dto.AppointmentDTO;
 import src.dto.PatientProfileDTO;
 import src.exceptions.*;
+import src.model.AppointmentStatus;
 import src.model.users.Account;
 import src.service.impl.AppointmentServiceImpl;
 import src.service.impl.DoctorProfileServiceImpl;
 import src.service.impl.PatientProfileServiceImpl;
 import src.service.impl.PrescriptionServiceImpl;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import static src.controller.UrlAddressCatalogue.PATIENT_ALL_APPOINTMENT_STATUSES;
 
 @RestController
 @Log4j2
@@ -84,6 +90,11 @@ public class PatientRestController {
         } catch (InvalidDataException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
+    }
+
+    @GetMapping(UrlAddressCatalogue.PATIENT_ALL_APPOINTMENT_STATUSES)
+    public ResponseEntity getAllAppointmentStatuses() {
+        return ResponseEntity.ok().body(Arrays.stream(AppointmentStatus.values()).map(Enum::name).collect(Collectors.toList()));
     }
 
     @PostMapping(UrlAddressCatalogue.PATIENT_UPDATE_APPOINTMENT_STATE)
