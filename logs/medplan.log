@@ -17509,3 +17509,5 @@ org.springframework.security.core.userdetails.UsernameNotFoundException: Id is n
 2022-05-21 12:25:00.894  WARN 10436 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
 2022-05-21 12:53:19.936  INFO 10436 --- [http-nio-8080-exec-7] s.s.impl.PatientProfileServiceImpl       : saveProfile: The user Bea Baba's profile has been successfully updated!
 2022-05-21 12:53:33.819  INFO 10436 --- [http-nio-8080-exec-3] s.s.impl.PatientProfileServiceImpl       : saveProfile: The user Bea Baba's profile has been successfully updated!
+2022-05-21 12:56:59.430  INFO 10436 --- [http-nio-8080-exec-4] s.s.impl.PatientProfileServiceImpl       : saveProfile: The user Bea Baba's profile has been successfully updated!
+2022-05-21 12:57:18.462  INFO 10436 --- [http-nio-8080-exec-7] s.s.impl.PatientProfileServiceImpl       : saveProfile: The user Bea Baba's profile has been successfully updated!
