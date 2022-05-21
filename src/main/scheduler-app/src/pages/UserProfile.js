@@ -1,5 +1,9 @@
 import React from 'react'
 import {GetCurrentUser} from "../actions/UserActions";
+import PatientProfile from "./PatientProfile";
+import DoctorProfile from "./DoctorProfile";
+import {AUTH_DOCTOR, AUTH_PATIENT, ERROR} from "../actions/Utils";
+import Error from "./Error";
 import Notification from "../components/Notification";
 
 class Home extends React.Component {
@@ -8,7 +12,6 @@ class Home extends React.Component {
         this.state = {
             authority: -1,
             authenticated: false,
-            username: ""
         }
     }
 
@@ -16,7 +19,6 @@ class Home extends React.Component {
         GetCurrentUser()
             .then(currentUserData => {
                 this.setState({
-                    username: currentUserData.username,
                     authority: currentUserData.authority,
                     authenticated: true,
                 })
@@ -25,24 +27,23 @@ class Home extends React.Component {
                 this.state = {
                     authority: -1,
                     authenticated: false,
-                    username: ""
                 }
             });
     }
 
     render() {
-        return (
-            <div
-                className="background-container-home bg-image d-flex justify-content-center align-items-center">
-                <div className="transparent-background">
-                    {(this.state.authenticated) ?
-                        <h1 className="text-white">Welcome {this.state.username}!</h1>
-                        :
-                        <h1 className="text-white">Welcome stranger!</h1>
-                    }
-                </div>
-            </div>
-        )
+        if(!this.state.authenticated) {
+            return <Notification show={true} type={ERROR} message = {"No logged in user!"}/>
+        }
+        switch (this.state.authority) {
+            case AUTH_PATIENT:
+                return <PatientProfile/>
+            case AUTH_DOCTOR:
+                return <DoctorProfile/>
+            default:
+                return <div/>
+        }
     }
 }
+
 export default Home;

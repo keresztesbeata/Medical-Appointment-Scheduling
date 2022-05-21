@@ -36,3 +36,89 @@
     transform: rotate(360deg);
   }
 }
+
+
+.background-container-login {
+  /*background-image: url("./images/bg0.jpg");*/
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.background-container-register {
+  /*background-image: url("./images/bg11.jpg");*/
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.background-container-home {
+  /*background-image: url("./images/bg8.jpg");*/
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.background-container-menu {
+  /*background-image: url("./images/bg3.jpg");*/
+  height: 100vh;
+  background-repeat: repeat-y;
+  background-size: cover;
+}
+
+.background-container-order {
+  /*background-image: url("./images/bg1.jpg");*/
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.white-background {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.background-header-cart {
+  /*background-image: url("./images/bg2.jpg");*/
+  height: 300px;
+  width: 100vw;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.background-container-restaurant {
+  /*background-image: url("./images/bg9.jpg");*/
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.background-container-food {
+  /*background-image: url("./images/bg11.jpg");*/
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.transparent-background {
+  background-color: rgb(9, 9, 9);
+  opacity: .65;
+  padding: 50px;
+  border-radius: 5px;
+}
+
+.background-container-error {
+  background-color: white;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.error-background {
+  border-color: darkred;
+  padding: 50px;
+  border-radius: 5px;
+}
+
+
+

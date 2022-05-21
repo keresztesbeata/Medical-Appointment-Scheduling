@@ -32,6 +32,7 @@ public class PatientMapper implements DataMapper<PatientProfile, PatientProfileD
         patientProfile.setEmail(dto.getEmail());
         patientProfile.setPhone(dto.getPhone());
         patientProfile.setBirthDate(dto.getBirthdate());
+        patientProfile.setId(dto.getId());
 
         return patientProfile;
     }

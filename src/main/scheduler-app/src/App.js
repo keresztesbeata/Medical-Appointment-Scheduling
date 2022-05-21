@@ -7,27 +7,26 @@ import Register from "./pages/Register";
 import Logout from "./pages/Logout";
 import Header from "./components/Header";
 import Error from "./pages/Error";
-import './App.css';
-import Notification from "./components/Notification";
-import {SUCCESS} from "./actions/Utils";
+import UserProfile from "./pages/UserProfile";
 
 class App extends Component {
-  render() {
-    return (
-        <>
-          <Header/>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home/>}/>
-              <Route path="/login" element={<Login/>}/>
-              <Route path="/register" element={<Register/>}/>
-              <Route path="/logout" element={<Logout/>}/>
-              <Route path="/error" element={<Error/>}/>
-            </Routes>
-          </BrowserRouter>
-        </>
-    );
-  }
+    render() {
+        return (
+            <>
+                <Header/>
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/register" element={<Register/>}/>
+                        <Route path="/logout" element={<Logout/>}/>
+                        <Route path="/profile" element={<UserProfile/>}/>
+                        <Route path="/error" element={<Error/>}/>
+                    </Routes>
+                </BrowserRouter>
+            </>
+        );
+    }
 }
 
 export default App;

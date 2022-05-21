@@ -10,6 +10,7 @@ export const PERFORM_LOGOUT = "/perform_logout"
 export const PERFORM_SETUP_PROFILE = "/setup_profile"
 export const VIEW_PROFILE = "/view_profile"
 export const CURRENT_USER = "/current_user"
+export const CURRENT_USER_PROFILE = "/current_user_profile"
 
 export const ALL_SPECIALTIES = "/specialties/all"
 export const ALL_MEDICAL_SERVICES = "/medical_services/all"

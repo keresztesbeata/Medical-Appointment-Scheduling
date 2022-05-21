@@ -1,10 +1,10 @@
 import React from 'react'
 import {Button, FormControl, FormGroup, FormLabel, FormSelect, InputGroup} from 'react-bootstrap'
-import {ERROR, INFO, SUCCESS} from "../actions/Utils";
+import {AUTH_DOCTOR, ERROR, INFO, SUCCESS, WARNING} from "../actions/Utils";
 import Notification from "../components/Notification";
-import {LoadSpecialties, SetupUserProfile} from "../actions/UserActions";
+import {GetCurrentUserProfile, LoadSpecialties, SetupUserProfile} from "../actions/UserActions";
 
-class SetupDoctorProfile extends React.Component {
+class DoctorProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -40,8 +40,26 @@ class SetupDoctorProfile extends React.Component {
                 this.setState({
                     notification: {
                         show: true,
-                        message: "Set up your profile to complete the registration process!",
-                        type: INFO,
+                        message: error.message,
+                        type: ERROR,
+                    }
+                });
+            });
+        GetCurrentUserProfile()
+            .then(currentUserData => {
+                this.setState({
+                    patientProfile: currentUserData,
+                    notification: {
+                        show: false
+                    }
+                })
+            })
+            .catch(error => {
+                this.setState({
+                    notification: {
+                        show: true,
+                        message: error.message,
+                        type: WARNING
                     }
                 });
             });
@@ -53,7 +71,7 @@ class SetupDoctorProfile extends React.Component {
         const target = event.target;
         this.setState({
             ...this.state,
-            doctorProfile:{
+            doctorProfile: {
                 ...this.state,
                 [target.name]: target.value
             },
@@ -96,7 +114,7 @@ class SetupDoctorProfile extends React.Component {
     handleSubmit(event) {
         // prevent page from reloading
         event.preventDefault();
-        SetupUserProfile(this.state.doctorProfile, "DOCTOR")
+        SetupUserProfile(this.state.doctorProfile, AUTH_DOCTOR)
             .then(() => {
                 this.setState({
                     notification: {
@@ -121,16 +139,15 @@ class SetupDoctorProfile extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.props.handleSubmit} className="card-body" id="doctor-profile-form">
+            <form onSubmit={this.handleSubmit} className="card-body" id="doctor-profile-form">
                 <h3 className="card-title">Setup doctor profile</h3>
-                <Notification show={this.props.notification.show} message={this.props.notification.message}
-                              type={this.props.notification.type}/>
-                <FormGroup className="mb-3" controlId="formBasicText">
+                <Notification show={this.state.notification.show} message = {this.state.notification.message} type={this.state.notification.type}/>
+                <FormGroup className="mb-3">
                     <FormLabel>First name</FormLabel>
                     <FormControl type="text" required placeholder="Enter first name" name="firstName"
                                  onChange={this.handleInputChange}/>
                 </FormGroup>
-                <FormGroup className="mb-3" controlId="formBasicPassword">
+                <FormGroup className="mb-3">
                     <FormLabel>Last name</FormLabel>
                     <FormControl type="password" required placeholder="Enter last name" name="lastName"
                                  onChange={this.handleInputChange}/>
@@ -165,4 +182,4 @@ class SetupDoctorProfile extends React.Component {
     }
 }
 
-export default SetupDoctorProfile;
+export default DoctorProfile;

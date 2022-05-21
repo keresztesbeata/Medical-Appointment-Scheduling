@@ -24,7 +24,7 @@ class Header extends React.Component {
             .catch(e => {
                 this.state = {
                     authenticated: false,
-                    authority: null
+                    authority: -1
                 }
             });
     }
@@ -64,7 +64,7 @@ class Header extends React.Component {
         return (<div>
             <Navbar bg="dark" variant="dark">
                 <Container>
-                    {/*<img src={require("../images/logo.jpg")} alt="Medical Appointment Scheduling icon" width="5%"/>*/}
+                    <img src={require("../images/logo.jpg")} alt="Medical Appointment Scheduling icon" width="5%"/>
                     <Navbar.Brand href="/">MedPlan</Navbar.Brand>
                     {
                         (this.state.authenticated) ?

@@ -12,9 +12,9 @@ export const SESSION_TOKEN = 'sessionToken'
 export const POST_REQUEST = "POST"
 export const GET_REQUEST = "GET"
 
-export const AUTH_PATIENT = 0;
-export const AUTH_RECEPTIONIST = 1;
-export const AUTH_DOCTOR = 2;
+export const AUTH_PATIENT = "PATIENT";
+export const AUTH_RECEPTIONIST = "RECEPTIONIST";
+export const AUTH_DOCTOR = "DOCTOR";
 
 function GetSessionToken() {
     let sessionToken = JSON.parse(localStorage.getItem(SESSION_TOKEN));
@@ -54,6 +54,7 @@ export function FetchRequest(url, method, body = null, authorized = true, return
     return fetch(url, requestOptions)
         .then(response => HandleErrorResponse(response, 401, "Unauthorized access! You must authenticate yourself before accessing this resource!"))
         .then(response => HandleErrorResponse(response, 403, "Forbidden! You cannot view the content of this page! You do not have the corresponding privileges."))
+        .then(response => HandleErrorResponse(response, 204, "No content! There is no such content associated to your account!"))
         .then(response => {
             if (!response.ok && response.status !== 201) {
                 return response

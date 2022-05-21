@@ -41,8 +41,11 @@ public class PatientProfileServiceImpl implements UserProfileService<PatientProf
 
         validator.validate(userProfileDTO);
 
-        if (dataRepository.findByEmail(userProfileDTO.getEmail()).isPresent()) {
-            throw new DuplicateDataException(DUPLICATE_EMAIL_ERR_MSG);
+        if(dataRepository.findById(id).isEmpty()) {
+            // set up a new user profile and check for duplicate emails
+            if (dataRepository.findByEmail(userProfileDTO.getEmail()).isPresent()) {
+                throw new DuplicateDataException(DUPLICATE_EMAIL_ERR_MSG);
+            }
         }
 
         PatientProfile patientProfile = dataMapper.mapToEntity(userProfileDTO);

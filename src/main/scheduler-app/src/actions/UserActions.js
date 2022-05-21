@@ -1,4 +1,5 @@
 import {
+    AUTH_PATIENT,
     BASE_URL,
     FetchRequest,
     FetchRequestWithNoReturnData,
@@ -7,7 +8,7 @@ import {
     SESSION_TOKEN
 } from "./Utils";
 import {
-    CURRENT_USER, DOCTOR_PREFIX, PATIENT_PREFIX,
+    CURRENT_USER, CURRENT_USER_PROFILE, DOCTOR_PREFIX, PATIENT_PREFIX,
     PERFORM_LOGIN,
     PERFORM_LOGOUT,
     PERFORM_REGISTER,
@@ -57,9 +58,9 @@ export function LoadSpecialties() {
 }
 
 export function SetupUserProfile(profileData, accountType) {
-    const url = BASE_URL + ((accountType === "PATIENT") ? PATIENT_PREFIX : DOCTOR_PREFIX) + PERFORM_SETUP_PROFILE
+    const url = BASE_URL + ((accountType === AUTH_PATIENT) ? PATIENT_PREFIX : DOCTOR_PREFIX) + PERFORM_SETUP_PROFILE
 
-    return FetchRequestWithNoReturnData(url, POST_REQUEST, profileData);
+    return FetchRequest(url, POST_REQUEST, profileData);
 }
 
 export function LogoutUser() {
@@ -83,4 +84,10 @@ export function GetCurrentUser() {
                 }
             }
         );
+}
+
+export function GetCurrentUserProfile() {
+    const url = BASE_URL + CURRENT_USER_PROFILE;
+
+    return FetchRequest(url, GET_REQUEST);
 }

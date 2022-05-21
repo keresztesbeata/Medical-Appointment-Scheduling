@@ -34,6 +34,7 @@ public class UrlAddressCatalogue {
     public static final String DOCTOR_GET_ALL_SPECIALTIES = "/doctor/specialties/all";
 
     public static final String CURRENT_USER = "/current_user";
+    public static final String CURRENT_USER_PROFILE = "/current_user_profile";
     public static final String PERFORM_LOGIN = "/perform_login";
     public static final String PERFORM_LOGOUT = "/perform_logout";
     public static final String PERFORM_REGISTER = "/perform_register";

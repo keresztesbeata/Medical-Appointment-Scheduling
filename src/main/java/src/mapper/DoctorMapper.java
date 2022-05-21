@@ -28,6 +28,7 @@ public class DoctorMapper implements DataMapper<DoctorProfile, DoctorProfileDTO>
         doctorProfile.setLastName(dto.getLastName());
         doctorProfile.setStartTime(dto.getStartTime());
         doctorProfile.setFinishTime(dto.getFinishTime());
+        doctorProfile.setId(dto.getId());
 
         return doctorProfile;
     }
