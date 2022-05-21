@@ -1,5 +1,6 @@
 import {
-    AUTH_PATIENT,
+    AUTH_DOCTOR,
+    AUTH_PATIENT, AUTH_RECEPTIONIST,
     BASE_URL,
     FetchRequest,
     FetchRequestWithNoReturnData,
@@ -8,11 +9,12 @@ import {
     SESSION_TOKEN
 } from "./Utils";
 import {
+    ALL_SPECIALTIES,
     CURRENT_USER, CURRENT_USER_PROFILE, DOCTOR_PREFIX, PATIENT_PREFIX,
     PERFORM_LOGIN,
     PERFORM_LOGOUT,
     PERFORM_REGISTER,
-    PERFORM_SETUP_PROFILE, VIEW_PROFILE
+    PERFORM_SETUP_PROFILE, RECEPTIONIST_PREFIX, VIEW_PROFILE
 } from "./ServerUrlCollection";
 
 export function LoginUser(username, password) {
@@ -51,20 +53,27 @@ export function LoadUserProfile(accountType) {
     return FetchRequest(url, GET_REQUEST);
 }
 
-export function LoadSpecialties() {
-    const url = BASE_URL + VIEW_PROFILE
-
-    return FetchRequest(url, GET_REQUEST);
+export function getAuthorizationPrefix(accountType){
+    switch(accountType) {
+        case AUTH_PATIENT: return PATIENT_PREFIX;
+        case AUTH_DOCTOR: return DOCTOR_PREFIX;
+        case AUTH_RECEPTIONIST: return RECEPTIONIST_PREFIX;
+    }
 }
 
 export function SetupUserProfile(profileData, accountType) {
-    const url = BASE_URL + ((accountType === AUTH_PATIENT) ? PATIENT_PREFIX : DOCTOR_PREFIX) + PERFORM_SETUP_PROFILE
+    const prefix = getAuthorizationPrefix(accountType);
+    const url = BASE_URL + prefix + PERFORM_SETUP_PROFILE;
+    console.log(profileData)
 
-    return FetchRequest(url, POST_REQUEST, profileData);
+    return FetchRequest(url, POST_REQUEST, profileData)
+        .then(response => {
+            window.location.href = prefix + "/view_profile"
+        });
 }
 
 export function LogoutUser() {
-    const url = BASE_URL + PERFORM_LOGOUT
+    const url = BASE_URL + PERFORM_LOGOUT;
 
     return FetchRequestWithNoReturnData(url, POST_REQUEST)
         .then(() => {
@@ -80,7 +89,8 @@ export function GetCurrentUser() {
                 return {
                     id: currentUserData.id,
                     username: currentUserData.username,
-                    authority: currentUserData.accountType
+                    authority: currentUserData.accountType,
+                    hasProfile: currentUserData.hasProfile,
                 }
             }
         );
@@ -88,6 +98,12 @@ export function GetCurrentUser() {
 
 export function GetCurrentUserProfile() {
     const url = BASE_URL + CURRENT_USER_PROFILE;
+
+    return FetchRequest(url, GET_REQUEST);
+}
+
+export function LoadSpecialties() {
+    const url = BASE_URL + DOCTOR_PREFIX + ALL_SPECIALTIES
 
     return FetchRequest(url, GET_REQUEST);
 }

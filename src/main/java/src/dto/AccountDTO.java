@@ -26,5 +26,7 @@ public class AccountDTO {
     @NotBlank(message = "The account type should not be missing!")
     private String accountType;
 
+    private Boolean hasProfile;
+
     private Integer id;
 }

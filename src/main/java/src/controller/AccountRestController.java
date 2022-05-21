@@ -54,10 +54,18 @@ public class AccountRestController {
     private static final String PROFILE_NOT_SET_ERROR_MESSAGE = "Your profile has not yet been set up! You should start by setting up your profile first!";
 
     @GetMapping(value = UrlAddressCatalogue.CURRENT_USER)
+    @ResponseBody
     public ResponseEntity getLoggedInUser() {
         try {
             AccountMapper accountMapper = new AccountMapper();
-            return ResponseEntity.ok().body(accountMapper.mapToDto(Utils.getCurrentUserAccount()));
+            Account account = Utils.getCurrentUserAccount();
+            AccountDTO accountDTO = accountMapper.mapToDto(account);
+            switch (account.getAccountType()) {
+                case PATIENT -> accountDTO.setHasProfile(patientProfileService.findById(account.getId()).isPresent());
+                case DOCTOR -> accountDTO.setHasProfile(doctorProfileService.findById(account.getId()).isPresent());
+                case RECEPTIONIST -> accountDTO.setHasProfile(false);
+            }
+            return ResponseEntity.ok().body(accountDTO);
         } catch (EntityNotFoundException e) {
             log.warn("getLoggedInUser: {} ", e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
@@ -65,18 +73,23 @@ public class AccountRestController {
     }
 
     @GetMapping(value = UrlAddressCatalogue.CURRENT_USER_PROFILE)
+    @ResponseBody
     public ResponseEntity getLoggedInUserProfile() {
         try {
             Account account = Utils.getCurrentUserAccount();
             if(account.getAccountType().equals(AccountType.DOCTOR)) {
                 DoctorProfileDTO doctorProfile = doctorProfileService.findById(account.getId())
                         .orElseThrow(() -> new EntityNotFoundException(PROFILE_NOT_SET_ERROR_MESSAGE));
+
                 return ResponseEntity.ok().body(doctorProfile);
-            }else if(account.getAccountType().equals(AccountType.PATIENT)){
+            }
+            else if(account.getAccountType().equals(AccountType.PATIENT)){
                 PatientProfileDTO patientProfile = patientProfileService.findById(account.getId())
                         .orElseThrow(() -> new EntityNotFoundException(PROFILE_NOT_SET_ERROR_MESSAGE));
+
                 return ResponseEntity.ok().body(patientProfile);
             }
+
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (EntityNotFoundException e) {
             log.warn("getLoggedInUserProfile: {} ", e.getMessage());

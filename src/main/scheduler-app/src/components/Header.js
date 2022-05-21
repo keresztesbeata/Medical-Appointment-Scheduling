@@ -34,10 +34,11 @@ class Header extends React.Component {
             case AUTH_PATIENT:
                 return [
                     <NavDropdown title="Appointments" key={1}>
-                        <NavDropdown.Item href="/patientProfile/view_appointments" key={2}>My appointments</NavDropdown.Item>
-                        <NavDropdown.Item href="/patientProfile/new_appointment" key={3}>New appointment</NavDropdown.Item>
+                        <NavDropdown.Item href="/patient/view_appointments" key={2}>My appointments</NavDropdown.Item>
+                        <NavDropdown.Item href="/patient/new_appointment" key={3}>New appointment</NavDropdown.Item>
                     </NavDropdown>,
-                    <Nav.Link href="/patientProfile/prescriptions" key={4}>My prescriptions</Nav.Link>,
+                    <Nav.Link href="/patient/prescriptions" key={4}>My prescriptions</Nav.Link>,
+                    <Nav.Link href="/patient/view_profile" key={5}>My profile</Nav.Link>
                 ];
             case AUTH_RECEPTIONIST:
                 return [
@@ -54,6 +55,7 @@ class Header extends React.Component {
                     <Nav.Link href="/doctor/view_appointments" key={1}>View appointments</Nav.Link>,
                     <Nav.Link href="/doctor/view_patients" key={2}>View patients</Nav.Link>,
                     <Nav.Link href="/doctor/new_prescription" key={3}>New prescription</Nav.Link>,
+                    <Nav.Link href="/doctor/view_profile" key={4}>My profile</Nav.Link>
                 ];
             default:
                 return [];
@@ -70,7 +72,6 @@ class Header extends React.Component {
                         (this.state.authenticated) ?
                             <Nav className="me-auto">
                                 {this.getLinksBasedOnAuthority(this.state.authority)}
-                                <Nav.Link href="/profile">My profile</Nav.Link>
                                 <Nav.Link href="/logout">Logout</Nav.Link>
                             </Nav>
                             :

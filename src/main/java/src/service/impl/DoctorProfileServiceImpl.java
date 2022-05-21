@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 @Log4j2
 public class DoctorProfileServiceImpl implements UserProfileService<DoctorProfileDTO> {
     private static final String USER_NOT_FOUND_ERR_MSG = "No user account was found by the given id!";
+    private static final String SPECIALTY_NOT_FOUND_ERR_MSG = "No such specialty!";
+    private static final String DUPLICATE_NAME_ERR_MSG = "Duplicate name!";
 
     private DataMapper<DoctorProfile, DoctorProfileDTO> dataMapper = new DoctorMapper();
     private DataValidator<DoctorProfileDTO> validator = new DataValidator<>();
@@ -43,7 +45,16 @@ public class DoctorProfileServiceImpl implements UserProfileService<DoctorProfil
 
         validator.validate(userProfileDTO);
 
+        if(dataRepository.findById(id).isEmpty()) {
+            if (dataRepository.findByFirstNameAndLastName(userProfileDTO.getFirstName(), userProfileDTO.getLastName()).isPresent()) {
+                throw new DuplicateDataException(DUPLICATE_NAME_ERR_MSG);
+            }
+        }
         DoctorProfile doctorProfile = dataMapper.mapToEntity(userProfileDTO);
+
+        Specialty specialty = specialtyRepository.findByName(userProfileDTO.getSpecialty())
+                        .orElseThrow(() -> new EntityNotFoundException(SPECIALTY_NOT_FOUND_ERR_MSG));
+        doctorProfile.setSpecialty(specialty);
         doctorProfile.setId(id);
 
         dataRepository.save(doctorProfile);

@@ -30,7 +30,7 @@ public class UrlAddressCatalogue {
     public static final String DOCTOR_GET_PATIENTS_PRESCRIPTIONS = "/doctor/patient_prescriptions";
     public static final String DOCTOR_CREATE_PRESCRIPTION = "/doctor/prescription/new";
     public static final String DOCTOR_VIEW_PROFILE = "/doctor/view_profile";
-    public static final String DOCTOR_SETUP_PROFILE = "/doctor/setup_update";
+    public static final String DOCTOR_SETUP_PROFILE = "/doctor/setup_profile";
     public static final String DOCTOR_GET_ALL_SPECIALTIES = "/doctor/specialties/all";
 
     public static final String CURRENT_USER = "/current_user";

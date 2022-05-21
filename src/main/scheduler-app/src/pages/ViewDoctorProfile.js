@@ -1,22 +1,21 @@
 import React from 'react'
-import {Button, Card, FormControl, FormGroup, FormLabel, InputGroup} from 'react-bootstrap'
+import {Button, Card, FormControl, InputGroup} from 'react-bootstrap'
 import "react-datepicker/dist/react-datepicker.css";
 import {GetCurrentUserProfile} from "../actions/UserActions";
 import {ERROR, WARNING} from "../actions/Utils";
 import Notification from "../components/Notification";
 import {Link} from "react-router-dom";
 
-class ViewPatientProfile extends React.Component {
+class ViewDoctorProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             profile: {
                 firstName: "",
                 lastName: "",
-                email: "",
-                phone: "",
-                birthdate: "",
-                allergies: ""
+                specialty: "",
+                startTime: "",
+                finishTime: ""
             },
             notification: {
                 show: false,
@@ -38,8 +37,9 @@ class ViewPatientProfile extends React.Component {
                 })
             })
             .catch(error => {
+                console.log(error)
                 this.setState({
-                    profile: null,
+                    ...this.state,
                     notification: {
                         show: true,
                         message: error.message,
@@ -57,15 +57,15 @@ class ViewPatientProfile extends React.Component {
                         <h3 className="card-title text-center">My profile</h3>
                         {
                             (this.state.notification.show) ?
-                                <Card.Body>
-                                    <Notification show={this.state.notification.show} message={this.state.notification.message}
-                                                  type={this.state.notification.type}/>
-                                    <Button variant="outline-info" id="patient_setup_profile_btn">
-                                        <Link to="/patient/setup_profile" className="text-decoration-none">
-                                            Setup profile
-                                        </Link>
-                                    </Button>
-                                </Card.Body>
+                                    <Card.Body>
+                                        <Notification show={this.state.notification.show} message={this.state.notification.message}
+                                                      type={this.state.notification.type}/>
+                                        <Button variant="outline-info" id="doctor_setup_profile_btn">
+                                            <Link to="/doctor/setup_profile" className="text-decoration-none">
+                                                Setup profile
+                                            </Link>
+                                        </Button>
+                                    </Card.Body>
                                 :
                                 <Card.Body>
                                     <InputGroup className="mb-3">
@@ -80,27 +80,21 @@ class ViewPatientProfile extends React.Component {
                                                      disabled/>
                                     </InputGroup>
                                     <InputGroup className="mb-3">
-                                        <InputGroup.Text>Email</InputGroup.Text>
+                                        <InputGroup.Text>Specialty</InputGroup.Text>
                                         <FormControl type="text"
-                                                     value={this.state.profile.email}
+                                                     value={this.state.profile.specialty}
                                                      disabled/>
                                     </InputGroup>
                                     <InputGroup className="mb-3">
-                                        <InputGroup.Text>Phone</InputGroup.Text>
+                                        <InputGroup.Text>Start time</InputGroup.Text>
                                         <FormControl type="text"
-                                                     value={this.state.profile.phone}
+                                                     value={this.state.profile.startTime.toString().replaceAll(',',':')}
                                                      disabled/>
                                     </InputGroup>
                                     <InputGroup className="mb-3">
-                                        <InputGroup.Text>Birthdate</InputGroup.Text>
+                                        <InputGroup.Text>Finish time</InputGroup.Text>
                                         <FormControl type="text"
-                                                     value={new Date(this.state.profile.birthdate).toLocaleDateString()}
-                                                     disabled/>
-                                    </InputGroup>
-                                    <InputGroup className="mb-3">
-                                        <InputGroup.Text>Allergies</InputGroup.Text>
-                                        <FormControl type="text"
-                                                     value={this.state.profile.allergies}
+                                                     value={this.state.profile.finishTime.toString().replaceAll(',',':')}
                                                      disabled/>
                                     </InputGroup>
                                 </Card.Body>
@@ -112,4 +106,4 @@ class ViewPatientProfile extends React.Component {
     }
 }
 
-export default ViewPatientProfile;
+export default ViewDoctorProfile;

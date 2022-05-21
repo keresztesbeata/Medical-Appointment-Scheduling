@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 public class PatientProfileServiceImpl implements UserProfileService<PatientProfileDTO> {
     private static final String USER_NOT_FOUND_ERR_MSG = "No user account was found by the given id!";
     private static final String DUPLICATE_EMAIL_ERR_MSG = "Duplicate email!";
+    private static final String DUPLICATE_PHONE_NUMBER_ERR_MSG = "Duplicate phone number!";
+    private static final String DUPLICATE_NAME_ERR_MSG = "Duplicate name!";
 
     private DataMapper<PatientProfile, PatientProfileDTO> dataMapper = new PatientMapper();
     private DataValidator<PatientProfileDTO> validator = new DataValidator<>();
@@ -45,6 +47,12 @@ public class PatientProfileServiceImpl implements UserProfileService<PatientProf
             // set up a new user profile and check for duplicate emails
             if (dataRepository.findByEmail(userProfileDTO.getEmail()).isPresent()) {
                 throw new DuplicateDataException(DUPLICATE_EMAIL_ERR_MSG);
+            }
+            if(dataRepository.findByPhone(userProfileDTO.getPhone()).isPresent()) {
+                throw new DuplicateDataException(DUPLICATE_PHONE_NUMBER_ERR_MSG);
+            }
+            if(dataRepository.findByFirstNameAndLastName(userProfileDTO.getFirstName(), userProfileDTO.getLastName()).isPresent()) {
+                throw new DuplicateDataException(DUPLICATE_NAME_ERR_MSG);
             }
         }
 

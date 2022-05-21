@@ -7,7 +7,10 @@ import Register from "./pages/Register";
 import Logout from "./pages/Logout";
 import Header from "./components/Header";
 import Error from "./pages/Error";
-import UserProfile from "./pages/UserProfile";
+import ViewPatientProfile from "./pages/ViewPatientProfile";
+import ViewDoctorProfile from "./pages/ViewDoctorProfile";
+import SetupPatientProfile from "./pages/SetupPatientProfile";
+import SetupDoctorProfile from "./pages/SetupDoctorProfile";
 
 class App extends Component {
     render() {
@@ -20,7 +23,10 @@ class App extends Component {
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/register" element={<Register/>}/>
                         <Route path="/logout" element={<Logout/>}/>
-                        <Route path="/profile" element={<UserProfile/>}/>
+                        <Route path="/patient/view_profile" element={<ViewPatientProfile/>}/>
+                        <Route path="/patient/setup_profile" element={<SetupPatientProfile/>}/>
+                        <Route path="/doctor/view_profile" element={<ViewDoctorProfile/>}/>
+                        <Route path="/doctor/setup_profile" element={<SetupDoctorProfile/>}/>
                         <Route path="/error" element={<Error/>}/>
                     </Routes>
                 </BrowserRouter>

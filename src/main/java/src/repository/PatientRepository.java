@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface PatientRepository extends JpaRepository<PatientProfile, Integer> {
     Optional<PatientProfile> findByEmail(String email);
 
+    Optional<PatientProfile> findByPhone(String phone);
+
     List<PatientProfile> findByLastNameContains(String lastName);
 
     List<PatientProfile> findByFirstNameContains(String lastName);

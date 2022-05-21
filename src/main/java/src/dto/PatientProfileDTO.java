@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Component
 @ToString
 public class PatientProfileDTO {
-    private Integer id;
 
     @NotBlank(message = "First name should not be empty!")
     @Length(min = 3)

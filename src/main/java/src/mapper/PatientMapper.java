@@ -11,7 +11,6 @@ public class PatientMapper implements DataMapper<PatientProfile, PatientProfileD
     public PatientProfileDTO mapToDto(PatientProfile entity) {
         PatientProfileDTO dto = new PatientProfileDTO();
 
-        dto.setId(entity.getId());
         dto.setFirstName(entity.getFirstName());
         dto.setLastName(entity.getLastName());
         dto.setPhone(entity.getPhone());
@@ -32,7 +31,6 @@ public class PatientMapper implements DataMapper<PatientProfile, PatientProfileD
         patientProfile.setEmail(dto.getEmail());
         patientProfile.setPhone(dto.getPhone());
         patientProfile.setBirthDate(dto.getBirthdate());
-        patientProfile.setId(dto.getId());
 
         return patientProfile;
     }

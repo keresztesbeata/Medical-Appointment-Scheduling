@@ -1,24 +1,21 @@
 import React from 'react'
-import {Button, FormControl, FormGroup, FormLabel} from 'react-bootstrap'
-import {AUTH_PATIENT, ERROR, SUCCESS, WARNING} from "../actions/Utils";
+import {Button, FormControl, FormGroup, FormLabel, FormSelect, InputGroup} from 'react-bootstrap'
+import {AUTH_DOCTOR, ERROR, INFO, SUCCESS, WARNING} from "../actions/Utils";
 import Notification from "../components/Notification";
-import {GetCurrentUser, GetCurrentUserProfile, SetupUserProfile} from "../actions/UserActions";
-import DatePicker from 'react-datepicker'
-import { format } from "date-fns";
-import "react-datepicker/dist/react-datepicker.css";
+import {GetCurrentUserProfile, LoadSpecialties, SetupUserProfile} from "../actions/UserActions";
 
-class PatientProfile extends React.Component {
+class SetupDoctorProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            patientProfile: {
+            doctorProfile: {
                 firstName: "",
                 lastName: "",
-                email: "",
-                phone: "",
-                birthdate: "",
-                allergies: ""
+                specialty: "",
+                startTime: new Date().toLocaleTimeString('it-IT'),
+                finishTime: new Date().toLocaleTimeString('it-IT'),
             },
+            specialties: [],
             notification: {
                 show: false,
                 message: "",
@@ -28,14 +25,31 @@ class PatientProfile extends React.Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDateChange = this.handleDateChange.bind(this);
     }
 
     componentDidMount() {
+        LoadSpecialties()
+            .then(data => {
+                this.setState({
+                    ...this.state,
+                    specialties: data,
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    notification: {
+                        show: true,
+                        message: error.message,
+                        type: ERROR,
+                    }
+                });
+            });
+
         GetCurrentUserProfile()
             .then(currentUserData => {
+                console.log(currentUserData)
                 this.setState({
-                    patientProfile: currentUserData,
+                    doctorProfile: currentUserData,
                     notification: {
                         show: false
                     }
@@ -57,22 +71,10 @@ class PatientProfile extends React.Component {
         event.preventDefault();
         const target = event.target;
         this.setState({
-            patientProfile: {
-                ...this.state.patientProfile,
-                [target.name]: target.value,
-            },
-            notification: {
-                show: false
-            }
-        });
-    }
-
-    handleDateChange(newDate) {
-        const formattedDate = format(newDate, "yyyy-MM-dd");
-        this.setState({
-            patientProfile: {
-                ...this.state.patientProfile,
-                birthdate: formattedDate
+            ...this.state,
+            doctorProfile: {
+                ...this.state.doctorProfile,
+                [target.name]: target.value
             },
             notification: {
                 show: false
@@ -83,7 +85,7 @@ class PatientProfile extends React.Component {
     handleSubmit(event) {
         // prevent page from reloading
         event.preventDefault();
-        SetupUserProfile(this.state.patientProfile, AUTH_PATIENT)
+        SetupUserProfile(this.state.doctorProfile, AUTH_DOCTOR)
             .then(() => {
                 this.setState({
                     notification: {
@@ -94,6 +96,7 @@ class PatientProfile extends React.Component {
                 });
             })
             .catch(error => {
+                console.log(error)
                 this.setState({
                     notification: {
                         show: true,
@@ -108,45 +111,44 @@ class PatientProfile extends React.Component {
         return (
             <div className="background-container-register bg-image d-flex justify-content-center align-items-center">
                 <div className="card col-sm-6 border-dark text-left">
-                    <form onSubmit={this.handleSubmit} className="card-body" id="patient-profile-form">
-                        <h3 className="card-title">Patient profile details</h3>
+                    <form onSubmit={this.handleSubmit} className="card-body" id="doctor-profile-form">
+                        <h3 className="card-title">Doctor profile details</h3>
                         <Notification show={this.state.notification.show} message={this.state.notification.message}
                                       type={this.state.notification.type}/>
                         <FormGroup className="mb-3">
                             <FormLabel>First name</FormLabel>
                             <FormControl type="text" required placeholder="Enter first name" name="firstName"
-                                         defaultValue={this.state.patientProfile.firstName}
+                                         defaultValue={this.state.doctorProfile.firstName}
                                          onChange={this.handleInputChange}/>
                         </FormGroup>
                         <FormGroup className="mb-3">
                             <FormLabel>Last name</FormLabel>
                             <FormControl type="text" required placeholder="Enter last name" name="lastName"
-                                         defaultValue={this.state.patientProfile.lastName}
+                                         defaultValue={this.state.doctorProfile.lastName}
                                          onChange={this.handleInputChange}/>
                         </FormGroup>
                         <FormGroup className="mb-3">
-                            <FormLabel>Email</FormLabel>
-                            <FormControl type="text" required placeholder="Enter email" name="email"
-                                         defaultValue={this.state.patientProfile.email}
+                            <FormLabel>Specialty</FormLabel>
+                            <FormSelect name="specialty" onChange={this.handleInputChange} required
+                                defaultValue={this.state.doctorProfile.specialty}>
+                                <option value="" key={-1}>Select specialty ...</option>
+                                {
+                                    this.state.specialties.map(specialty =>
+                                        <option value={specialty} key={specialty}>{specialty}</option>
+                                    )
+                                }
+                            </FormSelect>
+                        </FormGroup>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text>Start time</InputGroup.Text>
+                            <FormControl type="text" placeholder="Start time" name="startTime"
+                                         defaultValue={this.state.doctorProfile.startTime}
                                          onChange={this.handleInputChange}/>
-                        </FormGroup>
-                        <FormGroup className="mb-3">
-                            <FormLabel>Phone</FormLabel>
-                            <FormControl type="text" required placeholder="Enter last name" name="phone"
-                                         defaultValue={this.state.patientProfile.phone}
+                            <InputGroup.Text>Finish time</InputGroup.Text>
+                            <FormControl type="text" placeholder="Finish time" name="finishTime"
+                                         defaultValue={this.state.doctorProfile.finishTime}
                                          onChange={this.handleInputChange}/>
-                        </FormGroup>
-                        <FormGroup className="mb-3">
-                            <FormLabel>Birthdate</FormLabel>
-                            <DatePicker name="birthdate" format="yyyy-MM-dd"
-                                        value={this.state.patientProfile.birthdate} onChange={this.handleDateChange} />
-                        </FormGroup>
-                        <FormGroup className="mb-3">
-                            <FormLabel>Allergies</FormLabel>
-                            <FormControl type="text" required placeholder="Enter allergies" name="allergies"
-                                         defaultValue={this.state.patientProfile.allergies}
-                                         onChange={this.handleInputChange}/>
-                        </FormGroup>
+                        </InputGroup>
                         <div className="text-center">
                             <Button variant="secondary" type="submit">
                                 Save
@@ -159,4 +161,4 @@ class PatientProfile extends React.Component {
     }
 }
 
-export default PatientProfile;
+export default SetupDoctorProfile;
