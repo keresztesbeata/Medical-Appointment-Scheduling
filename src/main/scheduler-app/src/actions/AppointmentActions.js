@@ -10,7 +10,7 @@ import {
     PATIENT_ALL_APPOINTMENTS,
     PATIENT_NEW_APPOINTMENT,
     PATIENT_PAST_APPOINTMENTS,
-    PATIENT_UPCOMING_APPOINTMENTS,
+    PATIENT_UPCOMING_APPOINTMENTS, PATIENT_UPDATE_APPOINTMENT_STATE,
     RECEPTIONIST_ALL_APPOINTMENTS_BY_STATUS,
     RECEPTIONIST_AVAILABLE_APPOINTMENTS,
     RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY,
@@ -113,7 +113,18 @@ export function LoadAllAppointmentsByStatus(status) {
     return FetchRequest(url, GET_REQUEST);
 }
 
-export function UpdateAppointmentStatus(appointmentId, newState) {
+export function PatientUpdateAppointmentStatus(appointmentId, newState) {
+    const url = new URL(BASE_URL + PATIENT_UPDATE_APPOINTMENT_STATE)
+    const params = {
+        appointmentId: appointmentId,
+        newState: newState
+    }
+    url.search = new URLSearchParams(params).toString();
+
+    return FetchRequestWithNoReturnData(url, POST_REQUEST);
+}
+
+export function ReceptionistUpdateAppointmentStatus(appointmentId, newState) {
     const url = new URL(BASE_URL + RECEPTIONIST_UPDATE_APPOINTMENT_STATE)
     const params = {
         appointmentId: appointmentId,

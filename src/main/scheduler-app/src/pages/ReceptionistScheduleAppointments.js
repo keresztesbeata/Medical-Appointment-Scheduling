@@ -2,8 +2,7 @@ import React from 'react'
 import {Button, Container, Form, ListGroup, Navbar} from "react-bootstrap";
 import {COMPACT_SCHEDULING_STRATEGY, ERROR, LOOSE_SCHEDULING_STRATEGY, SUCCESS} from "../actions/Utils";
 import {
-    ChangeSchedulingStrategy,
-    LoadAllAppointmentsByStatus, LoadNewAppointments,
+    ChangeSchedulingStrategy, LoadAvailableAppointmentDates, LoadNewAppointments,
 } from "../actions/AppointmentActions";
 import Notification from "../components/Notification";
 import EditableAppointmentItem from "../components/EditableAppointmentItem";
@@ -21,6 +20,7 @@ class ReceptionistScheduleAppointments extends React.Component {
             }
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.onChangeStrategy = this.onChangeStrategy.bind(this);
     }
 
     componentDidMount() {
@@ -51,42 +51,29 @@ class ReceptionistScheduleAppointments extends React.Component {
         });
     }
 
-
-    onChangeSchedulingStrategy() {
+    onChangeStrategy(event) {
         ChangeSchedulingStrategy(this.state.selectedStrategy)
             .then(() => {
-                LoadNewAppointments()
-                    .then(appointmentsData => {
-                        this.setState({
-                            appointments: appointmentsData,
-                            notification: {
-                                show: true,
-                                message: "The appointment has been successfully scheduled!",
-                                type: SUCCESS
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        this.setState({
-                            notification: {
-                                show: true,
-                                message: error.message,
-                                type: ERROR
-                            }
-                        });
-                    });
+                this.setState({
+                    ...this.state,
+                    notification: {
+                        show: true,
+                        message: "Strategy successfully changed to "+this.state.selectedStrategy + "!",
+                        type: SUCCESS
+                    }
+                })
             })
             .catch(error => {
                 this.setState({
+                    ...this.state,
                     notification: {
                         show: true,
                         message: error.message,
                         type: ERROR
                     }
-                });
-            });
+                })
+            })
     }
-
 
     render() {
         return (
@@ -102,7 +89,7 @@ class ReceptionistScheduleAppointments extends React.Component {
                                     <option value={COMPACT_SCHEDULING_STRATEGY} key={1}>{COMPACT_SCHEDULING_STRATEGY}</option>
                                     <option value={LOOSE_SCHEDULING_STRATEGY} key={2}>{LOOSE_SCHEDULING_STRATEGY}</option>
                                 </Form.Select>
-                                <Button variant="success" onClick={this.onChangeSchedulingStrategy}>Change strategy</Button>
+                                <Button variant="success" onClick={this.onChangeStrategy}>Change strategy</Button>
                             </Form>
                         </Navbar>
                         <Container className="fluid">

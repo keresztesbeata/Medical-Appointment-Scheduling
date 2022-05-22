@@ -13,6 +13,7 @@ export const CURRENT_USER = "/current_user"
 export const CURRENT_USER_PROFILE = "/current_user_profile"
 
 export const PATIENT_NEW_APPOINTMENT = "/patient/appointment/new"
+export const PATIENT_UPDATE_APPOINTMENT_STATE = "/patient/appointment/update_state"
 export const PATIENT_ALL_APPOINTMENTS = "/patient/appointments/all"
 export const PATIENT_UPCOMING_APPOINTMENTS = "/patient/appointments/upcoming"
 export const PATIENT_PAST_APPOINTMENTS = "/patient/appointments/past"

@@ -4,17 +4,13 @@ import {
     Button,
     Card,
     Container,
-    Form,
     FormControl, FormGroup, FormLabel, FormText,
     InputGroup,
     ListGroup,
-    ListGroupItem
 } from 'react-bootstrap'
 import Notification from "./Notification";
 import {COMPACT_SCHEDULING_STRATEGY, ERROR, LOOSE_SCHEDULING_STRATEGY, SUCCESS} from "../actions/Utils";
 import {LoadAvailableAppointmentDates, ScheduleAppointment} from "../actions/AppointmentActions";
-import {format} from "date-fns";
-import DatePicker from "react-datepicker";
 
 class EditableAppointmentItem extends React.Component {
     constructor(props, context) {
@@ -37,7 +33,6 @@ class EditableAppointmentItem extends React.Component {
                 minutes: new Date().getMinutes()
             },
             availableDates: [],
-            strategy: COMPACT_SCHEDULING_STRATEGY,
             notification: {
                 show: false,
                 message: "",
@@ -51,10 +46,11 @@ class EditableAppointmentItem extends React.Component {
 
     componentDidMount() {
         LoadAvailableAppointmentDates(this.state.appointment.doctorFirstName, this.state.appointment.doctorLastName, this.state.appointment.medicalService)
-            .then(freeSpots =>
+            .then(freeSpots => {
                 this.setState({
                     availableDates: freeSpots
-                }))
+                });
+            })
             .catch(error => {
                 this.setState({
                     notification: {
@@ -67,7 +63,7 @@ class EditableAppointmentItem extends React.Component {
     }
 
     parseDateWithFormat(date) {
-        return new Date(date[0], date[1], date[2]);
+        return new Date(date[0], date[1]-1, date[2], date[3], date[4]).toLocaleString();
     }
 
     handleDateChange(event) {
@@ -174,7 +170,7 @@ class EditableAppointmentItem extends React.Component {
                                     <ListGroup variant="flush">
                                         {this.state.availableDates.map(item =>
                                             <ListGroup.Item key={item} format="yyyy-mm-dd hh:mm">
-                                                {(this.parseDateWithFormat(item)).toLocaleDateString()}
+                                                {(this.parseDateWithFormat(item))}
                                             </ListGroup.Item>
                                         )}
                                     </ListGroup>

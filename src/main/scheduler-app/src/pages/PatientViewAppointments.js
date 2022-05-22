@@ -5,8 +5,7 @@ import {
     LoadAllAppointmentsOfPatientByStatus,
     LoadAppointmentStatuses,
     LoadPastAppointmentsOfPatient,
-    LoadUpcomingAppointmentsOfPatient,
-    UpdateAppointmentStatus
+    LoadUpcomingAppointmentsOfPatient, PatientUpdateAppointmentStatus,
 } from "../actions/AppointmentActions";
 import Notification from "../components/Notification";
 import AppointmentItem from "../components/AppointmentItem";
@@ -107,7 +106,7 @@ class PatientViewAppointments extends React.Component {
     }
 
     onUpdateAppointmentStatus(id, newStatus) {
-        UpdateAppointmentStatus(id, newStatus)
+        PatientUpdateAppointmentStatus(id, newStatus)
             .then(() => {
                 LoadAllAppointmentsOfPatientByStatus(this.state.selectedStatus)
                     .then(appointmentsData => {
@@ -115,7 +114,7 @@ class PatientViewAppointments extends React.Component {
                             appointments: appointmentsData,
                             notification: {
                                 show: true,
-                                message: "Status of the appointment " + id + " has been successfully updated to " + this.state.updatedAppointmentStatus + "!",
+                                message: "Status of the appointment " + id + " has been successfully updated to " + newStatus + "!",
                                 type: SUCCESS
                             }
                         });

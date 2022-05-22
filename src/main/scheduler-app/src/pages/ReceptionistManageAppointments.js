@@ -5,7 +5,7 @@ import AppointmentItem from "../components/AppointmentItem";
 import {
     ChangeSchedulingStrategy,
     LoadAllAppointmentsByStatus,
-    LoadAppointmentStatuses, UpdateAppointmentStatus
+    LoadAppointmentStatuses, ReceptionistUpdateAppointmentStatus
 } from "../actions/AppointmentActions";
 import Notification from "../components/Notification";
 
@@ -85,7 +85,7 @@ class ReceptionistManageAppointments extends React.Component {
     }
 
     onUpdateAppointmentStatus(id) {
-        UpdateAppointmentStatus(id, this.state.updatedAppointmentStatus)
+        ReceptionistUpdateAppointmentStatus(id, this.state.updatedAppointmentStatus)
             .then(() => {
                 LoadAllAppointmentsByStatus(this.state.selectedAppointmentStatus)
                     .then(appointmentsData => {

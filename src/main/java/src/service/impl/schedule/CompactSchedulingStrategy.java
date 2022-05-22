@@ -38,8 +38,8 @@ public class CompactSchedulingStrategy implements SchedulingStrategy {
             }
         }
 
-        // consider as first element (reference), the start hour from the doctor's schedule
-        LocalDateTime prev = sortedAppointments.get(0).getAppointmentDate().withHour(doctorProfile.getStartTime().getHour());
+        // consider as first element (reference) the current time + 1 hour
+        LocalDateTime prev = LocalDateTime.now().plusHours(1);
 
         while (iterator.hasNext()) {
             Appointment curr = iterator.next();

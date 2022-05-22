@@ -18,7 +18,7 @@ class AppointmentItem extends React.Component {
     }
 
     parseDateWithFormat(date) {
-        return new Date(date[0], date[1], date[2]);
+        return new Date(date[0], date[1]-1, date[2], date[3], date[4]).toLocaleString();
     }
 
     render() {
@@ -44,7 +44,7 @@ class AppointmentItem extends React.Component {
                             </Card.Text>
                             <Card.Text>
                                 <b>Date:</b> { (this.state.appointmentDate === null)? "-" :
-                                (this.parseDateWithFormat(this.state.appointmentDate)).toLocaleDateString()}
+                                (this.parseDateWithFormat(this.state.appointmentDate))}
                             </Card.Text>
                             <Card.Text>
                                 <b>Status:</b> {this.state.status}
