@@ -19,7 +19,8 @@ public class CompactSchedulingStrategy implements SchedulingStrategy {
 
         // sort the appointments by earliest date first
         List<Appointment> sortedAppointments = existingAppointments.stream()
-                .filter(appointment -> appointment.getAppointmentDate().isAfter(LocalDateTime.now()))
+                // check if the existing appointments are already in scheduled state <=> they have their date field set
+                .filter(appointment -> appointment.getAppointmentDate() != null && appointment.getAppointmentDate().isAfter(LocalDateTime.now()))
                 .sorted(Comparator.comparing(Appointment::getAppointmentDate)).toList();
 
         // iterate through the appointments with an iterator to find the next available free spot between 2 dates

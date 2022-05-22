@@ -1,10 +1,11 @@
 import {
     BASE_URL,
-    FetchRequest,
-    GET_REQUEST,
+    FetchRequest, FetchRequestWithNoReturnData,
+    GET_REQUEST, POST_REQUEST,
 } from "./Utils";
 import {
-    PATIENT_ALL_PRESCRIPTIONS,
+    DOCTOR_CREATE_PRESCRIPTION,
+    PATIENT_ALL_PRESCRIPTIONS, PATIENT_EXPORT_PRESCRIPTION,
     PATIENT_PRESCRIPTION_BY_ID,
 } from "./ServerUrlCollection";
 
@@ -22,4 +23,25 @@ export function LoadPrescriptionByAppointmentId(appointmentId) {
     url.search = new URLSearchParams(params).toString();
 
     return FetchRequest(url, GET_REQUEST);
+}
+
+export function ExportPrescriptionAsPDF(appointmentId) {
+    const url = new URL(BASE_URL + PATIENT_EXPORT_PRESCRIPTION)
+    const params = {
+        appointmentId: appointmentId
+    }
+    url.search = new URLSearchParams(params).toString();
+
+    return FetchRequestWithNoReturnData(url, POST_REQUEST);
+}
+
+export function CreatePrescription(appointmentId, prescriptionDTO) {
+    const url = new URL(BASE_URL + DOCTOR_CREATE_PRESCRIPTION)
+    const params = {
+        appointmentId: appointmentId,
+        prescriptionDTO: prescriptionDTO
+    }
+    url.search = new URLSearchParams(params).toString();
+
+    return FetchRequestWithNoReturnData(url, POST_REQUEST);
 }

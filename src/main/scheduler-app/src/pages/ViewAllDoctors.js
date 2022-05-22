@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Card, Container, Form, FormControl, ListGroup, Navbar} from "react-bootstrap";
+import {Button, Card, Container, Form, FormControl, InputGroup, ListGroup, Navbar} from "react-bootstrap";
 import {ERROR} from "../actions/Utils";
 import {FilterDoctorsByMedicalService, FindDoctorByName, LoadMedicalServices} from "../actions/AppointmentActions";
 import Notification from "../components/Notification";
@@ -102,34 +102,40 @@ class ViewAllDoctors extends React.Component {
         return (
             <div className="background-container-menu justify-content-center ">
                 <Container>
+                    <div className="text-center transparent-background">
+                        <h1 className="text-white">
+                            List of doctors
+                        </h1>
+                    </div>
                     <Notification show={this.state.notification.show} message={this.state.notification.message}
                                   type={this.state.notification.type}/>
                     <Navbar className="justify-content-center">
                         <Form className="d-flex">
+                            <InputGroup>
+                            <InputGroup.Text>Search by name:</InputGroup.Text>
                             <FormControl
                                 type="search"
                                 placeholder="Doctor first name..."
-                                className="me-2"
                                 aria-label="Search"
                                 name="doctorFirstName"
                                 onChange={this.handleInputChange}
                             />
-                            <FormControl
+                                <FormControl
                                 type="search"
                                 placeholder="Doctor last name..."
-                                className="me-2"
                                 aria-label="Search"
                                 name="doctorLastName"
                                 onChange={this.handleInputChange}
                             />
                             <Button variant="success" onClick={this.searchDoctorByName}>Search</Button>
+                            </InputGroup>
                         </Form>
                     </Navbar>
-                    <div className="flex justify-content-center">
                         <Navbar className="justify-content-center">
                             <Form className="d-flex">
-                                <Form.Label>Medical service</Form.Label>
-                                <Form.Select aria-label="Medical services" className="me-2"
+                            <InputGroup className="d-flex">
+                                <InputGroup.Text>Search by medical service:</InputGroup.Text>
+                                <Form.Select aria-label="Medical services"
                                              name="selectedMedicalService"
                                              onChange={this.handleInputChange}>
                                     <option value="" key="All">All</option>
@@ -140,6 +146,7 @@ class ViewAllDoctors extends React.Component {
                                     }
                                 </Form.Select>
                                 <Button variant="success" onClick={this.filterDoctors}>Filter</Button>
+                            </InputGroup>
                             </Form>
                         </Navbar>
                         <Container className="fluid">
@@ -154,7 +161,6 @@ class ViewAllDoctors extends React.Component {
                                 )}
                             </ListGroup>
                         </Container>
-                    </div>
                 </Container>
             </div>
         );

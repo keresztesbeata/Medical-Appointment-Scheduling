@@ -25,7 +25,7 @@ public class UrlAddressCatalogue {
     public static final String PATIENT_GET_PAST_APPOINTMENTS = "/patient/appointments/past";
     public static final String PATIENT_GET_ALL_PRESCRIPTIONS = "/patient/prescriptions/all";
     public static final String PATIENT_GET_PRESCRIPTION_BY_ID = "/patient/prescription/id";
-    public static final String PATIENT_EXPORT_PRESCRIPTION = "/patient/print_prescription";
+    public static final String PATIENT_EXPORT_PRESCRIPTION = "/patient/export_prescription";
     public static final String PATIENT_VIEW_PROFILE = "/patient/view_profile";
     public static final String PATIENT_SETUP_PROFILE = "/patient/setup_profile";
 

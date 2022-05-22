@@ -16,6 +16,7 @@ export const PATIENT_NEW_APPOINTMENT = "/patient/appointment/new"
 export const PATIENT_ALL_APPOINTMENTS = "/patient/appointments/all"
 export const PATIENT_UPCOMING_APPOINTMENTS = "/patient/appointments/upcoming"
 export const PATIENT_PAST_APPOINTMENTS = "/patient/appointments/past"
+export const PATIENT_EXPORT_PRESCRIPTION = "/patient/export_prescription"
 
 export const PATIENT_PRESCRIPTION_BY_ID = "/patient/prescription/id"
 export const PATIENT_ALL_PRESCRIPTIONS = "/patient/prescriptions/all"
@@ -32,3 +33,5 @@ export const RECEPTIONIST_UPDATE_APPOINTMENT_STATUS = "/receptionist/appointment
 export const RECEPTIONIST_SCHEDULE_APPOINTMENT = "/receptionist/appointment/schedule"
 export const RECEPTIONIST_AVAILABLE_APPOINTMENTS = "/receptionist/available_appointments"
 export const RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY = "/receptionist/change_strategy"
+
+export const DOCTOR_CREATE_PRESCRIPTION = "/doctor/prescription/new";

@@ -55,6 +55,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     private static final String PATIENT_NOT_FOUND_ERROR_MESSAGE = "Patient not found by id!";
     private static final String DOCTOR_NOT_FOUND_ERROR_MESSAGE = "Doctor not found by id!";
     private static final String MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE = "Medical service not found by name!";
+    private static final String INVALID_DATE_ERROR_MESSAGE = "The date is invalid, it should be after the current date!";
 
     @Override
     public void create(Integer patientId, AppointmentDTO appointmentDTO) throws InvalidDataException, EntityNotFoundException {
@@ -80,6 +81,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new EntityNotFoundException(APPOINTMENT_NOT_FOUND_ERROR_MESSAGE));
 
+        if(dateTime.isBefore(LocalDateTime.now())) {
+            throw new InvalidDataException(INVALID_DATE_ERROR_MESSAGE);
+        }
         appointment.setAppointmentDate(dateTime);
         appointment.setStatus(AppointmentStatus.SCHEDULED);
 

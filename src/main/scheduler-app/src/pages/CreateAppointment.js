@@ -4,7 +4,6 @@ import {ERROR, SUCCESS, WARNING} from "../actions/Utils";
 import {GetCurrentUser} from "../actions/UserActions";
 import Notification from "../components/Notification";
 import {FilterDoctorsByMedicalService, LoadMedicalServices, RequestNewAppointment} from "../actions/AppointmentActions";
-import app from "../App";
 
 class CreateAppointment extends React.Component {
     constructor(props) {

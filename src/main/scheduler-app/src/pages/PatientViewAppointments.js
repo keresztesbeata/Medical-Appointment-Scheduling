@@ -1,11 +1,12 @@
 import React from 'react'
-import {Button, Container, Form, ListGroup, Navbar} from "react-bootstrap";
+import {Button, ButtonGroup, Card, Container, Form, ListGroup, Navbar, NavItem} from "react-bootstrap";
 import {ERROR, SUCCESS} from "../actions/Utils";
 import {
-    LoadAllAppointmentsByStatus,
     LoadAllAppointmentsOfPatientByStatus,
     LoadAppointmentStatuses,
-    LoadPastAppointmentsOfPatient, LoadUpcomingAppointmentsOfPatient, UpdateAppointmentStatus
+    LoadPastAppointmentsOfPatient,
+    LoadUpcomingAppointmentsOfPatient,
+    UpdateAppointmentStatus
 } from "../actions/AppointmentActions";
 import Notification from "../components/Notification";
 import AppointmentItem from "../components/AppointmentItem";
@@ -70,7 +71,7 @@ class PatientViewAppointments extends React.Component {
     }
 
     onFilterAppointmentsByDate() {
-        if(this.state.selectedDate === "PAST") {
+        if (this.state.selectedDate === "PAST") {
             LoadPastAppointmentsOfPatient()
                 .then(appointmentsData => {
                     this.setState({
@@ -86,7 +87,7 @@ class PatientViewAppointments extends React.Component {
                         }
                     });
                 });
-            }else if(this.state.selectedDate === "UPCOMING") {
+        } else if (this.state.selectedDate === "UPCOMING") {
             LoadUpcomingAppointmentsOfPatient()
                 .then(appointmentsData => {
                     this.setState({
@@ -155,42 +156,59 @@ class PatientViewAppointments extends React.Component {
         return (
             <div className="background-container-menu justify-content-center ">
                 <Container>
+                    <div className="text-center transparent-background">
+                        <h1 className="text-white">
+                            My appointments
+                        </h1>
+                    </div>
                     <Notification show={this.state.notification.show} message={this.state.notification.message}
                                   type={this.state.notification.type}/>
                     <div className="flex justify-content-center">
                         <Navbar className="justify-content-center">
-                            <Form className="d-flex">
-                                <Form.Select aria-label="Appointment status" className="me-2" name="selectedStatus"
-                                             onChange={this.handleInputChange}>
-                                    <option value="" key="All">All</option>
-                                    {
-                                        this.state.statuses.map(status =>
-                                            <option value={status} key={status}>{status}</option>
-                                        )
-                                    }
-                                </Form.Select>
-                                <Button variant="success" onClick={this.onFilterAppointmentsByStatus}>Filter by status</Button>
-                            </Form>
-                        </Navbar>
-                        <Navbar className="justify-content-center">
-                            <Form className="d-flex">
-                                <Form.Select aria-label="Appointment date" className="me-2" name="selectedDate"
-                                             onChange={this.handleInputChange}>
-                                    <option value="PAST" key={0}>Past</option>
-                                    <option value="UPCOMING" key={1}>Upcoming</option>
-                                </Form.Select>
-                                <Button variant="success" onClick={this.onFilterAppointmentsByDate}>Filter by date</Button>
-                            </Form>
+                            <NavItem className="px-5">
+                                <Form className="d-flex">
+                                    <Form.Select aria-label="Appointment status" name="selectedStatus"
+                                                 onChange={this.handleInputChange}>
+                                        <option value="" key="All">All</option>
+                                        {
+                                            this.state.statuses.map(status =>
+                                                <option value={status} key={status}>{status}</option>
+                                            )
+                                        }
+                                    </Form.Select>
+                                    <Button variant="success" onClick={this.onFilterAppointmentsByStatus}>Filter by
+                                        status</Button>
+                                </Form>
+                            </NavItem>
+                            <NavItem className="px-5">
+                                <Form className="d-flex">
+                                    <Form.Select aria-label="Appointment date" name="selectedDate"
+                                                 onChange={this.handleInputChange}>
+                                        <option value="PAST" key={0}>Past</option>
+                                        <option value="UPCOMING" key={1}>Upcoming</option>
+                                    </Form.Select>
+                                    <Button variant="success" onClick={this.onFilterAppointmentsByDate}>Filter by
+                                        date</Button>
+                                </Form>
+                            </NavItem>
                         </Navbar>
                         <Container className="fluid">
                             <ListGroup variant="flush">
                                 {this.state.appointments.map(item =>
                                     <ListGroup.Item key={item.id}>
-                                        <AppointmentItem data={item}/>
-                                        <Button variant="success" onClick={() => this.onUpdateAppointmentStatus(item.id, "CONFIRMED")} hidden={item.status !== "SCHEDULED"}>
-                                            Confirm</Button>
-                                        <Button variant="success" onClick={() =>this.onUpdateAppointmentStatus(item.id, "CANCELED")} hidden={item.status !== "CONFIRMED"}>
-                                            Cancel</Button>
+                                        <Card>
+                                            <AppointmentItem data={item}/>
+                                            <ButtonGroup className="btn-group">
+                                                <Button variant="success"
+                                                        onClick={() => this.onUpdateAppointmentStatus(item.id, "CONFIRMED")}
+                                                        disabled={item.status !== "SCHEDULED"}>
+                                                    Confirm</Button>
+                                                <Button variant="danger"
+                                                        onClick={() => this.onUpdateAppointmentStatus(item.id, "CANCELED")}
+                                                        disabled={item.status !== "CONFIRMED"}>
+                                                    Cancel</Button>
+                                            </ButtonGroup>
+                                        </Card>
                                     </ListGroup.Item>
                                 )}
                             </ListGroup>

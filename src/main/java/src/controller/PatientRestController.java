@@ -77,7 +77,7 @@ public class PatientRestController {
         return ResponseEntity.ok().body(appointmentService.findAllMedicalServices());
     }
 
-    @GetMapping(UrlAddressCatalogue.PATIENT_EXPORT_PRESCRIPTION)
+    @PostMapping(UrlAddressCatalogue.PATIENT_EXPORT_PRESCRIPTION)
     public ResponseEntity exportPrescription(@RequestParam Integer appointmentId) {
         try{
             prescriptionService.exportPrescription(appointmentId);

@@ -109,11 +109,11 @@ public class ReceptionistRestController {
     @PostMapping(UrlAddressCatalogue.RECEPTIONIST_SCHEDULE_APPOINTMENT)
     public ResponseEntity scheduleAppointment(@RequestParam Integer appointmentId, @RequestParam LocalDateTime appointmentDate) {
         try {
-            appointmentService.schedule(appointmentId, appointmentDate);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(appointmentService.schedule(appointmentId, appointmentDate));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         } catch (InvalidDataException e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }

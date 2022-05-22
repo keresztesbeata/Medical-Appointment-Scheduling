@@ -122,6 +122,8 @@ export function ScheduleAppointment(appointmentId, appointmentDate) {
     }
     url.search = new URLSearchParams(params).toString();
 
+    console.log(params)
+
     return FetchRequestWithNoReturnData(url, POST_REQUEST);
 }
 
