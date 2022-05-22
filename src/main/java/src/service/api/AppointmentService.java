@@ -7,6 +7,7 @@ import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidAccessException;
 import src.exceptions.InvalidDataException;
 import src.exceptions.InvalidStateException;
+import src.model.Appointment;
 import src.model.MedicalService;
 import src.model.users.Account;
 import src.service.impl.schedule.SchedulingType;
@@ -14,6 +15,7 @@ import src.service.impl.schedule.SchedulingType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Provides functionalities for updating and managing appointments.
@@ -35,6 +37,8 @@ public interface AppointmentService {
 
     void updateStatus(Integer appointmentId, Account account, String newStatus) throws InvalidStateException, EntityNotFoundException, InvalidAccessException;
 
+    Optional<AppointmentDTO> findById(Integer appointmentId);
+
     List<String> findAllMedicalServices();
 
     List<AppointmentDTO> findAllAppointmentsByStatus(String status);
@@ -49,7 +53,11 @@ public interface AppointmentService {
 
     List<AppointmentDTO> findAllAppointmentsOfDoctor(String firstName, String lastName) throws EntityNotFoundException;
 
-    List<AppointmentDTO> findAppointmentsOfDoctorByDate(Integer doctorId, LocalDate date) throws EntityNotFoundException;
+    List<AppointmentDTO> findPastAppointmentsOfDoctor(Integer doctorId) throws EntityNotFoundException;
+
+    List<AppointmentDTO> findPresentAppointmentsOfDoctor(Integer doctorId) throws EntityNotFoundException;
+
+    List<AppointmentDTO> findFutureAppointmentsOfDoctor(Integer doctorId) throws EntityNotFoundException;
 
     List<LocalDateTime> findAvailableDates(String firstName, String lastName, String medicalService) throws EntityNotFoundException ;
 

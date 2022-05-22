@@ -96,7 +96,7 @@ class ReceptionistScheduleAppointments extends React.Component {
                             <ListGroup variant="flush">
                                 {this.state.appointments.map(item =>
                                     <ListGroup.Item key={"key_"+item.id}>
-                                        <EditableAppointmentItem data={item}/>
+                                        <EditableAppointmentItem data={item} strategy={this.state.selectedStrategy}/>
                                     </ListGroup.Item>
                                 )}
                             </ListGroup>

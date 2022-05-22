@@ -17,6 +17,8 @@ import ViewAllDoctors from "./pages/ViewAllDoctors";
 import PatientViewPrescriptions from "./pages/PatientViewPrescriptions";
 import ReceptionistManageAppointments from "./pages/ReceptionistManageAppointments";
 import ReceptionistScheduleAppointments from "./pages/ReceptionistScheduleAppointments";
+import DoctorViewAppointments from "./pages/DoctorViewAppointments";
+import AddPrescription from "./pages/AddPrescription";
 
 class App extends Component {
     render() {
@@ -37,8 +39,8 @@ class App extends Component {
                         <Route path="/patient/view_doctors" element={<ViewAllDoctors/>}/>
                         <Route path="/doctor/view_profile" element={<ViewDoctorProfile/>}/>
                         <Route path="/doctor/setup_profile" element={<SetupDoctorProfile/>}/>
-                        {/*<Route path="/doctor/view_appointments" element={</>}/>*/} //todo
-                        {/*<Route path="/doctor/new_appointments" element={</>}/>*/} //todo
+                        <Route path="/doctor/view_appointments" element={<DoctorViewAppointments/>}/>
+                        <Route path="/doctor/add_prescription" element={<AddPrescription/>}/>
                         <Route path="/receptionist/manage_appointments" element={<ReceptionistManageAppointments/>}/>
                         <Route path="/receptionist/schedule_appointments" element={<ReceptionistScheduleAppointments/>}/>
                         <Route path="/receptionist/view_doctors" element={<ViewAllDoctors/>}/>

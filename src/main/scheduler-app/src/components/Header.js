@@ -55,7 +55,6 @@ class Header extends React.Component {
                 return [
                     <Nav.Link href="/doctor/view_appointments" key={1}>View appointments</Nav.Link>,
                     <Nav.Link href="/doctor/view_patients" key={2}>View patients</Nav.Link>,
-                    <Nav.Link href="/doctor/new_prescription" key={3}>New prescription</Nav.Link>,
                     <Nav.Link href="/doctor/view_profile" key={4}>My profile</Nav.Link>
                 ];
             default:

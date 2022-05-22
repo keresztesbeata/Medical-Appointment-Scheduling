@@ -79,15 +79,6 @@ public class ReceptionistRestController {
         }
     }
 
-    @GetMapping(UrlAddressCatalogue.RECEPTIONIST_GET_APPOINTMENTS_OF_DOCTOR_BY_GIVEN_DATE)
-    public ResponseEntity getAllAppointmentsForDoctorByDate(@RequestParam Integer doctorId, @RequestParam LocalDate localDate) {
-        try {
-            return ResponseEntity.ok().body(appointmentService.findAppointmentsOfDoctorByDate(doctorId, localDate));
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
-        }
-    }
-
     @PostMapping(UrlAddressCatalogue.RECEPTIONIST_UPDATE_APPOINTMENT_STATE)
     public ResponseEntity updateAppointmentStatus(@RequestParam Integer appointmentId, @RequestParam String newState) {
         try {

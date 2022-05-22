@@ -40,10 +40,6 @@ class PrescriptionItem extends React.Component {
         this.loadPrescriptionData();
     }
 
-    parseDateWithFormat(date) {
-        return new Date(date[0], date[1], date[2]);
-    }
-
     onExportPrescription() {
         ExportPrescriptionAsPDF(this.state.prescription.appointmentId)
             .then(() => {
@@ -65,6 +61,10 @@ class PrescriptionItem extends React.Component {
                     }
                 });
             });
+    }
+
+    parseDateWithFormat(date) {
+        return new Date(date[0], date[1]-1, date[2], date[3], date[4]).toLocaleString();
     }
 
     render() {
@@ -95,7 +95,7 @@ class PrescriptionItem extends React.Component {
                             </Card.Text>
                             <Card.Text>
                                 <b>Appointment date:</b> { (this.state.prescription.appointmentDate === null)? "-" :
-                                (this.parseDateWithFormat(this.state.prescription.appointmentDate)).toLocaleDateString()}
+                                (this.parseDateWithFormat(this.state.prescription.appointmentDate))}
                             </Card.Text>
                             <Card.Text>
                                 <b>Medication:</b> {this.state.prescription.medication}

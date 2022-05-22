@@ -25,9 +25,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
 
     List<Appointment> findByStatus(AppointmentStatus status);
 
-    @Transactional
-    @Query("select appointment from Appointment appointment where appointment.doctor = ?1 and date(appointment.appointmentDate) = ?2")
-    List<Appointment> findByDoctorAndAppointmentDate(DoctorProfile doctor, LocalDate appointmentDate);
+    List<Appointment> findByDoctorAndAppointmentDateAfter(DoctorProfile doctor, LocalDateTime appointmentDate);
+
+    List<Appointment> findByDoctorAndAppointmentDateBefore(DoctorProfile doctor, LocalDateTime appointmentDate);
+
+    List<Appointment> findByDoctorAndAppointmentDateBetween(DoctorProfile doctor, LocalDateTime start, LocalDateTime end);
 
     List<Appointment> findByPatientAndStatus(PatientProfile patient, AppointmentStatus status);
 

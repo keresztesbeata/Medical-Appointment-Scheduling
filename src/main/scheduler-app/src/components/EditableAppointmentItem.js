@@ -32,6 +32,7 @@ class EditableAppointmentItem extends React.Component {
                 hours: new Date().getHours(),
                 minutes: new Date().getMinutes()
             },
+            strategy: props.strategy,
             availableDates: [],
             notification: {
                 show: false,
@@ -42,10 +43,11 @@ class EditableAppointmentItem extends React.Component {
         this.onScheduleAppointment = this.onScheduleAppointment.bind(this);
         this.parseDateWithFormat = this.parseDateWithFormat.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.loadAvailableSpots = this.loadAvailableSpots.bind(this);
     }
 
-    componentDidMount() {
-        LoadAvailableAppointmentDates(this.state.appointment.doctorFirstName, this.state.appointment.doctorLastName, this.state.appointment.medicalService)
+    loadAvailableSpots() {
+        LoadAvailableAppointmentDates(this.state.appointment.doctorFirstName, this.state.appointment.doctorLastName, this.state.appointment.medicalService, this.state.strategy)
             .then(freeSpots => {
                 this.setState({
                     availableDates: freeSpots
@@ -60,6 +62,10 @@ class EditableAppointmentItem extends React.Component {
                     }
                 });
             })
+    }
+
+    componentDidMount() {
+        this.loadAvailableSpots();
     }
 
     parseDateWithFormat(date) {
@@ -165,7 +171,10 @@ class EditableAppointmentItem extends React.Component {
                                                  onChange={this.handleDateChange} />
                                 </InputGroup>
                                 <FormGroup className="mb-3">
-                                    <FormText>Available spots:</FormText>
+                                    <InputGroup>
+                                    <InputGroup.Text>Available spots:</InputGroup.Text>
+                                    <Button variant="success" onClick={this.loadAvailableSpots}>Find available dates</Button>
+                                    </InputGroup>
                                 <Container className="fluid">
                                     <ListGroup variant="flush">
                                         {this.state.availableDates.map(item =>

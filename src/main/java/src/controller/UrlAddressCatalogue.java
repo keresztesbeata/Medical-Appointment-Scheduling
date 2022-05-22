@@ -39,12 +39,13 @@ public class UrlAddressCatalogue {
     public static final String RECEPTIONIST_GET_ALL_APPOINTMENTS_OF_PATIENT = "/receptionist/patient_appointments/all";
     public static final String RECEPTIONIST_GET_AVAILABLE_APPOINTMENTS_FOR_DOCTOR = "/receptionist/available_appointments";
     public static final String RECEPTIONIST_GET_ALL_APPOINTMENTS_OF_DOCTOR = "/receptionist/doctor_appointments/all";
-    public static final String RECEPTIONIST_GET_APPOINTMENTS_OF_DOCTOR_BY_GIVEN_DATE = "/receptionist/doctor_appointments/date";
 
-    public static final String DOCTOR_GET_ALL_APPOINTMENTS = "/doctor/appointments/all";
-    public static final String DOCTOR_GET_APPOINTMENTS_OF_TODAY = "/doctor/appointments/today";
     public static final String DOCTOR_GET_PATIENTS_PRESCRIPTIONS = "/doctor/patient_prescriptions";
     public static final String DOCTOR_CREATE_PRESCRIPTION = "/doctor/prescription/new";
     public static final String DOCTOR_VIEW_PROFILE = "/doctor/view_profile";
     public static final String DOCTOR_SETUP_PROFILE = "/doctor/setup_profile";
+    public static final String DOCTOR_GET_FUTURE_APPOINTMENTS = "/doctor/appointments/future";
+    public static final String DOCTOR_GET_PAST_APPOINTMENTS = "/doctor/appointments/past";
+    public static final String DOCTOR_GET_PRESENT_APPOINTMENTS = "/doctor/appointments/present";
+    public static final String DOCTOR_GET_APPOINTMENT_BY_ID = "/doctor/appointment/id";
 }

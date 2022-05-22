@@ -22,6 +22,7 @@ import src.model.users.PatientProfile;
 import src.repository.*;
 import src.service.impl.AppointmentServiceImpl;
 import src.service.impl.schedule.CompactSchedulingStrategy;
+import src.service.impl.schedule.SchedulingType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

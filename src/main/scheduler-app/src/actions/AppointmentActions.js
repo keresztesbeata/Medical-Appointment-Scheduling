@@ -7,10 +7,15 @@ import {
 import {
     ALL_APPOINTMENT_STATUSES,
     ALL_MEDICAL_SERVICES,
+    DOCTOR_FIND_APPOINTMENT_BY_ID,
+    DOCTOR_FUTURE_APPOINTMENTS,
+    DOCTOR_PAST_APPOINTMENTS,
+    DOCTOR_PRESENT_APPOINTMENTS,
     PATIENT_ALL_APPOINTMENTS,
     PATIENT_NEW_APPOINTMENT,
     PATIENT_PAST_APPOINTMENTS,
-    PATIENT_UPCOMING_APPOINTMENTS, PATIENT_UPDATE_APPOINTMENT_STATE,
+    PATIENT_UPCOMING_APPOINTMENTS,
+    PATIENT_UPDATE_APPOINTMENT_STATE,
     RECEPTIONIST_ALL_APPOINTMENTS_BY_STATUS,
     RECEPTIONIST_AVAILABLE_APPOINTMENTS,
     RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY,
@@ -20,6 +25,10 @@ import {
     SEARCH_DOCTOR_BY_NAME,
     SEARCH_PATIENT_BY_NAME
 } from "./ServerUrlCollection";
+
+export const PAST_APPOINTMENTS = "PAST"
+export const PRESENT_APPOINTMENTS = "PRESENT"
+export const FUTURE_APPOINTMENTS = "FUTURE"
 
 export function LoadMedicalServices() {
     const url = BASE_URL + ALL_MEDICAL_SERVICES;
@@ -165,4 +174,28 @@ export function ChangeSchedulingStrategy(strategy) {
     url.search = new URLSearchParams(params).toString();
 
     return FetchRequestWithNoReturnData(url, POST_REQUEST);
+}
+
+function mapDateTypeToUrl(date) {
+    switch(date) {
+        case PAST_APPOINTMENTS: return DOCTOR_PAST_APPOINTMENTS;
+        case PRESENT_APPOINTMENTS: return DOCTOR_PRESENT_APPOINTMENTS;
+        case FUTURE_APPOINTMENTS: return DOCTOR_FUTURE_APPOINTMENTS;
+    }
+}
+
+export function LoadAllAppointmentsOfDoctorByDate(date) {
+    const url = BASE_URL + mapDateTypeToUrl(date);
+
+    return FetchRequest(url, GET_REQUEST);
+}
+
+export function FindAppointmentById(appointmentId) {
+    const url = new URL(BASE_URL + DOCTOR_FIND_APPOINTMENT_BY_ID)
+    const params = {
+        appointmentId: appointmentId
+    }
+    url.search = new URLSearchParams(params).toString();
+
+    return FetchRequest(url, GET_REQUEST);
 }

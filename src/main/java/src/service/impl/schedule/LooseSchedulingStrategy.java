@@ -17,12 +17,7 @@ public class LooseSchedulingStrategy implements SchedulingStrategy {
         // list of available dates and the max timespan until the next appointment
         List<LocalDateTime> availableSpots = new ArrayList<>();
 
-        // sort the appointments by latest date first
-        List<Appointment> sortedAppointments = existingAppointments.stream()
-                .filter(appointment -> appointment.getAppointmentDate().isAfter(LocalDateTime.now()))
-                .sorted(Comparator.comparing(Appointment::getAppointmentDate).reversed()).toList();
-
-        if (sortedAppointments.isEmpty()) {
+        if (existingAppointments.isEmpty()) {
             // check if there is a free spot in the hours (leave 1 hour to let the customer be able to arrive on time)
             LocalDateTime estimatedFinishingTime = LocalDateTime.now().plusHours(1).plusMinutes(medicalService.getDuration());
             long availableTime = doctorProfile.getFinishTime().until(estimatedFinishingTime, ChronoUnit.MINUTES);
@@ -33,6 +28,11 @@ public class LooseSchedulingStrategy implements SchedulingStrategy {
                 availableSpots.add(LocalDateTime.now().plusDays(1).withHour(doctorProfile.getStartTime().getHour()));
             }
         }else {
+            // sort the appointments by latest date first
+            List<Appointment> sortedAppointments = existingAppointments.stream()
+                    .filter(appointment -> appointment.getAppointmentDate().isAfter(LocalDateTime.now()))
+                    .sorted(Comparator.comparing(Appointment::getAppointmentDate).reversed()).toList();
+
             Appointment last = sortedAppointments.get(0);
             // add the last appointment date too if it still fits in the schedule of the doctor
             LocalTime finishTime = last.getAppointmentDate().toLocalTime().plusMinutes(last.getMedicalService().getDuration());

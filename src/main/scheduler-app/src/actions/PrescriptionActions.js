@@ -38,10 +38,9 @@ export function ExportPrescriptionAsPDF(appointmentId) {
 export function CreatePrescription(appointmentId, prescriptionDTO) {
     const url = new URL(BASE_URL + DOCTOR_CREATE_PRESCRIPTION)
     const params = {
-        appointmentId: appointmentId,
-        prescriptionDTO: prescriptionDTO
+        appointmentId: appointmentId
     }
     url.search = new URLSearchParams(params).toString();
 
-    return FetchRequestWithNoReturnData(url, POST_REQUEST);
+    return FetchRequestWithNoReturnData(url, POST_REQUEST, prescriptionDTO);
 }

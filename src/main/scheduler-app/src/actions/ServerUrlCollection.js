@@ -36,3 +36,7 @@ export const RECEPTIONIST_AVAILABLE_APPOINTMENTS = "/receptionist/available_appo
 export const RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY = "/receptionist/change_strategy"
 
 export const DOCTOR_CREATE_PRESCRIPTION = "/doctor/prescription/new";
+export const DOCTOR_PAST_APPOINTMENTS = "/doctor/appointments/past";
+export const DOCTOR_PRESENT_APPOINTMENTS = "/doctor/appointments/present";
+export const DOCTOR_FUTURE_APPOINTMENTS = "/doctor/appointments/future";
+export const DOCTOR_FIND_APPOINTMENT_BY_ID = "/doctor/appointment/id";
