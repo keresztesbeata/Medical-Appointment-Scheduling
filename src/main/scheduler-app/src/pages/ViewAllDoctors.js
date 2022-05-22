@@ -47,7 +47,6 @@ class ViewAllDoctors extends React.Component {
     searchDoctorByName() {
         FindDoctorByName(this.state.doctorFirstName, this.state.doctorLastName)
             .then(data => {
-                console.log(data)
                 this.setState({
                     ...this.state,
                     doctors: data,

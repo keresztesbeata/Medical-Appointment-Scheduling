@@ -37,6 +37,8 @@ public interface AppointmentService {
 
     List<String> findAllMedicalServices();
 
+    List<AppointmentDTO> findAllAppointmentsByStatus(String status);
+
     List<AppointmentDTO> findAllAppointmentsOfPatient(String firstName, String lastName) throws EntityNotFoundException;
 
     List<AppointmentDTO> findPastAppointmentsOfPatient(Integer patientId) throws EntityNotFoundException;
@@ -49,7 +51,7 @@ public interface AppointmentService {
 
     List<AppointmentDTO> findAppointmentsOfDoctorByDate(Integer doctorId, LocalDate date) throws EntityNotFoundException;
 
-    List<LocalDateTime> findAvailableDates(Integer doctorId, String medicalService) throws EntityNotFoundException ;
+    List<LocalDateTime> findAvailableDates(String firstName, String lastName, String medicalService) throws EntityNotFoundException ;
 
     List<DoctorProfileDTO> findDoctorsByMedicalService(String medicalServiceName) throws EntityNotFoundException;
 

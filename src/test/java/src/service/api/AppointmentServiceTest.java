@@ -219,13 +219,13 @@ public class AppointmentServiceTest {
         existingAppointments.add(createAppointment(2, doctorProfile, medicalService, LocalDateTime.now().plusDays(1).withHour(12).withMinute(0)));
         existingAppointments.add(createAppointment(3, doctorProfile, medicalService, LocalDateTime.now().plusDays(1).withHour(15).withMinute(30)));
 
-        Mockito.when(doctorRepository.findById(doctorProfile.getId()))
+        Mockito.when(doctorRepository.findByFirstNameAndLastName(doctorProfile.getFirstName(), doctorProfile.getLastName()))
                 .thenReturn(Optional.of(doctorProfile));
 
         Mockito.when(appointmentRepository.findByDoctor(doctorProfile))
                 .thenReturn(existingAppointments);
 
-        Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(4, appointmentService.findAvailableDates(doctorAccount.getId(), medicalService.name).size()));
+        Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(4, appointmentService.findAvailableDates(doctorProfile.getFirstName(), doctorProfile.getLastName(), medicalService.name).size()));
     }
 
     private Appointment createAppointment(int id, DoctorProfile doctorProfile, MedicalService medicalService, LocalDateTime localDateTime) {

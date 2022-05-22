@@ -18,8 +18,6 @@ import src.service.impl.PrescriptionServiceImpl;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import static src.controller.UrlAddressCatalogue.PATIENT_ALL_APPOINTMENT_STATUSES;
-
 @RestController
 @Log4j2
 public class PatientRestController {
@@ -56,15 +54,25 @@ public class PatientRestController {
     }
 
     @GetMapping(UrlAddressCatalogue.PATIENT_GET_ALL_PRESCRIPTIONS)
-    public ResponseEntity getAllPrescriptionsOfPatient(@RequestParam String firstName, @RequestParam String lastName) {
+    public ResponseEntity getAllPrescriptionsOfPatient() {
         try{
-            return ResponseEntity.ok().body(prescriptionService.findByPatient(firstName, lastName));
+            Account currentUserAccount = Utils.getCurrentUserAccount();
+            return ResponseEntity.ok().body(prescriptionService.findByPatientId(currentUserAccount.getId()));
         }catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
     }
 
-    @GetMapping(UrlAddressCatalogue.PATIENT_GET_ALL_MEDICAL_SERVICES)
+    @GetMapping(UrlAddressCatalogue.PATIENT_GET_PRESCRIPTION_BY_ID)
+    public ResponseEntity getPrescriptionsOfCurrentPatientById(@RequestParam Integer appointmentId) {
+        try{
+            return ResponseEntity.ok().body(prescriptionService.findByAppointmentId(appointmentId));
+        }catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+    @GetMapping(UrlAddressCatalogue.COMMON_GET_ALL_MEDICAL_SERVICES)
     public ResponseEntity getAllMedicalServices() {
         return ResponseEntity.ok().body(appointmentService.findAllMedicalServices());
     }
@@ -90,11 +98,6 @@ public class PatientRestController {
         } catch (InvalidDataException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
-    }
-
-    @GetMapping(UrlAddressCatalogue.PATIENT_ALL_APPOINTMENT_STATUSES)
-    public ResponseEntity getAllAppointmentStatuses() {
-        return ResponseEntity.ok().body(Arrays.stream(AppointmentStatus.values()).map(Enum::name).collect(Collectors.toList()));
     }
 
     @PostMapping(UrlAddressCatalogue.PATIENT_UPDATE_APPOINTMENT_STATE)
@@ -142,7 +145,7 @@ public class PatientRestController {
         }
     }
 
-    @GetMapping(UrlAddressCatalogue.PATIENT_SEARCH_DOCTOR_BY_MEDICAL_SERVICE)
+    @GetMapping(UrlAddressCatalogue.COMMON_SEARCH_DOCTOR_BY_MEDICAL_SERVICE)
     public ResponseEntity searchDoctor(@RequestParam String medicalService) {
         try {
             return ResponseEntity.ok().body(appointmentService.findDoctorsByMedicalService(medicalService));
@@ -151,9 +154,14 @@ public class PatientRestController {
         }
     }
 
-    @GetMapping(UrlAddressCatalogue.PATIENT_SEARCH_DOCTOR_BY_NAME)
+    @GetMapping(UrlAddressCatalogue.COMMON_SEARCH_DOCTOR_BY_NAME)
     public ResponseEntity getDoctorProfile(@RequestParam String firstName, @RequestParam String lastName) {
         return ResponseEntity.ok().body(doctorProfileService.findByName(firstName, lastName));
+    }
+
+    @GetMapping(UrlAddressCatalogue.COMMON_ALL_APPOINTMENT_STATUSES)
+    public ResponseEntity getAllAppointmentStatuses() {
+        return ResponseEntity.ok().body(Arrays.stream(AppointmentStatus.values()).map(Enum::name).collect(Collectors.toList()));
     }
 
 }

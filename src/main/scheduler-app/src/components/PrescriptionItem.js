@@ -1,20 +1,28 @@
 import React from 'react'
-import {Accordion, Card} from 'react-bootstrap'
+import {Accordion, Card, Table} from 'react-bootstrap'
+import {LoadPrescriptionByAppointmentId} from "../actions/PrescriptionActions";
 
-class AppointmentItem extends React.Component {
+class PrescriptionItem extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.state = {
-            id: props.data.id,
-            patientFirstName: props.data.patientFirstName,
-            patientLastName: props.data.patientLastName,
-            doctorFirstName: props.data.doctorFirstName,
-            doctorLastName: props.data.doctorLastName,
-            status: props.data.status,
-            appointmentDate: props.data.appointmentDate,
-            medicalService: props.data.medicalService,
-        }
+        this.state = props.data;
+        this.loadPrescriptionData = this.loadPrescriptionData.bind(this);
         this.parseDateWithFormat = this.parseDateWithFormat.bind(this);
+    }
+
+    loadPrescriptionData() {
+        LoadPrescriptionByAppointmentId(this.state.appointmentId)
+            .then(data => {
+                this.setState(data)
+            })
+            .catch(e => {
+                console.log(e);
+            });
+        console.log(this.state.appointmentDate)
+    }
+
+    componentDidMount() {
+        this.loadPrescriptionData();
     }
 
     parseDateWithFormat(date) {
@@ -22,35 +30,38 @@ class AppointmentItem extends React.Component {
     }
 
     render() {
+        if (this.props.data.status !== this.state.status) {
+            this.loadPrescriptionData();
+        }
         return (
             <Accordion>
                 <Accordion.Item eventKey="0">
                     <Accordion.Header>
                         <Card.Body>
                             <Card.Title className="card-title">
-                                Appointment #{this.state.id}
+                                Prescription #{this.state.appointmentId}
                             </Card.Title>
                             <Card.Subtitle className="mb-2 text-muted">
-                                {this.state.patientFirstName + " " + this.state.patientLastName}
+                                Patient: {this.state.patientFirstName + " " + this.state.patientLastName}
                             </Card.Subtitle>
                         </Card.Body>
                     </Accordion.Header>
                     <Accordion.Body>
-                        <Card.Body id={this.state.id + "_collapsable"} className="collapse show"
+                        <Card.Body id={this.state.appointmentId + "_collapsable"} className="collapse show"
                                    aria-labelledby="headingOne"
-                                   data-parent={"#" + this.state.id + "_accordion"}>
+                                   data-parent={"#" + this.state.appointmentId + "_accordion"}>
                             <Card.Text>
                                 <b>Doctor:</b> {this.state.doctorFirstName + " " + this.state.doctorLastName}
                             </Card.Text>
                             <Card.Text>
-                                <b>Date:</b> { (this.state.appointmentDate === null)? "-" :
+                                <b>Appointment date:</b> { (this.state.appointmentDate === null)? "-" :
                                 (this.parseDateWithFormat(this.state.appointmentDate)).toLocaleDateString()}
                             </Card.Text>
                             <Card.Text>
-                                <b>Status:</b> {this.state.status}
+                                <b>Medication:</b> {this.state.medication}
                             </Card.Text>
                             <Card.Text>
-                                <b>Medical service:</b> {this.state.medicalService}
+                                <b>Indications:</b> {this.state.indications}
                             </Card.Text>
                         </Card.Body>
                     </Accordion.Body>
@@ -60,4 +71,4 @@ class AppointmentItem extends React.Component {
     }
 }
 
-export default AppointmentItem;
+export default PrescriptionItem;

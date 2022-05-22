@@ -13,6 +13,7 @@ import java.time.LocalTime;
 @Setter
 @Component
 public class DoctorProfileDTO {
+    private Integer id;
 
     @NotBlank(message = "First name should not be empty!")
     @Length(min = 3)

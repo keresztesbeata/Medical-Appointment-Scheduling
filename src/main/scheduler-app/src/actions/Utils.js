@@ -16,6 +16,9 @@ export const AUTH_PATIENT = "PATIENT";
 export const AUTH_RECEPTIONIST = "RECEPTIONIST";
 export const AUTH_DOCTOR = "DOCTOR";
 
+export const COMPACT_SCHEDULING_STRATEGY = "COMPACT"
+export const LOOSE_SCHEDULING_STRATEGY = "LOOSE"
+
 function GetSessionToken() {
     let sessionToken = JSON.parse(localStorage.getItem(SESSION_TOKEN));
     if (sessionToken === null) {

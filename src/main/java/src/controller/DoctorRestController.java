@@ -11,8 +11,6 @@ import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidDataException;
 import src.exceptions.InvalidStateException;
 import src.model.users.Account;
-import src.service.api.AppointmentService;
-import src.service.api.PrescriptionService;
 import src.service.impl.AppointmentServiceImpl;
 import src.service.impl.DoctorProfileServiceImpl;
 import src.service.impl.PatientProfileServiceImpl;
@@ -54,7 +52,7 @@ public class DoctorRestController {
         }
     }
 
-    @GetMapping(UrlAddressCatalogue.DOCTOR_SEARCH_PATIENT_BY_NAME)
+    @GetMapping(UrlAddressCatalogue.COMMON_SEARCH_PATIENT_BY_NAME)
     public ResponseEntity searchPatientByName(@RequestParam String firstName, @RequestParam String lastName) {
         return ResponseEntity.ok().body(patientService.findByName(firstName, lastName));
     }
@@ -94,13 +92,13 @@ public class DoctorRestController {
     @GetMapping(UrlAddressCatalogue.DOCTOR_GET_PATIENTS_PRESCRIPTIONS)
     public ResponseEntity getPatientsPastPrescriptions(@RequestParam String firstName, @RequestParam String lastName) {
         try {
-            return ResponseEntity.ok().body(prescriptionService.findByPatient(firstName, lastName));
+            return ResponseEntity.ok().body(prescriptionService.findByPatientName(firstName, lastName));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
     }
 
-    @GetMapping(UrlAddressCatalogue.DOCTOR_GET_ALL_SPECIALTIES)
+    @GetMapping(UrlAddressCatalogue.COMMON_GET_ALL_SPECIALTIES)
     public ResponseEntity getAllSpecialties() {
         return ResponseEntity.ok().body(doctorService.getAllSpecialties());
     }

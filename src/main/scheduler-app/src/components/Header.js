@@ -38,7 +38,7 @@ class Header extends React.Component {
                         <NavDropdown.Item href="/patient/view_doctors" key={3}>View doctors</NavDropdown.Item>
                         <NavDropdown.Item href="/patient/new_appointment" key={4}>New appointment</NavDropdown.Item>
                     </NavDropdown>,
-                    <Nav.Link href="/patient/prescriptions" key={5}>My prescriptions</Nav.Link>,
+                    <Nav.Link href="/patient/view_prescriptions" key={5}>My prescriptions</Nav.Link>,
                     <Nav.Link href="/patient/view_profile" key={6}>My profile</Nav.Link>
                 ];
             case AUTH_RECEPTIONIST:
@@ -46,7 +46,7 @@ class Header extends React.Component {
                     <NavDropdown title="Appointments" key={1}>
                         <NavDropdown.Item href="/receptionist/view_appointments" key={2}>View
                             appointments</NavDropdown.Item>
-                        <NavDropdown.Item href="/receptionist/manage_appointments" key={3}>Manage
+                        <NavDropdown.Item href="/receptionist/new_appointments" key={3}>New
                             appointments</NavDropdown.Item>
                     </NavDropdown>,
                     <Nav.Link href="/receptionist/view_doctors" key={4}>View doctors</Nav.Link>,

@@ -127,6 +127,20 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<AppointmentDTO> findAllAppointmentsByStatus(String status) {
+        if(status == null || status.isEmpty()) {
+            return appointmentRepository.findAll()
+                    .stream()
+                    .map(appointmentMapper::mapToDto)
+                    .collect(Collectors.toList());
+        }
+        return appointmentRepository.findByStatus(AppointmentStatus.valueOf(status))
+                .stream()
+                .map(appointmentMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<String> findAllMedicalServices() {
         return medicalServiceRepository.findAll()
                 .stream()
@@ -216,8 +230,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<LocalDateTime> findAvailableDates(Integer doctorId, String medicalServiceName) throws EntityNotFoundException {
-        DoctorProfile doctorProfile = doctorRepository.findById(doctorId)
+    public List<LocalDateTime> findAvailableDates(String firstName, String lastName, String medicalServiceName) throws EntityNotFoundException {
+        DoctorProfile doctorProfile = doctorRepository.findByFirstNameAndLastName(firstName, lastName)
                 .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE));
         MedicalService medicalService = medicalServiceRepository.findByName(medicalServiceName)
                 .orElseThrow(() -> new EntityNotFoundException(MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE));

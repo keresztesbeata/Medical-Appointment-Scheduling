@@ -3,17 +3,17 @@ import {Alert, Button, FormControl, FormLabel, FormSelect, InputGroup} from 'rea
 import {ERROR, SUCCESS, WARNING} from "../actions/Utils";
 import {GetCurrentUser} from "../actions/UserActions";
 import Notification from "../components/Notification";
-import {LoadMedicalServices, RequestNewAppointment} from "../actions/AppointmentActions";
+import {FilterDoctorsByMedicalService, LoadMedicalServices, RequestNewAppointment} from "../actions/AppointmentActions";
+import app from "../App";
 
 class CreateAppointment extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             medicalServices: [],
-            doctors: "",
+            doctors: [],
             appointment: {
-                doctorFirstName: "",
-                doctorLastName: "",
+                doctor: null,
                 medicalService: "",
             },
             notification: {
@@ -23,7 +23,8 @@ class CreateAppointment extends React.Component {
             }
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleMedicalServiceChange = this.handleMedicalServiceChange.bind(this);
+        this.handleDoctorChange = this.handleDoctorChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -33,11 +34,55 @@ class CreateAppointment extends React.Component {
                 this.setState({
                     ...this.state,
                     medicalServices: medicalServices,
+                    notification: {
+                        show: false,
+                    }
                 })
             })
+            .catch(error => {
+                this.setState({
+                    notification: {
+                        show: true,
+                        message: error.message,
+                        type: ERROR
+                    }
+                })
+            });
     }
 
-    handleInputChange(event) {
+    handleMedicalServiceChange(event) {
+        let selectedMedicalService = event.target.value
+
+        FilterDoctorsByMedicalService(selectedMedicalService)
+            .then(doctorsList => {
+                if(doctorsList.length === 0) {
+                    throw new Error("No doctors for service!");
+                }
+                this.setState({
+                    ...this.state,
+                    doctors: doctorsList,
+                    appointment: {
+                        medicalService: selectedMedicalService,
+                        doctor: doctorsList[0]
+                    },
+                    notification: {
+                        show: false
+                    }
+                })
+            })
+            .catch(error => {
+                this.setState({
+                    notification: {
+                        show: true,
+                        message: error.message,
+                        type: ERROR
+                    }
+                })
+            });
+
+    }
+
+    handleDoctorChange(event) {
         // prevent page from reloading
         event.preventDefault();
         const target = event.target;
@@ -47,7 +92,7 @@ class CreateAppointment extends React.Component {
             ...this.state,
             appointment: {
                 ...this.state.appointment,
-                [target.name]: value,
+                doctor: value,
             },
             notification: {
                 show: false
@@ -59,7 +104,13 @@ class CreateAppointment extends React.Component {
         // prevent page from reloading
         event.preventDefault();
 
-        RequestNewAppointment(this.state.appointment)
+        let appointmentDto = {
+            doctorFirstName: this.state.appointment.doctor.firstName,
+            doctorLastName: this.state.appointment.doctor.lastName,
+            medicalService: this.state.appointment.medicalService
+        }
+
+        RequestNewAppointment(appointmentDto)
             .then(() => {
                 this.setState({
                     notification: {
@@ -91,22 +142,26 @@ class CreateAppointment extends React.Component {
                         <Notification show={this.state.notification.show} message={this.state.notification.message}
                                       type={this.state.notification.type}/>
                         <InputGroup className="mb-3">
-                            <InputGroup.Text>Doctor</InputGroup.Text>
-                            <InputGroup.Text>First name</InputGroup.Text>
-                            <FormControl type="text" required placeholder="Doctor First Name" name="doctorFirstName"
-                                         onChange={this.handleInputChange}/>
-                            <InputGroup.Text>Last name</InputGroup.Text>
-                            <FormControl type="text" required placeholder="Doctor Last Name" name="doctorLastName"
-                                         onChange={this.handleInputChange}/>
-                        </InputGroup>
-                        <InputGroup className="mb-3">
                             <InputGroup.Text>Medical service</InputGroup.Text>
                             <FormSelect placeholder="Select medical service" name="medicalService"
-                                        onChange={this.handleInputChange} required>
+                                        onChange={this.handleMedicalServiceChange} required>
                                 {
                                     this.state.medicalServices.map(service =>
                                         <option value={service} key={"key_" + service}>
                                             {service}
+                                        </option>
+                                    )
+                                }
+                            </FormSelect>
+                        </InputGroup>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Text>Doctors</InputGroup.Text>
+                            <FormSelect placeholder="Select doctor" name="doctor"
+                                        onChange={this.handleDoctorChange} required>
+                                {
+                                    this.state.doctors.map(doctor =>
+                                        <option value={doctor} key={"key_" + doctor.id}>
+                                            {doctor.firstName + " " + doctor.lastName}
                                         </option>
                                     )
                                 }

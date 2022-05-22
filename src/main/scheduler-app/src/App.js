@@ -12,8 +12,10 @@ import ViewDoctorProfile from "./pages/ViewDoctorProfile";
 import SetupPatientProfile from "./pages/SetupPatientProfile";
 import SetupDoctorProfile from "./pages/SetupDoctorProfile";
 import CreateAppointment from "./pages/CreateAppointment";
-import PatientAppointmentsHistory from "./pages/PatientAppointmentsHistory";
+import PatientViewAppointments from "./pages/PatientViewAppointments";
 import ViewAllDoctors from "./pages/ViewAllDoctors";
+import PatientViewPrescriptions from "./pages/PatientViewPrescriptions";
+import ReceptionistViewAppointments from "./pages/ReceptionistViewAppointments";
 
 class App extends Component {
     render() {
@@ -29,10 +31,13 @@ class App extends Component {
                         <Route path="/patient/view_profile" element={<ViewPatientProfile/>}/>
                         <Route path="/patient/setup_profile" element={<SetupPatientProfile/>}/>
                         <Route path="/patient/new_appointment" element={<CreateAppointment/>}/>
-                        <Route path="/patient/view_appointments" element={<PatientAppointmentsHistory/>}/>
+                        <Route path="/patient/view_appointments" element={<PatientViewAppointments/>}/>
+                        <Route path="/patient/view_prescriptions" element={<PatientViewPrescriptions/>}/>
                         <Route path="/patient/view_doctors" element={<ViewAllDoctors/>}/>
                         <Route path="/doctor/view_profile" element={<ViewDoctorProfile/>}/>
                         <Route path="/doctor/setup_profile" element={<SetupDoctorProfile/>}/>
+                        <Route path="/doctor/view_appointments" element={<ReceptionistViewAppointments/>}/>
+                        <Route path="/doctor/new_appointments" element={<ReceptionistViewAppointments/>}/>
                         <Route path="/error" element={<Error/>}/>
                     </Routes>
                 </BrowserRouter>

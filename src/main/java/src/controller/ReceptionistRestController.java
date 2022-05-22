@@ -12,13 +12,17 @@ import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidAccessException;
 import src.exceptions.InvalidDataException;
 import src.exceptions.InvalidStateException;
+import src.model.AppointmentStatus;
 import src.model.users.Account;
 import src.service.api.AppointmentService;
+import src.service.impl.AppointmentServiceImpl;
 import src.service.impl.DoctorProfileServiceImpl;
 import src.service.impl.PatientProfileServiceImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @RestController
 @Log4j2
@@ -27,9 +31,19 @@ public class ReceptionistRestController {
     @Autowired
     private PatientProfileServiceImpl patientService;
     @Autowired
-    private AppointmentService appointmentService;
+    private AppointmentServiceImpl appointmentService;
     @Autowired
     private DoctorProfileServiceImpl doctorService;
+
+    @GetMapping(UrlAddressCatalogue.RECEPTIONIST_ALL_APPOINTMENT_STATUSES)
+    public ResponseEntity getAllAppointmentStatuses() {
+        return ResponseEntity.ok().body(Arrays.stream(AppointmentStatus.values()).map(Enum::name).collect(Collectors.toList()));
+    }
+
+    @GetMapping(UrlAddressCatalogue.RECEPTIONIST_GET_ALL_APPOINTMENTS_BY_STATUS)
+    public ResponseEntity getAllAppointmentsByStatus(@RequestParam String status) {
+        return ResponseEntity.ok().body(appointmentService.findAllAppointmentsByStatus(status));
+    }
 
     @GetMapping(UrlAddressCatalogue.RECEPTIONIST_GET_ALL_APPOINTMENTS_OF_PATIENT)
     public ResponseEntity getAllAppointmentsOfPatient(@RequestParam String firstName, @RequestParam String lastName) {
@@ -60,16 +74,16 @@ public class ReceptionistRestController {
     }
 
     @GetMapping(UrlAddressCatalogue.RECEPTIONIST_GET_AVAILABLE_APPOINTMENTS_FOR_DOCTOR)
-    public ResponseEntity getAvailableAppointmentsForDoctor(@RequestParam Integer doctorId, @RequestParam String medicalService) {
+    public ResponseEntity getAvailableAppointmentsForDoctor(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String medicalService) {
         try {
-            return ResponseEntity.ok().body(appointmentService.findAvailableDates(doctorId, medicalService));
+            return ResponseEntity.ok().body(appointmentService.findAvailableDates(firstName, lastName, medicalService));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
     }
 
     @GetMapping(UrlAddressCatalogue.RECEPTIONIST_GET_APPOINTMENTS_OF_DOCTOR_BY_GIVEN_DATE)
-    public ResponseEntity getAvailableAppointmentsForDoctor(@RequestParam Integer doctorId, @RequestParam LocalDate localDate) {
+    public ResponseEntity getAllAppointmentsForDoctorByDate(@RequestParam Integer doctorId, @RequestParam LocalDate localDate) {
         try {
             return ResponseEntity.ok().body(appointmentService.findAppointmentsOfDoctorByDate(doctorId, localDate));
         } catch (EntityNotFoundException e) {
@@ -93,7 +107,7 @@ public class ReceptionistRestController {
     }
 
     @PostMapping(UrlAddressCatalogue.RECEPTIONIST_SCHEDULE_APPOINTMENT)
-    public ResponseEntity updateAppointmentStatus(@RequestParam Integer appointmentId, @RequestParam LocalDateTime appointmentDate) {
+    public ResponseEntity scheduleAppointment(@RequestParam Integer appointmentId, @RequestParam LocalDateTime appointmentDate) {
         try {
             appointmentService.schedule(appointmentId, appointmentDate);
             return ResponseEntity.ok().build();
@@ -105,7 +119,7 @@ public class ReceptionistRestController {
     }
 
     @PostMapping(UrlAddressCatalogue.RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY)
-    public ResponseEntity change(@RequestParam String strategy) {
+    public ResponseEntity changeSchedulingStrategy(@RequestParam String strategy) {
         appointmentService.changeSchedulingStrategy(strategy);
         return ResponseEntity.ok().build();
     }

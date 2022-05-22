@@ -25,7 +25,8 @@ import java.util.stream.Collectors;
 @Log4j2
 public class PrescriptionServiceImpl implements PrescriptionService {
     private static final String APPOINTMENT_NOT_FOUND_ERROR_MESSAGE = "Appointment not found by id!";
-    private static final String PATIENT_NOT_FOUND_ERROR_MESSAGE = "Patient not found by name!";
+    private static final String PATIENT_NOT_FOUND_BY_NAME_ERROR_MESSAGE = "Patient not found by name!";
+    private static final String PATIENT_NOT_FOUND_BY_ID_ERROR_MESSAGE = "Appointment not found by id!";
     private static final String PRESCRIPTION_NOT_FOUND_ERROR_MESSAGE = "Prescription not found by id!";
     private static final String CANNOT_ADD_PRESCRIPTION_ERROR_MESSAGE = "Prescriptions cannot be added in the current state of the appointment!";
 
@@ -58,7 +59,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public Optional<PrescriptionDTO> findByAppointment(Integer appointmentId) throws EntityNotFoundException {
+    public Optional<PrescriptionDTO> findByAppointmentId(Integer appointmentId) throws EntityNotFoundException {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new EntityNotFoundException(APPOINTMENT_NOT_FOUND_ERROR_MESSAGE));
 
@@ -66,9 +67,21 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     }
 
     @Override
-    public List<PrescriptionDTO> findByPatient(String firstName, String lastName) throws EntityNotFoundException {
+    public List<PrescriptionDTO> findByPatientName(String firstName, String lastName) throws EntityNotFoundException {
         PatientProfile patientProfile = patientRepository.findByFirstNameAndLastName(firstName, lastName)
-                .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_ERROR_MESSAGE));
+                .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_BY_NAME_ERROR_MESSAGE));
+
+        return prescriptionRepository.findByPatient(patientProfile)
+                .stream()
+                .map(prescriptionMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PrescriptionDTO> findByPatientId(Integer id) throws EntityNotFoundException {
+        PatientProfile patientProfile = patientRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_BY_ID_ERROR_MESSAGE));
+
         return prescriptionRepository.findByPatient(patientProfile)
                 .stream()
                 .map(prescriptionMapper::mapToDto)

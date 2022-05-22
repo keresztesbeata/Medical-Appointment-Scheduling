@@ -16,9 +16,11 @@ public interface PrescriptionService {
      */
     void addPrescription(Integer appointmentId, PrescriptionDTO prescriptionDTO) throws InvalidStateException, EntityNotFoundException;
 
-    Optional<PrescriptionDTO> findByAppointment(Integer appointmentId) throws EntityNotFoundException;
+    Optional<PrescriptionDTO> findByAppointmentId(Integer appointmentId) throws EntityNotFoundException;
 
-    List<PrescriptionDTO> findByPatient(String firstName, String lastName) throws EntityNotFoundException;
+    List<PrescriptionDTO> findByPatientName(String firstName, String lastName) throws EntityNotFoundException;
+
+    List<PrescriptionDTO> findByPatientId(Integer id) throws EntityNotFoundException;
 
     void exportPrescription(Integer appointmentId) throws EntityNotFoundException;
 }
