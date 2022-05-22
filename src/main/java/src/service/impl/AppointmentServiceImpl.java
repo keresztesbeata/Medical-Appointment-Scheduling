@@ -231,6 +231,8 @@ public class AppointmentServiceImpl implements AppointmentService {
             case LOOSE -> schedulingStrategy = new LooseSchedulingStrategy();
             case COMPACT -> schedulingStrategy = new CompactSchedulingStrategy();
         }
+
+        log.info("changeSchedulingStrategy: The scheduling strategy has been changed to " + schedulingType + "!");
     }
 
     @Override

@@ -44,9 +44,9 @@ class Header extends React.Component {
             case AUTH_RECEPTIONIST:
                 return [
                     <NavDropdown title="Appointments" key={1}>
-                        <NavDropdown.Item href="/receptionist/view_appointments" key={2}>View
+                        <NavDropdown.Item href="/receptionist/manage_appointments" key={2}>Manage
                             appointments</NavDropdown.Item>
-                        <NavDropdown.Item href="/receptionist/new_appointments" key={3}>New
+                        <NavDropdown.Item href="/receptionist/schedule_appointments" key={3}>Schedule
                             appointments</NavDropdown.Item>
                     </NavDropdown>,
                     <Nav.Link href="/receptionist/view_doctors" key={4}>View doctors</Nav.Link>,

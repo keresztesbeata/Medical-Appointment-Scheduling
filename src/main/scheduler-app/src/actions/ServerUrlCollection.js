@@ -29,7 +29,7 @@ export const SEARCH_DOCTOR_BY_NAME = "/common/search_doctor_by_name"
 export const SEARCH_PATIENT_BY_NAME = "/common/search_patient_by_name"
 
 export const RECEPTIONIST_ALL_APPOINTMENTS_BY_STATUS = "/receptionist/appointments/status"
-export const RECEPTIONIST_UPDATE_APPOINTMENT_STATUS = "/receptionist/appointment/update_state"
+export const RECEPTIONIST_UPDATE_APPOINTMENT_STATE = "/receptionist/appointment/update_state"
 export const RECEPTIONIST_SCHEDULE_APPOINTMENT = "/receptionist/appointment/schedule"
 export const RECEPTIONIST_AVAILABLE_APPOINTMENTS = "/receptionist/available_appointments"
 export const RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY = "/receptionist/change_strategy"

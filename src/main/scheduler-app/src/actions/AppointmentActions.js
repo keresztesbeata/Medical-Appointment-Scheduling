@@ -15,7 +15,7 @@ import {
     RECEPTIONIST_AVAILABLE_APPOINTMENTS,
     RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY,
     RECEPTIONIST_SCHEDULE_APPOINTMENT,
-    RECEPTIONIST_UPDATE_APPOINTMENT_STATUS,
+    RECEPTIONIST_UPDATE_APPOINTMENT_STATE,
     SEARCH_DOCTOR_BY_MEDICAL_SERVICE,
     SEARCH_DOCTOR_BY_NAME,
     SEARCH_PATIENT_BY_NAME
@@ -93,6 +93,16 @@ export function LoadUpcomingAppointmentsOfPatient() {
     return FetchRequest(url, GET_REQUEST);
 }
 
+export function LoadNewAppointments() {
+    const url = new URL(BASE_URL + RECEPTIONIST_ALL_APPOINTMENTS_BY_STATUS)
+    const params = {
+        status: "REQUESTED"
+    }
+    url.search = new URLSearchParams(params).toString();
+
+    return FetchRequest(url, GET_REQUEST);
+}
+
 export function LoadAllAppointmentsByStatus(status) {
     const url = new URL(BASE_URL + RECEPTIONIST_ALL_APPOINTMENTS_BY_STATUS)
     const params = {
@@ -103,28 +113,25 @@ export function LoadAllAppointmentsByStatus(status) {
     return FetchRequest(url, GET_REQUEST);
 }
 
-export function UpdateAppointmentStatus(appointmentId, newStatus) {
-    const url = new URL(BASE_URL + RECEPTIONIST_UPDATE_APPOINTMENT_STATUS)
+export function UpdateAppointmentStatus(appointmentId, newState) {
+    const url = new URL(BASE_URL + RECEPTIONIST_UPDATE_APPOINTMENT_STATE)
     const params = {
         appointmentId: appointmentId,
-        newStatus: newStatus
+        newState: newState
     }
     url.search = new URLSearchParams(params).toString();
 
-    return FetchRequest(url, POST_REQUEST);
+    return FetchRequestWithNoReturnData(url, POST_REQUEST);
 }
 
 export function ScheduleAppointment(appointmentId, appointmentDate) {
     const url = new URL(BASE_URL + RECEPTIONIST_SCHEDULE_APPOINTMENT)
     const params = {
-        appointmentId: appointmentId,
-        appointmentDate: appointmentDate
+        appointmentId: appointmentId
     }
     url.search = new URLSearchParams(params).toString();
 
-    console.log(params)
-
-    return FetchRequestWithNoReturnData(url, POST_REQUEST);
+    return FetchRequest(url, POST_REQUEST, appointmentDate);
 }
 
 export function LoadAvailableAppointmentDates(firstName, lastName, medicalService) {

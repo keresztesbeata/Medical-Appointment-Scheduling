@@ -9,7 +9,7 @@ import {
 } from "../actions/AppointmentActions";
 import Notification from "../components/Notification";
 
-class ReceptionistViewAppointments extends React.Component {
+class ReceptionistManageAppointments extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -181,7 +181,7 @@ render()
                                         </Form>
                                     </td>
                                     <td>
-                                        <Button variant="outline-secondary"
+                                        <Button variant="outline-success"
                                                 onClick={() => this.onUpdateAppointmentStatus(item.id)}>
                                             Update status
                                         </Button>
@@ -198,4 +198,4 @@ render()
 }
 }
 
-export default ReceptionistViewAppointments;
+export default ReceptionistManageAppointments;

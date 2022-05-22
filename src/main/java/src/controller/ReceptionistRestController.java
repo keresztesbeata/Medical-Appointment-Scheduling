@@ -4,10 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import src.exceptions.EntityNotFoundException;
 import src.exceptions.InvalidAccessException;
 import src.exceptions.InvalidDataException;
@@ -107,13 +104,12 @@ public class ReceptionistRestController {
     }
 
     @PostMapping(UrlAddressCatalogue.RECEPTIONIST_SCHEDULE_APPOINTMENT)
-    public ResponseEntity scheduleAppointment(@RequestParam Integer appointmentId, @RequestParam LocalDateTime appointmentDate) {
+    public ResponseEntity scheduleAppointment(@RequestParam Integer appointmentId, @RequestBody AppointmentDateRequest appointmentDate) {
         try {
-            return ResponseEntity.ok().body(appointmentService.schedule(appointmentId, appointmentDate));
+            return ResponseEntity.ok().body(appointmentService.schedule(appointmentId, appointmentDate.convertToLocalDateTime()));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         } catch (InvalidDataException e) {
-            System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e);
         }
     }

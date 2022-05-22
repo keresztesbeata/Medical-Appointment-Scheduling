@@ -5,7 +5,7 @@ import {
     Card,
     Container,
     Form,
-    FormControl, FormGroup, FormText,
+    FormControl, FormGroup, FormLabel, FormText,
     InputGroup,
     ListGroup,
     ListGroupItem
@@ -28,9 +28,14 @@ class EditableAppointmentItem extends React.Component {
                 doctorLastName: props.data.doctorLastName,
                 status: props.data.status,
                 medicalService: props.data.medicalService,
-                appointmentDate: new Date(),
             },
-            appointmentTime: "",
+            appointmentDate: {
+                year: new Date().getFullYear(),
+                month: new Date().getMonth() + 1,
+                day: new Date().getDate(),
+                hours: new Date().getHours(),
+                minutes: new Date().getMinutes()
+            },
             availableDates: [],
             strategy: COMPACT_SCHEDULING_STRATEGY,
             notification: {
@@ -42,7 +47,6 @@ class EditableAppointmentItem extends React.Component {
         this.onScheduleAppointment = this.onScheduleAppointment.bind(this);
         this.parseDateWithFormat = this.parseDateWithFormat.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
-        this.handleTimeChange = this.handleTimeChange.bind(this);
     }
 
     componentDidMount() {
@@ -62,28 +66,19 @@ class EditableAppointmentItem extends React.Component {
             })
     }
 
-    handleTimeChange(event) {
-        const target = event.target
-        this.setState({
-            ...this.state,
-            appointmentTime: target.value,
-            notification: {
-                show: false,
-            }
-        });
-    }
-
     parseDateWithFormat(date) {
         return new Date(date[0], date[1], date[2]);
     }
 
-    handleDateChange(newDate) {
-        const formattedDate = format(newDate, "yyyy-MM-dd");
+    handleDateChange(event) {
+        event.preventDefault()
+        let target = event.target
+
         this.setState({
             ...this.state,
-            appointment: {
-                ...this.state.appointment,
-                appointmentDate: formattedDate,
+            appointmentDate: {
+                ...this.state.appointmentDate,
+                [target.name]: target.value,
             },
             notification: {
                 show: false
@@ -91,8 +86,7 @@ class EditableAppointmentItem extends React.Component {
         });
     }
     onScheduleAppointment() {
-        let finalDate = this.state.appointment.appointmentDate + " " + this.state.appointmentTime;
-        ScheduleAppointment(this.state.appointment.id, finalDate)
+        ScheduleAppointment(this.state.appointment.id, this.state.appointmentDate)
             .then(() =>
                 this.setState({
                             notification: {
@@ -139,28 +133,47 @@ class EditableAppointmentItem extends React.Component {
                             <Card.Text>
                                 <b>Medical service:</b> {this.state.appointment.medicalService}
                             </Card.Text>
-                            <Form>
+                            <FormGroup className="mb-3">
                                 <Notification show={this.state.notification.show}
                                               message={this.state.notification.message}
                                               type={this.state.notification.type}/>
+                                <FormLabel>Appointment date</FormLabel>
                                 <InputGroup className="mb-3">
-                                    <InputGroup.Text>Appointment date</InputGroup.Text>
-                                    <DatePicker name="appointmentDate" format="yyyy-mm-dd" placeholder="Enter date"
-                                                value={this.state.appointment.appointmentDate}
+                                    <InputGroup.Text>Year</InputGroup.Text>
+                                    <FormControl type="text"
+                                                 name="year"
+                                                value={this.state.appointmentDate.year}
                                                 onChange={this.handleDateChange} />
+                                    <InputGroup.Text>Month</InputGroup.Text>
+                                    <FormControl type="text"
+                                                 name="month"
+                                                 value={this.state.appointmentDate.month}
+                                                 onChange={this.handleDateChange} />
+                                    <InputGroup.Text>Day</InputGroup.Text>
+                                    <FormControl type="text"
+                                                 name="day"
+                                                 value={this.state.appointmentDate.day}
+                                                 onChange={this.handleDateChange} />
                                 </InputGroup>
+                                <FormLabel>Appointment time</FormLabel>
                                 <InputGroup className="mb-3">
-                                    <InputGroup.Text>Appointment time</InputGroup.Text>
-                                    <FormControl type="text" required placeholder={new Date().toLocaleTimeString('il-IT')}
-                                                 name="appointmentTime"
-                                                 onChange={this.handleTimeChange}/>
+                                    <InputGroup.Text>Hours</InputGroup.Text>
+                                    <FormControl type="text"
+                                                 name="hours"
+                                                 value={this.state.appointmentDate.hours}
+                                                 onChange={this.handleDateChange} />
+                                    <InputGroup.Text>Minutes</InputGroup.Text>
+                                    <FormControl type="text"
+                                                 name="minutes"
+                                                 value={this.state.appointmentDate.minutes}
+                                                 onChange={this.handleDateChange} />
                                 </InputGroup>
                                 <FormGroup className="mb-3">
                                     <FormText>Available spots:</FormText>
                                 <Container className="fluid">
                                     <ListGroup variant="flush">
                                         {this.state.availableDates.map(item =>
-                                            <ListGroup.Item key={item.id} format="yyyy-mm-dd hh:mm">
+                                            <ListGroup.Item key={item} format="yyyy-mm-dd hh:mm">
                                                 {(this.parseDateWithFormat(item)).toLocaleDateString()}
                                             </ListGroup.Item>
                                         )}
@@ -168,7 +181,7 @@ class EditableAppointmentItem extends React.Component {
                                 </Container>
                                 </FormGroup>
                                 <Button variant="success" onClick={this.onScheduleAppointment}>Schedule</Button>
-                            </Form>
+                            </FormGroup>
                         </Card.Body>
                     </Accordion.Body>
                 </Accordion.Item>

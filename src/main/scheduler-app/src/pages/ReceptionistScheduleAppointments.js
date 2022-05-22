@@ -3,16 +3,12 @@ import {Button, Container, Form, ListGroup, Navbar} from "react-bootstrap";
 import {COMPACT_SCHEDULING_STRATEGY, ERROR, LOOSE_SCHEDULING_STRATEGY, SUCCESS} from "../actions/Utils";
 import {
     ChangeSchedulingStrategy,
-    LoadAllAppointmentsByStatus,
-    LoadAllAppointmentsOfPatientByStatus,
-    LoadAppointmentStatuses,
-    LoadPastAppointmentsOfPatient, LoadUpcomingAppointmentsOfPatient, UpdateAppointmentStatus
+    LoadAllAppointmentsByStatus, LoadNewAppointments,
 } from "../actions/AppointmentActions";
 import Notification from "../components/Notification";
-import AppointmentItem from "../components/AppointmentItem";
 import EditableAppointmentItem from "../components/EditableAppointmentItem";
 
-class ReceptionistNewAppointments extends React.Component {
+class ReceptionistScheduleAppointments extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -28,7 +24,7 @@ class ReceptionistNewAppointments extends React.Component {
     }
 
     componentDidMount() {
-        LoadAllAppointmentsByStatus("")
+        LoadNewAppointments()
             .then(appointmentsData => {
                 this.setState({
                     appointments: appointmentsData
@@ -59,13 +55,13 @@ class ReceptionistNewAppointments extends React.Component {
     onChangeSchedulingStrategy() {
         ChangeSchedulingStrategy(this.state.selectedStrategy)
             .then(() => {
-                LoadAllAppointmentsByStatus(this.state.selectedAppointmentStatus)
+                LoadNewAppointments()
                     .then(appointmentsData => {
                         this.setState({
                             appointments: appointmentsData,
                             notification: {
                                 show: true,
-                                message: "Status of the appointment has been successfully updated to " + this.state.updatedAppointmentStatus + "!",
+                                message: "The appointment has been successfully scheduled!",
                                 type: SUCCESS
                             }
                         });
@@ -101,7 +97,7 @@ class ReceptionistNewAppointments extends React.Component {
                     <div className="flex justify-content-center">
                         <Navbar className="justify-content-center">
                             <Form className="d-flex">
-                                <Form.Select aria-label="Scheduling strategy" className="me-2" name="selectedStrategy"
+                                <Form.Select aria-label="Scheduling strategy" name="selectedStrategy"
                                              onChange={this.handleInputChange}>
                                     <option value={COMPACT_SCHEDULING_STRATEGY} key={1}>{COMPACT_SCHEDULING_STRATEGY}</option>
                                     <option value={LOOSE_SCHEDULING_STRATEGY} key={2}>{LOOSE_SCHEDULING_STRATEGY}</option>
@@ -112,7 +108,7 @@ class ReceptionistNewAppointments extends React.Component {
                         <Container className="fluid">
                             <ListGroup variant="flush">
                                 {this.state.appointments.map(item =>
-                                    <ListGroup.Item key={item.id}>
+                                    <ListGroup.Item key={"key_"+item.id}>
                                         <EditableAppointmentItem data={item}/>
                                     </ListGroup.Item>
                                 )}
@@ -125,4 +121,4 @@ class ReceptionistNewAppointments extends React.Component {
     }
 }
 
-export default ReceptionistNewAppointments;
+export default ReceptionistScheduleAppointments;
