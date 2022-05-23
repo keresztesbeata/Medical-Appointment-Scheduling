@@ -20,7 +20,10 @@ import src.model.appointment_states.AppointmentStateFactory;
 import src.model.users.Account;
 import src.model.users.DoctorProfile;
 import src.model.users.PatientProfile;
-import src.repository.*;
+import src.repository.AppointmentRepository;
+import src.repository.DoctorRepository;
+import src.repository.MedicalServiceRepository;
+import src.repository.PatientRepository;
 import src.service.api.AppointmentService;
 import src.service.impl.schedule.CompactSchedulingStrategy;
 import src.service.impl.schedule.LooseSchedulingStrategy;
@@ -83,7 +86,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new EntityNotFoundException(APPOINTMENT_NOT_FOUND_ERROR_MESSAGE));
 
-        if(dateTime.isBefore(LocalDateTime.now())) {
+        if (dateTime.isBefore(LocalDateTime.now())) {
             throw new InvalidDataException(INVALID_DATE_ERROR_MESSAGE);
         }
         appointment.setAppointmentDate(dateTime);
@@ -140,7 +143,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<AppointmentDTO> findAllAppointmentsByStatus(String status) {
-        if(status == null || status.isEmpty()) {
+        if (status == null || status.isEmpty()) {
             return appointmentRepository.findAll()
                     .stream()
                     .map(appointmentMapper::mapToDto)
@@ -198,7 +201,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         DoctorProfile doctorProfile = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE));
 
-        if(appointmentStatus == null || appointmentStatus.isEmpty()) {
+        if (appointmentStatus == null || appointmentStatus.isEmpty()) {
             return appointmentRepository.findByDoctor(doctorProfile)
                     .stream()
                     .map(appointmentMapper::mapToDto)
@@ -266,8 +269,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<LocalDateTime> findAvailableDates(String firstName, String lastName, String medicalServiceName) throws EntityNotFoundException {
-        DoctorProfile doctorProfile = doctorRepository.findByFirstNameAndLastName(firstName, lastName)
+    public List<LocalDateTime> findAvailableDates(String doctorFirstName, String doctorLastName, String medicalServiceName) throws EntityNotFoundException {
+        DoctorProfile doctorProfile = doctorRepository.findByFirstNameAndLastName(doctorFirstName, doctorLastName)
                 .orElseThrow(() -> new EntityNotFoundException(DOCTOR_NOT_FOUND_ERROR_MESSAGE));
         MedicalService medicalService = medicalServiceRepository.findByName(medicalServiceName)
                 .orElseThrow(() -> new EntityNotFoundException(MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE));
@@ -279,7 +282,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<DoctorProfileDTO> findDoctorsByMedicalService(String medicalServiceName) throws EntityNotFoundException {
-        if(medicalServiceName == null || medicalServiceName.isEmpty()) {
+        if (medicalServiceName == null || medicalServiceName.isEmpty()) {
             return doctorRepository.findAll()
                     .stream()
                     .map(doctor -> (new DoctorMapper()).mapToDto(doctor))
@@ -299,7 +302,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         PatientProfile patientProfile = patientRepository.findById(patientId)
                 .orElseThrow(() -> new EntityNotFoundException(PATIENT_NOT_FOUND_ERROR_MESSAGE));
 
-        if(appointmentStatus == null || appointmentStatus.isEmpty()) {
+        if (appointmentStatus == null || appointmentStatus.isEmpty()) {
             return appointmentRepository.findByPatient(patientProfile)
                     .stream()
                     .map(appointmentMapper::mapToDto)

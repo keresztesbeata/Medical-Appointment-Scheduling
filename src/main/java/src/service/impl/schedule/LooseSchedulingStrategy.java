@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Schedules appointments in a loose manner, sequentially, always adding the new appointment after the last one, thus ensuring that there are no overlapping appointments.
+ * Simpler, but less efficient strategy than its Compact variant.
+ */
 public class LooseSchedulingStrategy implements SchedulingStrategy {
     @Override
     public List<LocalDateTime> findAvailableSpots(MedicalService medicalService, DoctorProfile doctorProfile, List<Appointment> existingAppointments) {
@@ -21,13 +25,13 @@ public class LooseSchedulingStrategy implements SchedulingStrategy {
             // check if there is a free spot in the hours (leave 1 hour to let the customer be able to arrive on time)
             LocalDateTime estimatedFinishingTime = LocalDateTime.now().plusHours(1).plusMinutes(medicalService.getDuration());
             long availableTime = doctorProfile.getFinishTime().until(estimatedFinishingTime, ChronoUnit.MINUTES);
-            if(availableTime >= 0) {
+            if (availableTime >= 0) {
                 availableSpots.add(LocalDateTime.now().plusHours(1));
-            }else {
+            } else {
                 // no appointments whatsoever, but today there is no more time, so schedule it for the next day from start hour
                 availableSpots.add(LocalDateTime.now().plusDays(1).withHour(doctorProfile.getStartTime().getHour()));
             }
-        }else {
+        } else {
             // sort the appointments by latest date first
             List<Appointment> sortedAppointments = existingAppointments.stream()
                     .filter(appointment -> appointment.getAppointmentDate().isAfter(LocalDateTime.now()))

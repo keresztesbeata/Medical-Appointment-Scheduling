@@ -39,13 +39,13 @@ public class DoctorProfileServiceImpl implements UserProfileService<DoctorProfil
 
     @Override
     public DoctorProfileDTO saveProfile(Integer id, DoctorProfileDTO userProfileDTO) throws InvalidDataException, EntityNotFoundException, DuplicateDataException {
-        if(accountRepository.findById(id).isEmpty()) {
+        if (accountRepository.findById(id).isEmpty()) {
             throw new EntityNotFoundException(USER_NOT_FOUND_ERR_MSG);
         }
 
         validator.validate(userProfileDTO);
 
-        if(dataRepository.findById(id).isEmpty()) {
+        if (dataRepository.findById(id).isEmpty()) {
             if (dataRepository.findByFirstNameAndLastName(userProfileDTO.getFirstName(), userProfileDTO.getLastName()).isPresent()) {
                 throw new DuplicateDataException(DUPLICATE_NAME_ERR_MSG);
             }
@@ -53,7 +53,7 @@ public class DoctorProfileServiceImpl implements UserProfileService<DoctorProfil
         DoctorProfile doctorProfile = dataMapper.mapToEntity(userProfileDTO);
 
         Specialty specialty = specialtyRepository.findByName(userProfileDTO.getSpecialty())
-                        .orElseThrow(() -> new EntityNotFoundException(SPECIALTY_NOT_FOUND_ERR_MSG));
+                .orElseThrow(() -> new EntityNotFoundException(SPECIALTY_NOT_FOUND_ERR_MSG));
         doctorProfile.setSpecialty(specialty);
         doctorProfile.setId(id);
 

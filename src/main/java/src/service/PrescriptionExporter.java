@@ -11,6 +11,9 @@ import src.model.Prescription;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+/**
+ * Responsible for export a given prescription in a savable document format. In this case, it will be saved as a pdf.
+ */
 @Log4j2
 public class PrescriptionExporter {
     // Represents the path to the directory where the prescriptions are stored.
@@ -21,6 +24,10 @@ public class PrescriptionExporter {
     private static final Font TITLE_FONT = FontFactory.getFont(FontFactory.TIMES, 18, Font.BOLD, BaseColor.BLACK);
     private static final Font SECTION_FONT = FontFactory.getFont(FontFactory.TIMES, 14, Font.BOLD, BaseColor.BLACK);
 
+    /**
+     * Generate a pdf with the details of the prescription and save it in a destination directory.
+     * @param prescription the prescription to be exported
+     */
     public void exportPrescriptionAsPDF(Prescription prescription) {
         try {
             Document document = new Document();

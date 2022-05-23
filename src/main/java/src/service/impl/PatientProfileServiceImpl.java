@@ -3,7 +3,6 @@ package src.service.impl;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import src.dto.DoctorProfileDTO;
 import src.dto.PatientProfileDTO;
 import src.exceptions.DuplicateDataException;
 import src.exceptions.EntityNotFoundException;
@@ -37,21 +36,21 @@ public class PatientProfileServiceImpl implements UserProfileService<PatientProf
 
     @Override
     public PatientProfileDTO saveProfile(Integer id, PatientProfileDTO userProfileDTO) throws InvalidDataException, EntityNotFoundException, DuplicateDataException {
-        if(accountRepository.findById(id).isEmpty()) {
-                throw new EntityNotFoundException(USER_NOT_FOUND_ERR_MSG);
+        if (accountRepository.findById(id).isEmpty()) {
+            throw new EntityNotFoundException(USER_NOT_FOUND_ERR_MSG);
         }
 
         validator.validate(userProfileDTO);
 
-        if(dataRepository.findById(id).isEmpty()) {
+        if (dataRepository.findById(id).isEmpty()) {
             // set up a new user profile and check for duplicate emails
             if (dataRepository.findByEmail(userProfileDTO.getEmail()).isPresent()) {
                 throw new DuplicateDataException(DUPLICATE_EMAIL_ERR_MSG);
             }
-            if(dataRepository.findByPhone(userProfileDTO.getPhone()).isPresent()) {
+            if (dataRepository.findByPhone(userProfileDTO.getPhone()).isPresent()) {
                 throw new DuplicateDataException(DUPLICATE_PHONE_NUMBER_ERR_MSG);
             }
-            if(dataRepository.findByFirstNameAndLastName(userProfileDTO.getFirstName(), userProfileDTO.getLastName()).isPresent()) {
+            if (dataRepository.findByFirstNameAndLastName(userProfileDTO.getFirstName(), userProfileDTO.getLastName()).isPresent()) {
                 throw new DuplicateDataException(DUPLICATE_NAME_ERR_MSG);
             }
         }

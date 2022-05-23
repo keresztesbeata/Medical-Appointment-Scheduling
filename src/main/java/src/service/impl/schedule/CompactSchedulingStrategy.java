@@ -7,9 +7,16 @@ import src.model.users.DoctorProfile;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Schedules appointments in a compact manner, very close to each other with the intent to fill up the free time slots between dispersed appointment dates.
+ * If there is enough time between 2 existing appointments in order to add the new appointment, then it will be considered as a positive candidate.
+ */
 public class CompactSchedulingStrategy implements SchedulingStrategy {
 
     @Override
@@ -26,13 +33,13 @@ public class CompactSchedulingStrategy implements SchedulingStrategy {
         // iterate through the appointments with an iterator to find the next available free spot between 2 dates
         Iterator<Appointment> iterator = sortedAppointments.listIterator();
 
-        if(sortedAppointments.isEmpty()) {
+        if (sortedAppointments.isEmpty()) {
             // check if there is a free spot in the hours (leave 1 hour to let the customer be able to arrive on time)
             LocalDateTime estimatedFinishingTime = LocalDateTime.now().plusHours(1).plusMinutes(medicalService.getDuration());
             long availableTime = doctorProfile.getFinishTime().until(estimatedFinishingTime, ChronoUnit.MINUTES);
-            if(availableTime >= 0) {
+            if (availableTime >= 0) {
                 return List.of(LocalDateTime.now().plusHours(1));
-            }else {
+            } else {
                 // no appointments whatsoever, but today there is no more time, so schedule it for the next day from start hour
                 return List.of(LocalDateTime.now().plusDays(1).withHour(doctorProfile.getStartTime().getHour()));
             }
