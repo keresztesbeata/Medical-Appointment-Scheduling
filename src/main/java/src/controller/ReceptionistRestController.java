@@ -11,13 +11,10 @@ import src.exceptions.InvalidDataException;
 import src.exceptions.InvalidStateException;
 import src.model.AppointmentStatus;
 import src.model.users.Account;
-import src.service.api.AppointmentService;
 import src.service.impl.AppointmentServiceImpl;
 import src.service.impl.DoctorProfileServiceImpl;
 import src.service.impl.PatientProfileServiceImpl;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
@@ -70,6 +67,15 @@ public class ReceptionistRestController {
         return ResponseEntity.ok().body(patientService.findAll());
     }
 
+    /**
+     * GET "/receptionist/available_appointments?firstName=&lastName=?&medicalService="
+     *
+     * @param firstName      the doctor's first name
+     * @param lastName       the doctor's last name
+     * @param medicalService the name of the requested medical service
+     * @return 200 OK - if the doctor can be found by the given name
+     * 404 NOT FOUND - if no doctor can be found by the given name
+     */
     @GetMapping(UrlAddressCatalogue.RECEPTIONIST_GET_AVAILABLE_APPOINTMENTS_FOR_DOCTOR)
     public ResponseEntity getAvailableAppointmentsForDoctor(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String medicalService) {
         try {
@@ -79,6 +85,15 @@ public class ReceptionistRestController {
         }
     }
 
+    /**
+     * POST "/receptionist/appointment/update_state?appointmentId=&newState="
+     *
+     * @param appointmentId the id of the appointment
+     * @param newState      the new state
+     * @return 200 OK - if the appointment's state could be successfully updated
+     * 405 METHOD NOT ALLOWED - if the user has no right to modifiy the state of the appointment (ex doctor)
+     * 400 BAD REQUEST - if the transition to the new state from the current state is not possible
+     */
     @PostMapping(UrlAddressCatalogue.RECEPTIONIST_UPDATE_APPOINTMENT_STATE)
     public ResponseEntity updateAppointmentStatus(@RequestParam Integer appointmentId, @RequestParam String newState) {
         try {
@@ -94,6 +109,15 @@ public class ReceptionistRestController {
         }
     }
 
+    /**
+     * POST "/receptionist/appointment/schedule?appointmentId=&appointmentDate=?"
+     *
+     * @param appointmentId   the id of the appointment
+     * @param appointmentDate the date for the appointment
+     * @return 200 OK - if the appointment's date has been successfully set
+     * 400 BAD REQUEST - if the date is invalid
+     * 404 NOT FOUND - if no appointment was found by the given id
+     */
     @PostMapping(UrlAddressCatalogue.RECEPTIONIST_SCHEDULE_APPOINTMENT)
     public ResponseEntity scheduleAppointment(@RequestParam Integer appointmentId, @RequestBody AppointmentDateRequest appointmentDate) {
         try {
@@ -105,6 +129,12 @@ public class ReceptionistRestController {
         }
     }
 
+    /**
+     * GET "/receptionist/change_strategy?strategy=?"
+     *
+     * @param strategy the new strategy
+     * @return 200 OK - if the appointment's scheduling strategy has been successfully updated
+     */
     @PostMapping(UrlAddressCatalogue.RECEPTIONIST_CHANGE_SCHEDULING_STRATEGY)
     public ResponseEntity changeSchedulingStrategy(@RequestParam String strategy) {
         appointmentService.changeSchedulingStrategy(strategy);
