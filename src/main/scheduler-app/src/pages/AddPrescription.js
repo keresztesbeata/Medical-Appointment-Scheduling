@@ -113,6 +113,7 @@ class AddPrescription extends React.Component {
                 <div className="card col-sm-5 border-dark text-left">
                     <form onSubmit={this.handleSubmit} className="card-body" id="create-prescription-form">
                         <h3 className="card-title text-center">Create prescription</h3>
+                        <div className="prescription-icon"/>
                         <Notification show={this.state.notification.show} message={this.state.notification.message}
                                       type={this.state.notification.type}/>
                             <InputGroup className="mb-3">

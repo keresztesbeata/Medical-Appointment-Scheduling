@@ -93,9 +93,38 @@
   background-size: cover;
 }
 
-.background-container-food {
-  /*background-image: url("./images/bg11.jpg");*/
-  height: 100vh;
+.patient-icon {
+  background-image: url("./images/patient_profile_img.jpg");
+  height: 20vh;
+  width: 15vw;
+  align-self: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.doctor-icon {
+  background-image: url("./images/doctor_profile_img.png");
+  height: 20vh;
+  width: 15vw;
+  align-self: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.appointment-icon {
+  background-image: url("./images/appointment_img.jpg");
+  height: 25vh;
+  width: 15vw;
+  align-self: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.prescription-icon {
+  background-image: url("./images/prescription.jpg");
+  height: 30vh;
+  width: 15vw;
+  align-self: center;
   background-repeat: no-repeat;
   background-size: cover;
 }

@@ -138,6 +138,7 @@ class CreateAppointment extends React.Component {
                 <div className="card col-sm-5 border-dark text-left">
                     <form onSubmit={this.handleSubmit} className="card-body" id="create-appointment-form">
                         <h3 className="card-title text-center">Create appointment</h3>
+                        <div className="appointment-icon"/>
                         <Notification show={this.state.notification.show} message={this.state.notification.message}
                                       type={this.state.notification.type}/>
                         <InputGroup className="mb-3">

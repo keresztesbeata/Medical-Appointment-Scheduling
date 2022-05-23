@@ -861,3 +861,210 @@
 2022-05-22 16:40:19.878  INFO 16800 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2022-05-22 16:40:19.878  INFO 16800 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
 2022-05-22 16:40:19.893  INFO 16800 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2022-05-23 09:55:58.908  INFO 15896 --- [main] .MedicalAppointmentSchedulingApplication : Starting MedicalAppointmentSchedulingApplication using Java 17.0.2 on DESKTOP-7USMDKN with PID 15896 (D:\CTI_3rd_year_2\Software Design\Medical-Appointment-Scheduling\target\classes started by user in D:\CTI_3rd_year_2\Software Design\Medical-Appointment-Scheduling)
+2022-05-23 09:55:58.908  INFO 15896 --- [main] .MedicalAppointmentSchedulingApplication : No active profile set, falling back to 1 default profile: "default"
+2022-05-23 09:55:59.754  INFO 15896 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-05-23 09:55:59.855  INFO 15896 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 93 ms. Found 7 JPA repository interfaces.
+2022-05-23 09:56:00.487  INFO 15896 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-05-23 09:56:00.503  INFO 15896 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-05-23 09:56:00.503  INFO 15896 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.58]
+2022-05-23 09:56:00.603  INFO 15896 --- [main] o.a.c.c.C.[.[localhost].[/medplan]       : Initializing Spring embedded WebApplicationContext
+2022-05-23 09:56:00.603  INFO 15896 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1633 ms
+2022-05-23 09:56:00.703  WARN 15896 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-05-23 09:56:00.857  INFO 15896 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-05-23 09:56:00.904  INFO 15896 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.5.Final
+2022-05-23 09:56:01.020  INFO 15896 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-05-23 09:56:01.120  INFO 15896 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-05-23 09:56:01.443  INFO 15896 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-05-23 09:56:01.459  INFO 15896 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL8Dialect
+2022-05-23 09:56:02.276  INFO 15896 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-05-23 09:56:02.292  INFO 15896 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-05-23 09:56:04.282  INFO 15896 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will not secure any request
+2022-05-23 09:56:04.645  INFO 15896 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path '/medplan'
+2022-05-23 09:56:04.652  INFO 15896 --- [main] .MedicalAppointmentSchedulingApplication : Started MedicalAppointmentSchedulingApplication in 6.419 seconds (JVM running for 7.841)
+2022-05-23 09:56:28.853  INFO 15896 --- [http-nio-8080-exec-3] o.a.c.c.C.[.[localhost].[/medplan]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-05-23 09:56:28.853  INFO 15896 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-05-23 09:56:28.854  INFO 15896 --- [http-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-05-23 09:56:28.926  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 09:56:28.988  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 09:56:28.993  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 09:56:28.999  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:13.546  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:13.546  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:13.546  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:13.546  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:16.689  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:16.689  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:16.689  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:16.693  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:18.352  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:18.365  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:27.058  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:27.070  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:50.713  INFO 15896 --- [http-nio-8080-exec-4] src.service.impl.AccountServiceImpl      : register: The user Wanda123#with id 13 having role PATIENT has been successfully added!
+2022-05-23 10:09:53.570  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:09:53.573  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:10:37.731  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:10:37.759  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:10:40.239  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:10:40.239  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:11:50.099  INFO 15896 --- [http-nio-8080-exec-3] s.s.impl.PatientProfileServiceImpl       : saveProfile: The user Wanda Marvel's profile has been successfully updated!
+2022-05-23 10:12:07.613  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:12:07.613  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:12:07.613  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:12:07.613  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:12:10.238  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:12:10.267  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:13:04.184  INFO 15896 --- [http-nio-8080-exec-9] src.service.impl.AccountServiceImpl      : register: The user DrJohn123#with id 14 having role DOCTOR has been successfully added!
+2022-05-23 10:13:06.105  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:13:06.119  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:13:10.267  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:13:10.268  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:13:11.766  WARN 15896 --- [http-nio-8080-exec-7] o.s.web.servlet.PageNotFound             : No mapping for GET /medplan/doctor/common/specialties/all
+2022-05-23 10:13:11.768  WARN 15896 --- [http-nio-8080-exec-9] o.s.web.servlet.PageNotFound             : No mapping for GET /medplan/doctor/common/specialties/all
+2022-05-23 10:13:11.768  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:13:11.777  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:15:53.355  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:15:53.366  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:15:54.527  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:15:54.555  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 10:16:28.124  INFO 15896 --- [http-nio-8080-exec-6] s.service.impl.DoctorProfileServiceImpl  : saveProfile: The user John Smith's profile has been successfully updated!
+2022-05-23 10:16:39.659  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:16:39.659  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:16:39.681  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:16:39.681  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:16:44.344  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:16:44.356  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:24:50.829  INFO 15896 --- [http-nio-8080-exec-5] src.service.impl.AppointmentServiceImpl  : create: Appointment with id 15 was successfully created by patient null null!
+2022-05-23 10:24:58.392  INFO 15896 --- [http-nio-8080-exec-2] src.service.impl.AppointmentServiceImpl  : create: Appointment with id 16 was successfully created by patient null null!
+2022-05-23 10:25:10.393  INFO 15896 --- [http-nio-8080-exec-5] src.service.impl.AppointmentServiceImpl  : create: Appointment with id 17 was successfully created by patient null null!
+2022-05-23 10:25:38.999  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:25:38.999  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:25:38.999  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:25:38.999  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:25:40.735  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:25:40.745  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:26:05.729  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:26:05.729  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:26:05.735  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:26:05.735  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:26:07.309  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:26:07.323  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:26:43.431  INFO 15896 --- [http-nio-8080-exec-1] src.service.impl.AppointmentServiceImpl  : changeSchedulingStrategy: The scheduling strategy has been changed to LOOSE!
+2022-05-23 10:26:51.080  INFO 15896 --- [http-nio-8080-exec-10] src.service.impl.AppointmentServiceImpl  : changeSchedulingStrategy: The scheduling strategy has been changed to COMPACT!
+2022-05-23 10:27:09.047  INFO 15896 --- [http-nio-8080-exec-3] src.service.impl.AppointmentServiceImpl  : schedule: Appointment was successfully scheduled!
+2022-05-23 10:27:42.141  INFO 15896 --- [http-nio-8080-exec-3] src.service.impl.AppointmentServiceImpl  : changeSchedulingStrategy: The scheduling strategy has been changed to LOOSE!
+2022-05-23 10:28:36.097  INFO 15896 --- [http-nio-8080-exec-4] src.service.impl.AppointmentServiceImpl  : schedule: Appointment was successfully scheduled!
+2022-05-23 10:28:41.453  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:28:41.455  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:28:41.466  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:28:41.468  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:28:42.628  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:28:42.634  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:02.477  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:02.477  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:02.499  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:02.499  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:04.483  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:04.498  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:25.491  INFO 15896 --- [http-nio-8080-exec-7] src.service.impl.AppointmentServiceImpl  : schedule: Appointment was successfully scheduled!
+2022-05-23 10:29:40.000  INFO 15896 --- [http-nio-8080-exec-10] src.service.impl.AppointmentServiceImpl  : schedule: Appointment was successfully scheduled!
+2022-05-23 10:29:52.442  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:52.443  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:52.444  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:52.458  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:54.180  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:29:54.180  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:30:11.420  INFO 15896 --- [http-nio-8080-exec-4] src.service.impl.AppointmentServiceImpl  : updateStatus: The status of the appointment with id 15 has been successfully updated from SCHEDULED to CONFIRMED!
+2022-05-23 10:30:13.617  INFO 15896 --- [http-nio-8080-exec-7] src.service.impl.AppointmentServiceImpl  : updateStatus: The status of the appointment with id 16 has been successfully updated from SCHEDULED to CONFIRMED!
+2022-05-23 10:30:48.800  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:30:48.805  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:30:48.805  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:30:48.806  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:30:50.059  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:30:50.076  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:31:13.600  INFO 15896 --- [http-nio-8080-exec-6] src.service.impl.AppointmentServiceImpl  : updateStatus: The status of the appointment with id 15 has been successfully updated from CONFIRMED to COMPLETED!
+2022-05-23 10:31:36.306  INFO 15896 --- [http-nio-8080-exec-3] src.service.impl.AppointmentServiceImpl  : updateStatus: The status of the appointment with id 16 has been successfully updated from CONFIRMED to MISSED!
+2022-05-23 10:31:52.786  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:31:52.786  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:31:52.796  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:31:52.796  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:31:54.215  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:31:54.227  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:33:27.394  INFO 15896 --- [http-nio-8080-exec-6] s.service.impl.PrescriptionServiceImpl   : addPrescription: Prescription with id 15 was successfully added to the appointment with id 15!
+2022-05-23 10:33:49.593  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:33:49.594  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:33:49.594  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:33:49.595  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:33:51.230  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 10:33:51.248  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:01:00.589  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:01:00.592  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:01:00.594  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:01:00.601  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:01:01.870  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:01:01.874  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:02:02.932  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:02:02.936  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:02:02.939  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:02:02.942  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:03:10.518  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:03:10.523  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:03:11.952  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:03:11.969  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:03:24.071 ERROR 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : register: Password should contain:
+  at least 1 digit, 
+1 lowercase and 1 uppercase letter 
+and 1 special character,
+ with length at least 8 and at most 20 characters! 
+2022-05-23 11:03:42.958  INFO 15896 --- [http-nio-8080-exec-10] src.service.impl.AccountServiceImpl      : register: The user BeaBeaBea123#with id 18 having role PATIENT has been successfully added!
+2022-05-23 11:03:45.213  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:03:45.224  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:03:53.470  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 11:03:53.484  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 11:03:56.570  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 11:03:56.577  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUserProfile: Your profile has not yet been set up! You should start by setting up your profile first! 
+2022-05-23 11:04:49.202  INFO 15896 --- [http-nio-8080-exec-8] s.s.impl.PatientProfileServiceImpl       : saveProfile: The user Bea Keresztes's profile has been successfully updated!
+2022-05-23 11:06:06.909  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:06:06.922  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:06:06.927  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:06:06.934  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:06:08.172  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:06:08.183  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:07:27.286  INFO 15896 --- [http-nio-8080-exec-3] src.service.impl.AppointmentServiceImpl  : create: Appointment with id 19 was successfully created by patient null null!
+2022-05-23 11:07:39.148  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:07:39.159  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:07:39.168  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:07:39.180  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:07:40.388  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:07:40.392  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:08:20.803  INFO 15896 --- [http-nio-8080-exec-1] src.service.impl.AppointmentServiceImpl  : changeSchedulingStrategy: The scheduling strategy has been changed to LOOSE!
+2022-05-23 11:08:57.982  INFO 15896 --- [http-nio-8080-exec-8] src.service.impl.AppointmentServiceImpl  : changeSchedulingStrategy: The scheduling strategy has been changed to COMPACT!
+2022-05-23 11:09:17.992  INFO 15896 --- [http-nio-8080-exec-5] src.service.impl.AppointmentServiceImpl  : schedule: Appointment was successfully scheduled!
+2022-05-23 11:09:48.043  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:09:48.051  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:09:48.056  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:09:48.060  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:09:48.971  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:09:48.977  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:10:09.591  INFO 15896 --- [http-nio-8080-exec-3] src.service.impl.AppointmentServiceImpl  : updateStatus: The status of the appointment with id 19 has been successfully updated from SCHEDULED to CONFIRMED!
+2022-05-23 11:10:32.922  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:10:32.934  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:10:32.943  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:10:32.954  WARN 15896 --- [http-nio-8080-exec-1] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:10:34.346  WARN 15896 --- [http-nio-8080-exec-6] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:10:34.363  WARN 15896 --- [http-nio-8080-exec-8] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:00.542  INFO 15896 --- [http-nio-8080-exec-5] src.service.impl.AppointmentServiceImpl  : updateStatus: The status of the appointment with id 19 has been successfully updated from CONFIRMED to COMPLETED!
+2022-05-23 11:11:05.765  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:05.779  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:05.788  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:05.803  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:06.885  WARN 15896 --- [http-nio-8080-exec-3] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:06.895  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:40.042  INFO 15896 --- [http-nio-8080-exec-7] s.service.impl.PrescriptionServiceImpl   : addPrescription: Prescription with id 19 was successfully added to the appointment with id 19!
+2022-05-23 11:11:48.852  WARN 15896 --- [http-nio-8080-exec-10] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:48.857  WARN 15896 --- [http-nio-8080-exec-5] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:48.864  WARN 15896 --- [http-nio-8080-exec-9] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:48.870  WARN 15896 --- [http-nio-8080-exec-7] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:50.021  WARN 15896 --- [http-nio-8080-exec-2] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 
+2022-05-23 11:11:50.027  WARN 15896 --- [http-nio-8080-exec-4] src.controller.AccountRestController     : getLoggedInUser: No logged in user! 

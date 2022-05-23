@@ -102,7 +102,7 @@ export function GetCurrentUserProfile() {
 }
 
 export function LoadSpecialties() {
-    const url = BASE_URL + DOCTOR_PREFIX + ALL_SPECIALTIES
+    const url = BASE_URL + ALL_SPECIALTIES
 
     return FetchRequest(url, GET_REQUEST);
 }

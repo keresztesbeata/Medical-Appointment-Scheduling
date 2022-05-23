@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Card, FormControl, FormGroup, FormLabel, InputGroup} from 'react-bootstrap'
+import {Button, Card, CardImg, FormControl, FormGroup, FormLabel, Image, InputGroup} from 'react-bootstrap'
 import "react-datepicker/dist/react-datepicker.css";
 import {GetCurrentUserProfile} from "../actions/UserActions";
 import {ERROR, WARNING} from "../actions/Utils";
@@ -55,6 +55,7 @@ class ViewPatientProfile extends React.Component {
                 <div className="card col-sm-6 border-dark text-left">
                     <Card className="card-body">
                         <h3 className="card-title text-center">My profile</h3>
+                        <div className="patient-icon"/>
                         {
                             (this.state.notification.show) ?
                                 <Card.Body>
