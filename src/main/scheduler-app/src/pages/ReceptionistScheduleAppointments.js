@@ -1,9 +1,7 @@
 import React from 'react'
 import {Button, Container, Form, ListGroup, Navbar} from "react-bootstrap";
 import {COMPACT_SCHEDULING_STRATEGY, ERROR, LOOSE_SCHEDULING_STRATEGY, SUCCESS} from "../actions/Utils";
-import {
-    ChangeSchedulingStrategy, LoadAvailableAppointmentDates, LoadNewAppointments,
-} from "../actions/AppointmentActions";
+import {ChangeSchedulingStrategy, LoadNewAppointments,} from "../actions/AppointmentActions";
 import Notification from "../components/Notification";
 import EditableAppointmentItem from "../components/EditableAppointmentItem";
 
@@ -58,7 +56,7 @@ class ReceptionistScheduleAppointments extends React.Component {
                     ...this.state,
                     notification: {
                         show: true,
-                        message: "Strategy successfully changed to "+this.state.selectedStrategy + "!",
+                        message: "Strategy successfully changed to " + this.state.selectedStrategy + "!",
                         type: SUCCESS
                     }
                 })
@@ -86,8 +84,10 @@ class ReceptionistScheduleAppointments extends React.Component {
                             <Form className="d-flex">
                                 <Form.Select aria-label="Scheduling strategy" name="selectedStrategy"
                                              onChange={this.handleInputChange}>
-                                    <option value={COMPACT_SCHEDULING_STRATEGY} key={1}>{COMPACT_SCHEDULING_STRATEGY}</option>
-                                    <option value={LOOSE_SCHEDULING_STRATEGY} key={2}>{LOOSE_SCHEDULING_STRATEGY}</option>
+                                    <option value={COMPACT_SCHEDULING_STRATEGY}
+                                            key={1}>{COMPACT_SCHEDULING_STRATEGY}</option>
+                                    <option value={LOOSE_SCHEDULING_STRATEGY}
+                                            key={2}>{LOOSE_SCHEDULING_STRATEGY}</option>
                                 </Form.Select>
                                 <Button variant="success" onClick={this.onChangeStrategy}>Change strategy</Button>
                             </Form>
@@ -95,7 +95,7 @@ class ReceptionistScheduleAppointments extends React.Component {
                         <Container className="fluid">
                             <ListGroup variant="flush">
                                 {this.state.appointments.map(item =>
-                                    <ListGroup.Item key={"key_"+item.id}>
+                                    <ListGroup.Item key={"key_" + item.id}>
                                         <EditableAppointmentItem data={item} strategy={this.state.selectedStrategy}/>
                                     </ListGroup.Item>
                                 )}

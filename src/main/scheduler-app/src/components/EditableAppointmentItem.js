@@ -4,12 +4,14 @@ import {
     Button,
     Card,
     Container,
-    FormControl, FormGroup, FormLabel, FormText,
+    FormControl,
+    FormGroup,
+    FormLabel,
     InputGroup,
     ListGroup,
 } from 'react-bootstrap'
 import Notification from "./Notification";
-import {COMPACT_SCHEDULING_STRATEGY, ERROR, LOOSE_SCHEDULING_STRATEGY, SUCCESS} from "../actions/Utils";
+import {ERROR, SUCCESS} from "../actions/Utils";
 import {LoadAvailableAppointmentDates, ScheduleAppointment} from "../actions/AppointmentActions";
 
 class EditableAppointmentItem extends React.Component {
@@ -69,7 +71,7 @@ class EditableAppointmentItem extends React.Component {
     }
 
     parseDateWithFormat(date) {
-        return new Date(date[0], date[1]-1, date[2], date[3], date[4]).toLocaleString();
+        return new Date(date[0], date[1] - 1, date[2], date[3], date[4]).toLocaleString();
     }
 
     handleDateChange(event) {
@@ -87,16 +89,17 @@ class EditableAppointmentItem extends React.Component {
             }
         });
     }
+
     onScheduleAppointment() {
         ScheduleAppointment(this.state.appointment.id, this.state.appointmentDate)
             .then(() =>
                 this.setState({
-                            notification: {
-                                show: true,
-                                message: "Status of the appointment " + this.state.appointment.id + " has been successfully updated to SCHEDULED!",
-                                type: SUCCESS
-                            }
-                        }))
+                    notification: {
+                        show: true,
+                        message: "Status of the appointment " + this.state.appointment.id + " has been successfully updated to SCHEDULED!",
+                        type: SUCCESS
+                    }
+                }))
             .catch(error => {
                 this.setState({
                     notification: {
@@ -144,18 +147,18 @@ class EditableAppointmentItem extends React.Component {
                                     <InputGroup.Text>Year</InputGroup.Text>
                                     <FormControl type="text"
                                                  name="year"
-                                                value={this.state.appointmentDate.year}
-                                                onChange={this.handleDateChange} />
+                                                 value={this.state.appointmentDate.year}
+                                                 onChange={this.handleDateChange}/>
                                     <InputGroup.Text>Month</InputGroup.Text>
                                     <FormControl type="text"
                                                  name="month"
                                                  value={this.state.appointmentDate.month}
-                                                 onChange={this.handleDateChange} />
+                                                 onChange={this.handleDateChange}/>
                                     <InputGroup.Text>Day</InputGroup.Text>
                                     <FormControl type="text"
                                                  name="day"
                                                  value={this.state.appointmentDate.day}
-                                                 onChange={this.handleDateChange} />
+                                                 onChange={this.handleDateChange}/>
                                 </InputGroup>
                                 <FormLabel>Appointment time</FormLabel>
                                 <InputGroup className="mb-3">
@@ -163,27 +166,28 @@ class EditableAppointmentItem extends React.Component {
                                     <FormControl type="text"
                                                  name="hours"
                                                  value={this.state.appointmentDate.hours}
-                                                 onChange={this.handleDateChange} />
+                                                 onChange={this.handleDateChange}/>
                                     <InputGroup.Text>Minutes</InputGroup.Text>
                                     <FormControl type="text"
                                                  name="minutes"
                                                  value={this.state.appointmentDate.minutes}
-                                                 onChange={this.handleDateChange} />
+                                                 onChange={this.handleDateChange}/>
                                 </InputGroup>
                                 <FormGroup className="mb-3">
                                     <InputGroup>
-                                    <InputGroup.Text>Available spots:</InputGroup.Text>
-                                    <Button variant="success" onClick={this.loadAvailableSpots}>Find available dates</Button>
+                                        <InputGroup.Text>Available spots:</InputGroup.Text>
+                                        <Button variant="success" onClick={this.loadAvailableSpots}>Find available
+                                            dates</Button>
                                     </InputGroup>
-                                <Container className="fluid">
-                                    <ListGroup variant="flush">
-                                        {this.state.availableDates.map(item =>
-                                            <ListGroup.Item key={item} format="yyyy-mm-dd hh:mm">
-                                                {(this.parseDateWithFormat(item))}
-                                            </ListGroup.Item>
-                                        )}
-                                    </ListGroup>
-                                </Container>
+                                    <Container className="fluid">
+                                        <ListGroup variant="flush">
+                                            {this.state.availableDates.map(item =>
+                                                <ListGroup.Item key={item} format="yyyy-mm-dd hh:mm">
+                                                    {(this.parseDateWithFormat(item))}
+                                                </ListGroup.Item>
+                                            )}
+                                        </ListGroup>
+                                    </Container>
                                 </FormGroup>
                                 <Button variant="success" onClick={this.onScheduleAppointment}>Schedule</Button>
                             </FormGroup>

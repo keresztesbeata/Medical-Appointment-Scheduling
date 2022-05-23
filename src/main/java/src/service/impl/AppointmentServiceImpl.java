@@ -272,9 +272,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         MedicalService medicalService = medicalServiceRepository.findByName(medicalServiceName)
                 .orElseThrow(() -> new EntityNotFoundException(MEDICAL_SERVICE_NOT_FOUND_ERROR_MESSAGE));
 
-        List<Appointment> existingAppointments = appointmentRepository.findByDoctor(doctorProfile)
-                .stream().filter(appointment -> appointment.getStatus().equals(AppointmentStatus.CONFIRMED))
-                .collect(Collectors.toList());
+        List<Appointment> existingAppointments = appointmentRepository.findByDoctorAndStatus(doctorProfile, AppointmentStatus.CONFIRMED);
 
         return schedulingStrategy.findAvailableSpots(medicalService, doctorProfile, existingAppointments);
     }

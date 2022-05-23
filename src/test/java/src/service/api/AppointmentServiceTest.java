@@ -22,14 +22,14 @@ import src.model.users.PatientProfile;
 import src.repository.*;
 import src.service.impl.AppointmentServiceImpl;
 import src.service.impl.schedule.CompactSchedulingStrategy;
-import src.service.impl.schedule.SchedulingType;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static src.model.AppointmentStatus.CONFIRMED;
+import static src.service.api.TestComponentFactory.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AppointmentServiceTest {
@@ -67,7 +67,7 @@ public class AppointmentServiceTest {
         Mockito.when(doctorRepository.findByFirstNameAndLastName(doctorFirstName, doctorLastName))
                 .thenReturn(Optional.of(doctorProfile));
 
-        Account patientAccount = createAccount(AccountType.PATIENT,"patient", "patient123P#", 2);
+        Account patientAccount = createAccount(AccountType.PATIENT, "patient", "patient123P#", 2);
 
         String patientFirstName = "Mary";
         String patientLastName = "Jane";
@@ -108,7 +108,7 @@ public class AppointmentServiceTest {
 
         DoctorProfile doctorProfile = createDoctorProfile(doctorAccount, specialty, doctorFirstName, doctorLastName);
 
-        Account patientAccount = createAccount(AccountType.PATIENT,"patient", "patient123P#", 2);
+        Account patientAccount = createAccount(AccountType.PATIENT, "patient", "patient123P#", 2);
 
         String patientFirstName = "Mary";
         String patientLastName = "Jane";
@@ -134,7 +134,7 @@ public class AppointmentServiceTest {
         savedAppointment.setId(appointmentId);
 
         Mockito.when(appointmentRepository.findById(appointmentId))
-            .thenReturn(Optional.of(savedAppointment));
+                .thenReturn(Optional.of(savedAppointment));
 
         Mockito.when(appointmentRepository.save(Mockito.any(Appointment.class)))
                 .thenAnswer(i -> i.getArguments()[0]);
@@ -156,13 +156,13 @@ public class AppointmentServiceTest {
 
         DoctorProfile doctorProfile = createDoctorProfile(doctorAccount, specialty, doctorFirstName, doctorLastName);
 
-        Account patientAccount = createAccount(AccountType.PATIENT,"patient", "patient123P#", 2);
+        Account patientAccount = createAccount(AccountType.PATIENT, "patient", "patient123P#", 2);
 
         String patientFirstName = "Mary";
         String patientLastName = "Jane";
         PatientProfile patientProfile = createPatientProfile(patientAccount, patientFirstName, patientLastName);
 
-        Account receptionistAccount = createAccount(AccountType.RECEPTIONIST,"receptionist", "receptionist123P#", 3);
+        Account receptionistAccount = createAccount(AccountType.RECEPTIONIST, "receptionist", "receptionist123P#", 3);
 
         int appointmentId = 1;
         LocalDateTime appointmentDate = LocalDateTime.now().plusDays(10);
@@ -186,12 +186,12 @@ public class AppointmentServiceTest {
                 .thenAnswer(i -> i.getArguments()[0]);
 
         Assertions.assertThrows(InvalidAccessException.class, () -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.SCHEDULED.name()));
-        Assertions.assertThrows(InvalidStateException.class, () -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.CONFIRMED.name()));
+        Assertions.assertThrows(InvalidStateException.class, () -> appointmentService.updateStatus(appointmentId, patientAccount, CONFIRMED.name()));
         Assertions.assertDoesNotThrow(() -> appointmentService.updateStatus(appointmentId, receptionistAccount, AppointmentStatus.SCHEDULED.name()));
 
-        Assertions.assertThrows(InvalidAccessException.class, () -> appointmentService.updateStatus(appointmentId, receptionistAccount, AppointmentStatus.CONFIRMED.name()));
+        Assertions.assertThrows(InvalidAccessException.class, () -> appointmentService.updateStatus(appointmentId, receptionistAccount, CONFIRMED.name()));
         Assertions.assertThrows(InvalidStateException.class, () -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.MISSED.name()));
-        Assertions.assertDoesNotThrow(() -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.CONFIRMED.name()));
+        Assertions.assertDoesNotThrow(() -> appointmentService.updateStatus(appointmentId, patientAccount, CONFIRMED.name()));
 
         Assertions.assertThrows(InvalidStateException.class, () -> appointmentService.updateStatus(appointmentId, receptionistAccount, AppointmentStatus.SCHEDULED.name()));
         Assertions.assertThrows(InvalidAccessException.class, () -> appointmentService.updateStatus(appointmentId, patientAccount, AppointmentStatus.MISSED.name()));
@@ -215,74 +215,25 @@ public class AppointmentServiceTest {
 
         DoctorProfile doctorProfile = createDoctorProfile(doctorAccount, specialty, doctorFirstName, doctorLastName);
 
+        Account patientAccount = createAccount(AccountType.PATIENT, "patient", "patient123P#", 2);
+
+        String patientFirstName = "Mary";
+        String patientLastName = "Jane";
+        PatientProfile patientProfile = createPatientProfile(patientAccount, patientFirstName, patientLastName);
+
         List<Appointment> existingAppointments = new ArrayList<>();
-        existingAppointments.add(createAppointment(1, doctorProfile, medicalService, LocalDateTime.now().plusDays(1).withHour(9).withMinute(30)));
-        existingAppointments.add(createAppointment(2, doctorProfile, medicalService, LocalDateTime.now().plusDays(1).withHour(12).withMinute(0)));
-        existingAppointments.add(createAppointment(3, doctorProfile, medicalService, LocalDateTime.now().plusDays(1).withHour(15).withMinute(30)));
+        existingAppointments.add(createAppointment(1, doctorProfile, patientProfile, medicalService, CONFIRMED, LocalDateTime.now().plusDays(1).withHour(9).withMinute(30)));
+        existingAppointments.add(createAppointment(2, doctorProfile, patientProfile, medicalService, CONFIRMED, LocalDateTime.now().plusDays(1).withHour(12).withMinute(0)));
+        existingAppointments.add(createAppointment(3, doctorProfile, patientProfile, medicalService, CONFIRMED, LocalDateTime.now().plusDays(1).withHour(15).withMinute(30)));
 
         Mockito.when(doctorRepository.findByFirstNameAndLastName(doctorProfile.getFirstName(), doctorProfile.getLastName()))
                 .thenReturn(Optional.of(doctorProfile));
 
-        Mockito.when(appointmentRepository.findByDoctor(doctorProfile))
+        Mockito.when(appointmentRepository.findByDoctorAndStatus(doctorProfile, CONFIRMED))
                 .thenReturn(existingAppointments);
 
+        Assertions.assertEquals(CompactSchedulingStrategy.class, appointmentService.getSchedulingStrategy().getClass());
+        Assertions.assertDoesNotThrow(() -> appointmentService.findAvailableDates(doctorProfile.getFirstName(), doctorProfile.getLastName(), medicalService.name).forEach(System.out::println));
         Assertions.assertDoesNotThrow(() -> Assertions.assertEquals(4, appointmentService.findAvailableDates(doctorProfile.getFirstName(), doctorProfile.getLastName(), medicalService.name).size()));
-    }
-
-    private Appointment createAppointment(int id, DoctorProfile doctorProfile, MedicalService medicalService, LocalDateTime localDateTime) {
-        Appointment appointment = new Appointment();
-        appointment.setId(id);
-        appointment.setDoctor(doctorProfile);
-        appointment.setAppointmentDate(localDateTime);
-        appointment.setMedicalService(medicalService);
-        return appointment;
-    }
-
-    private Specialty createSpecialty() {
-        Specialty specialty = new Specialty();
-        specialty.setName("dermatology");
-        return specialty;
-    }
-
-    private MedicalService createMedicalService(String medicalServiceName, Specialty specialty) {
-        MedicalService medicalService = new MedicalService();
-        medicalService.setName(medicalServiceName);
-        medicalService.setDuration(60);
-        medicalService.setSpecialty(specialty);
-        return medicalService;
-    }
-
-    private Account createAccount(AccountType accountType, String username, String password, Integer id) {
-        Account account = new Account();
-        account.setAccountType(accountType);
-        account.setUsername(username);
-        account.setPassword(password);
-        account.setId(id);
-        return account;
-    }
-
-    private DoctorProfile createDoctorProfile(Account doctorAccount, Specialty specialty, String doctorFirstName, String doctorLastName) {
-        DoctorProfile doctorProfile = new DoctorProfile();
-        doctorProfile.setAccount(doctorAccount);
-        doctorProfile.setId(doctorAccount.getId());
-        doctorProfile.setFirstName(doctorFirstName);
-        doctorProfile.setLastName(doctorLastName);
-        doctorProfile.setSpecialty(specialty);
-        doctorProfile.setStartTime(LocalTime.of(8, 0));
-        doctorProfile.setFinishTime(LocalTime.of(18, 0));
-        return doctorProfile;
-    }
-
-    private PatientProfile createPatientProfile(Account patientAccount, String patientFirstName, String patientLastName) {
-        PatientProfile patientProfile = new PatientProfile();
-        patientProfile.setAccount(patientAccount);
-        patientProfile.setId(patientAccount.getId());
-        patientProfile.setFirstName(patientFirstName);
-        patientProfile.setLastName(patientLastName);
-        patientProfile.setPhone("0123456789");
-        patientProfile.setEmail("maryyane@email.com");
-        patientProfile.setAllergies("nuts");
-        patientProfile.setBirthDate(LocalDate.of(1990, 10, 10));
-        return patientProfile;
     }
 }
