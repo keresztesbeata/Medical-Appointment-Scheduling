@@ -37,4 +37,4 @@ build/
 /src/main/scheduler-app/node/
 /src/main/scheduler-app/node_modules/npm/
 
-/db-data
+/db_data/test_data/
